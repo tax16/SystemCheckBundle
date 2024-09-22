@@ -1,0 +1,21 @@
+{
+  "name": "tax16/system-check-bundle",
+  "description": "Check availability of system",
+  "type": "symfony-bundle",
+  "require": {
+    "php": ">=7.2",
+    "symfony/framework-bundle": "^5.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Tax16\\SystemCheckBundle\\": "src/"
+    }
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Tahiana RAKOTONIRINA",
+      "email": "tahiana0@gmail.com"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+services:
+  _defaults:
+    autoconfigure: true
+    autowire: true
+    public: false
+
+  Tax16\SystemCheckBundle\Controller\SystemCheckController:
+    tags: ['controller.service_arguments']
