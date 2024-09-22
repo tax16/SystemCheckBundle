@@ -1,0 +1,3 @@
+system_check:
+  path: /system-check
+  controller: Tax16\SystemCheckBundle\Controller\SystemCheckController::check
