@@ -1,0 +1,4 @@
+services:
+  Tax16\SystemCheckBundle\:
+    resource: '../*'
+    tags: ['controller.service_arguments']
