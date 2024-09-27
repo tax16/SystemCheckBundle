@@ -1,0 +1,11 @@
+includes:
+    - vendor/phpstan/phpstan-symfony/extension.neon
+    - vendor/phpstan/phpstan-symfony/rules.neon
+parameters:
+    level: 8
+    paths:
+        - src
+    checkGenericClassInNonGenericObjectType: false
+    excludePaths:
+        - tests/*
+        - vendor/*
