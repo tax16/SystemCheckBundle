@@ -1,7 +1,7 @@
 <?php
 
 $finder = (new PhpCsFixer\Finder())
-    ->in(['src', 'installer'])
+    ->in(['src'])
     ->exclude(['var', 'vendor', 'bin'])
 ;
 

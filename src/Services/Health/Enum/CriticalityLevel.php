@@ -1,6 +1,6 @@
 <?php
 
-namespace Tax16\SystemCheckBundle\Service\Health\Enum;
+namespace Tax16\SystemCheckBundle\Services\Health\Enum;
 
 enum CriticalityLevel: string
 {

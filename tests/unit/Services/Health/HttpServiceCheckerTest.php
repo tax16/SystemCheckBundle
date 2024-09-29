@@ -1,6 +1,6 @@
 <?php
 
-namespace unit\Services;
+namespace unit\Services\Health;
 
 use Codeception\Test\Unit;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;

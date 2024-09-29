@@ -1,8 +1,8 @@
 <?php
 
-namespace Tax16\SystemCheckBundle\Service\Health;
+namespace Tax16\SystemCheckBundle\Services\Health;
 
-use Tax16\SystemCheckBundle\Service\Health\DTO\CheckResult;
+use Tax16\SystemCheckBundle\Services\Health\DTO\CheckResult;
 
 interface ServiceCheckInterface
 {

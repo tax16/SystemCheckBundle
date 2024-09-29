@@ -1,8 +1,8 @@
 <?php
 
-namespace Tax16\SystemCheckBundle\Service\Health;
+namespace Tax16\SystemCheckBundle\Services\Health;
 
-use Tax16\SystemCheckBundle\Service\Health\DTO\CheckResult;
+use Tax16\SystemCheckBundle\Services\Health\DTO\CheckResult;
 
 class PhpVersionChecker implements ServiceCheckInterface
 {
@@ -10,10 +10,9 @@ class PhpVersionChecker implements ServiceCheckInterface
     private string $operator;
 
     /**
-     *
-     * @param string $versionToCheck The PHP version to check against.
-     * @param string $operator The comparison operator (default is '>=').
-     *                         Valid values: '=', '>=', '<=', '<', '>'.
+     * @param string $versionToCheck the PHP version to check against
+     * @param string $operator       The comparison operator (default is '>=').
+     *                               Valid values: '=', '>=', '<=', '<', '>'.
      */
     public function __construct(string $versionToCheck, string $operator = '>=')
     {
@@ -30,11 +29,11 @@ class PhpVersionChecker implements ServiceCheckInterface
     /**
      * Check the current PHP version against the provided version.
      *
-     * @return CheckResult The result of the check, including the status, message, and criticality level.
+     * @return CheckResult the result of the check, including the status, message, and criticality level
      */
     public function check(): CheckResult
     {
-        $currentVersion = phpversion();
+        $currentVersion = $this->getPhpVersion();
 
         if (version_compare($currentVersion, $this->versionToCheck, $this->operator)) {
             return new CheckResult(
@@ -51,6 +50,11 @@ class PhpVersionChecker implements ServiceCheckInterface
             "The current PHP version ($currentVersion) does not meet the required version ({$this->operator} {$this->versionToCheck}).",
             null
         );
+    }
+
+    protected function getPhpVersion(): string
+    {
+        return phpversion();
     }
 
     public function getName(): string

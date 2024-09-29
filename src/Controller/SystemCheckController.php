@@ -1,9 +1,8 @@
 <?php
 
-namespace  Tax16\SystemCheckBundle\Controller;
+namespace Tax16\SystemCheckBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
 class SystemCheckController
 {

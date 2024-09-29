@@ -1,8 +1,8 @@
 <?php
 
-namespace Tax16\SystemCheckBundle\Service\Health;
+namespace Tax16\SystemCheckBundle\Services\Health;
 
-use Tax16\SystemCheckBundle\Service\Health\DTO\CheckResult;
+use Tax16\SystemCheckBundle\Services\Health\DTO\CheckResult;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
@@ -14,12 +14,11 @@ class HttpServiceChecker implements ServiceCheckInterface
     private HttpClientInterface $httpClient;
 
     /**
-     *
-     * @param string $url The full URL of the HTTP service to check.
-     * @param int|null $statusCode The expected HTTP status code (default is 200).
-     * @param HttpClientInterface|null $httpClient The HTTP client to use.
+     * @param string                   $url        the full URL of the HTTP service to check
+     * @param int|null                 $statusCode the expected HTTP status code (default is 200)
+     * @param HttpClientInterface|null $httpClient the HTTP client to use
      */
-    public function __construct(string $url, ?int $statusCode = 200, HttpClientInterface $httpClient = null)
+    public function __construct(string $url, ?int $statusCode = 200, ?HttpClientInterface $httpClient = null)
     {
         $this->url = $url;
         $this->statusCode = $statusCode ?: 200;
@@ -27,7 +26,7 @@ class HttpServiceChecker implements ServiceCheckInterface
     }
 
     /**
-     * @return CheckResult The result of the HTTP service check.
+     * @return CheckResult the result of the HTTP service check
      */
     public function check(): CheckResult
     {
@@ -71,6 +70,6 @@ class HttpServiceChecker implements ServiceCheckInterface
 
     public function getName(): string
     {
-        return 'HTTP Service Check';
+        return 'HTTP Services Check';
     }
 }

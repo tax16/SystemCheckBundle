@@ -1,6 +1,6 @@
 <?php
 
-namespace Tax16\SystemCheckBundle\Service\Health\DTO;
+namespace Tax16\SystemCheckBundle\Services\Health\DTO;
 
 class CheckResult
 {
@@ -13,7 +13,7 @@ class CheckResult
         string $name,
         bool $success,
         ?string $message = null,
-        ?string $stack = null
+        ?string $stack = null,
     ) {
         $this->name = $name;
         $this->success = $success;
