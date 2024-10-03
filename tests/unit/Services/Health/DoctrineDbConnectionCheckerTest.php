@@ -4,8 +4,8 @@ namespace unit\Services\Health;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
-use Tax16\SystemCheckBundle\Services\Health\DoctrineDbConnectionChecker;
 use PHPUnit\Framework\TestCase;
+use Tax16\SystemCheckBundle\Services\Health\Checker\DoctrineDbConnectionChecker;
 
 class DoctrineDbConnectionCheckerTest extends TestCase
 {

@@ -4,8 +4,8 @@ namespace unit\Services\Health\Class;
 
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
-use Tax16\SystemCheckBundle\Services\Health\Class\RabbitMQSender;
 use PHPUnit\Framework\TestCase;
+use Tax16\SystemCheckBundle\Services\Health\Checker\Class\RabbitMQSender;
 
 class RabbitMQSenderTest extends TestCase
 {

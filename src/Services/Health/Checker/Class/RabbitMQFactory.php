@@ -1,9 +1,9 @@
 <?php
 
-namespace Tax16\SystemCheckBundle\Services\Health\Class;
+namespace Tax16\SystemCheckBundle\Services\Health\Checker\Class;
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
-use Tax16\SystemCheckBundle\Services\Health\Enum\RabbitMQMode;
+use Tax16\SystemCheckBundle\Enum\RabbitMQMode;
 
 class RabbitMQFactory
 {

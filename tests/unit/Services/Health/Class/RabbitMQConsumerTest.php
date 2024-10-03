@@ -5,8 +5,8 @@ namespace unit\Services\Health\Class;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
-use Tax16\SystemCheckBundle\Services\Health\Class\RabbitMQConsumer;
 use PHPUnit\Framework\TestCase;
+use Tax16\SystemCheckBundle\Services\Health\Checker\Class\RabbitMQConsumer;
 
 class RabbitMQConsumerTest extends TestCase
 {

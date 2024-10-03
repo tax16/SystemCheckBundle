@@ -1,0 +1,93 @@
+.card {
+    width: 252px;
+    height: 265px;
+    background: white;
+    border-radius: 30px;
+    box-shadow: 1px 2px 9px #bebebe, -15px -15px 30px #ffffff;
+    transition: 0.2s ease-in-out;
+}
+
+.img {
+    width: 100%;
+    height: 50%;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    background: linear-gradient(#b1b0b0, #9c9c9f);
+    display: flex;
+    align-items: top;
+    justify-content: right;
+}
+
+.save {
+    transition: 0.2s ease-in-out;
+    border-radius: 10px;
+    margin: 20px;
+    width: 30px;
+    height: 30px;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.text {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: space-around;
+}
+
+.save .svg {
+    transition: 0.2s ease-in-out;
+    width: 15px;
+    height: 15px;
+}
+
+.icon-box {
+    margin-top: 15px;
+    width: 70%;
+    padding: 10px;
+    background-color: #e3fff9;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.icon-box svg {
+    width: 17px;
+}
+
+.text .h3 {
+    font-family: 'Lucida Sans' sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: black;
+}
+
+.text .p {
+    font-family: 'Lucida Sans' sans-serif;
+    color: #999999;
+    font-size: 13px;
+}
+
+.icon-box .span {
+    margin-left: 10px;
+    font-family: 'Lucida Sans' sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #9198e5;
+}
+
+.card:hover {
+    cursor: pointer;
+    box-shadow: 0px 10px 20px rgba(0,0,0,0.1);
+}
+
+.save:hover {
+    transform: scale(1.1) rotate(10deg);
+}
+
+.save:hover .svg {
+    fill: #ced8de;
+}

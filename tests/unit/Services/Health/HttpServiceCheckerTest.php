@@ -6,8 +6,8 @@ use Codeception\Test\Unit;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
-use Tax16\SystemCheckBundle\Services\Health\DTO\CheckResult;
-use Tax16\SystemCheckBundle\Services\Health\HttpServiceChecker;
+use Tax16\SystemCheckBundle\DTO\CheckResult;
+use Tax16\SystemCheckBundle\Services\Health\Checker\HttpServiceChecker;
 
 class HttpServiceCheckerTest extends Unit
 {

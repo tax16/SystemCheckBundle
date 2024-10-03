@@ -1,6 +1,6 @@
 <?php
 
-namespace Tax16\SystemCheckBundle\Services\Health\DTO;
+namespace Tax16\SystemCheckBundle\DTO;
 
 class CheckResult
 {

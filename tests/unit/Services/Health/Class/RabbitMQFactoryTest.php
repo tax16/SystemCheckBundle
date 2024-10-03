@@ -3,11 +3,11 @@
 namespace unit\Services\Health\Class;
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
-use Tax16\SystemCheckBundle\Services\Health\Class\RabbitMQConsumer;
-use Tax16\SystemCheckBundle\Services\Health\Class\RabbitMQFactory;
 use PHPUnit\Framework\TestCase;
-use Tax16\SystemCheckBundle\Services\Health\Class\RabbitMQSender;
-use Tax16\SystemCheckBundle\Services\Health\Enum\RabbitMQMode;
+use Tax16\SystemCheckBundle\Enum\RabbitMQMode;
+use Tax16\SystemCheckBundle\Services\Health\Checker\Class\RabbitMQConsumer;
+use Tax16\SystemCheckBundle\Services\Health\Checker\Class\RabbitMQFactory;
+use Tax16\SystemCheckBundle\Services\Health\Checker\Class\RabbitMQSender;
 
 class RabbitMQFactoryTest extends TestCase
 {

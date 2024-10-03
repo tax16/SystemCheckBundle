@@ -1,9 +1,9 @@
 <?php
 
-namespace Tax16\SystemCheckBundle\Services\Health;
+namespace Tax16\SystemCheckBundle\Services\Health\Checker;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Tax16\SystemCheckBundle\Services\Health\DTO\CheckResult;
+use Tax16\SystemCheckBundle\DTO\CheckResult;
 
 class DoctrineDbConnectionChecker implements ServiceCheckInterface
 {

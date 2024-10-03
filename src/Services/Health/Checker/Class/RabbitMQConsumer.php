@@ -1,11 +1,10 @@
 <?php
 
-namespace Tax16\SystemCheckBundle\Services\Health\Class;
+namespace Tax16\SystemCheckBundle\Services\Health\Checker\Class;
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
-use PhpAmqpLib\Message\AMQPMessage;
 
-class RabbitMQSender
+class RabbitMQConsumer
 {
     private AMQPStreamConnection $connection;
     private string $queue;
@@ -16,13 +15,20 @@ class RabbitMQSender
         $this->queue = $queue;
     }
 
-    public function sendMessage(string $message): void
+    public function consumeMessage(): void
     {
         $channel = $this->connection->channel();
         $channel->queue_declare($this->queue, false, true, false, false);
 
-        $msg = new AMQPMessage($message);
-        $channel->basic_publish($msg, '', $this->queue);
+        $callback = function ($msg) use (&$message) {
+            $message = $msg->body;
+        };
+
+        $channel->basic_consume($this->queue, '', false, true, false, false, $callback);
+
+        while ($channel->is_consuming()) {
+            $channel->wait();
+        }
 
         $channel->close();
         $this->connection->close();

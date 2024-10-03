@@ -3,8 +3,8 @@
 namespace unit\Services\Health;
 
 use Codeception\Test\Unit;
-use Tax16\SystemCheckBundle\Services\Health\DTO\CheckResult;
-use Tax16\SystemCheckBundle\Services\Health\PhpVersionChecker;
+use Tax16\SystemCheckBundle\DTO\CheckResult;
+use Tax16\SystemCheckBundle\Services\Health\Checker\PhpVersionChecker;
 
 class PhpVersionCheckerTest extends Unit
 {

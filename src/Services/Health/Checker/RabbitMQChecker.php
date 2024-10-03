@@ -1,13 +1,13 @@
 <?php
 
-namespace Tax16\SystemCheckBundle\Services\Health;
+namespace Tax16\SystemCheckBundle\Services\Health\Checker;
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
-use Tax16\SystemCheckBundle\Services\Health\Class\RabbitMQConsumer;
-use Tax16\SystemCheckBundle\Services\Health\Class\RabbitMQFactory;
-use Tax16\SystemCheckBundle\Services\Health\Class\RabbitMQSender;
-use Tax16\SystemCheckBundle\Services\Health\DTO\CheckResult;
-use Tax16\SystemCheckBundle\Services\Health\Enum\RabbitMQMode;
+use Tax16\SystemCheckBundle\DTO\CheckResult;
+use Tax16\SystemCheckBundle\Enum\RabbitMQMode;
+use Tax16\SystemCheckBundle\Services\Health\Checker\Class\RabbitMQConsumer;
+use Tax16\SystemCheckBundle\Services\Health\Checker\Class\RabbitMQFactory;
+use Tax16\SystemCheckBundle\Services\Health\Checker\Class\RabbitMQSender;
 
 class RabbitMQChecker implements ServiceCheckInterface
 {

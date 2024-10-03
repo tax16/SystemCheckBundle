@@ -1,11 +1,11 @@
 <?php
 
-namespace Tax16\SystemCheckBundle\Services\Health;
+namespace Tax16\SystemCheckBundle\Services\Health\Checker;
 
-use Tax16\SystemCheckBundle\Services\Health\DTO\CheckResult;
 use Symfony\Component\HttpClient\HttpClient;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Tax16\SystemCheckBundle\DTO\CheckResult;
 
 class HttpServiceChecker implements ServiceCheckInterface
 {

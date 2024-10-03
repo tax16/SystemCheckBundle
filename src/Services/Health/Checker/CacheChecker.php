@@ -1,10 +1,9 @@
 <?php
 
-namespace Tax16\SystemCheckBundle\Services\Health;
+namespace Tax16\SystemCheckBundle\Services\Health\Checker;
 
-use Redis;
-use Tax16\SystemCheckBundle\Services\Health\DTO\CheckResult;
-use Tax16\SystemCheckBundle\Services\Health\Enum\CacheType;
+use Tax16\SystemCheckBundle\DTO\CheckResult;
+use Tax16\SystemCheckBundle\Enum\CacheType;
 
 class CacheChecker implements ServiceCheckInterface
 {
