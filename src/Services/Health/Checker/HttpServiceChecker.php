@@ -6,6 +6,7 @@ use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Tax16\SystemCheckBundle\DTO\CheckResult;
+use Tax16\SystemCheckBundle\Services\Health\Checker\Constant\CheckerIcon;
 
 class HttpServiceChecker implements ServiceCheckInterface
 {
@@ -70,6 +71,11 @@ class HttpServiceChecker implements ServiceCheckInterface
 
     public function getName(): string
     {
-        return 'HTTP Services Check';
+        return 'HTTP Services';
+    }
+
+    public function getIcon(): ?string
+    {
+        return CheckerIcon::FIGMA;
     }
 }

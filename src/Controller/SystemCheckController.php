@@ -16,15 +16,24 @@ class SystemCheckController extends AbstractController
         $this->checkManager = $checkManager;
     }
 
-    public function ping(): Response
+    public function index(): Response
     {
-        $this->checkManager->performChecks();
-        return $this->render('@SystemCheckBundle/default/index.html.twig');
+        $categorizedResults = $this->checkManager->dashboardCheck();
+
+        return $this->render('@SystemCheckBundle/default/index.html.twig', [
+            'successChecks' => $categorizedResults->getSuccessChecks(),
+            'failedChecks' => $categorizedResults->getFailedChecks(),
+            'warningChecks' => $categorizedResults->getWarningChecks(),
+        ]);
     }
 
-    public function checkDashboard(): Response
+    public function details(): Response
     {
-        return $this->render('@SystemCheckBundle/default/view-all.html.twig');
+        $resultCheck = $this->checkManager->performChecks();
+
+        return $this->render('@SystemCheckBundle/default/view-all.html.twig', [
+            'resultCheck' => $resultCheck,
+        ]);
     }
 
     public function healthJson(): Response

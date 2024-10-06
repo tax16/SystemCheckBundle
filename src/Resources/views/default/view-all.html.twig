@@ -4,6 +4,10 @@
 
 {% block body %}
     <div class="card-container">
-        {% include '@SystemCheckBundle/component/card-info.html.twig' %}
+        <div class="card-grid">
+            {% for check in resultCheck %}
+                {% include '@SystemCheckBundle/component/card-info.html.twig' %}
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

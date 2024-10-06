@@ -4,18 +4,29 @@
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('bundles/systemcheck/css/card.css') }}">
 {% endblock %}
+{% set totalChecks = successChecks|length + failedChecks|length + warningChecks|length %}
 
 {% block body %}
     <div class="card-container">
+        <h2>System to Check: {{ totalChecks }} service(s)</h2><br/  >
         <div class="card-grid">
             <article class="card">
-                {% include '@SystemCheckBundle/component/card.html.twig' %}
+                {% include '@SystemCheckBundle/component/card.html.twig' with {
+                    'check': successChecks,
+                    'status': 'success'
+                } %}
             </article>
             <article class="card">
-                {% include '@SystemCheckBundle/component/card.html.twig' %}
+                {% include '@SystemCheckBundle/component/card.html.twig' with {
+                    'check': failedChecks,
+                    'status': 'failed'
+                } %}
             </article>
             <article class="card">
-                {% include '@SystemCheckBundle/component/card.html.twig' %}
+                {% include '@SystemCheckBundle/component/card.html.twig' with {
+                    'check': warningChecks,
+                    'status': 'warning'
+                } %}
             </article>
         </div>
 

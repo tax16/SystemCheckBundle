@@ -4,6 +4,7 @@ namespace Tax16\SystemCheckBundle\Services\Health\Checker;
 
 use Tax16\SystemCheckBundle\DTO\CheckResult;
 use Tax16\SystemCheckBundle\Enum\CacheType;
+use Tax16\SystemCheckBundle\Services\Health\Checker\Constant\CheckerIcon;
 
 class CacheChecker implements ServiceCheckInterface
 {
@@ -48,6 +49,11 @@ class CacheChecker implements ServiceCheckInterface
 
     public function getName(): string
     {
-        return 'Cache Health Check';
+        return 'Cache Health';
+    }
+
+    public function getIcon(): ?string
+    {
+        return CheckerIcon::GOOGlE_CHROME;
     }
 }

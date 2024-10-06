@@ -9,4 +9,6 @@ interface ServiceCheckInterface
     public function check(): CheckResult;
 
     public function getName(): string;
+
+    public function getIcon(): ?string;
 }

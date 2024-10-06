@@ -1,9 +1,9 @@
-system_ping:
-  path: /system-check/ping
-  controller: Tax16\SystemCheckBundle\Controller\SystemCheckController::ping
-system_check_dashboard:
-  path: /system-check/dashboard
-  controller: Tax16\SystemCheckBundle\Controller\SystemCheckController::checkDashboard
+system_index:
+  path: /system-check/index
+  controller: Tax16\SystemCheckBundle\Controller\SystemCheckController::index
+system_details:
+  path: /system-check/details
+  controller: Tax16\SystemCheckBundle\Controller\SystemCheckController::details
 system_health_json:
   path: /system-check/health
   controller: Tax16\SystemCheckBundle\Controller\SystemCheckController::healthJson

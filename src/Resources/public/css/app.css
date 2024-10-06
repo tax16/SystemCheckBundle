@@ -10,6 +10,7 @@
     --c-background-secondary: #fdfcff;
     --c-background-tertiary: #ecf3fe;
     --c-background-quaternary: #e9ecf4;
+    --c-background-success: #2cd551;
 }
 
 body {
@@ -472,7 +473,7 @@ img {
         white-space: nowrap;
         width: 1px;
         &:checked + span {
-            background-color: var(--c-accent-primary);
+            background-color: var(--c-background-success);
             &:before {
                 transform: translateX(calc(100% - 2px));
             }

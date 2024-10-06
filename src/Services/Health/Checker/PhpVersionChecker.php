@@ -3,6 +3,7 @@
 namespace Tax16\SystemCheckBundle\Services\Health\Checker;
 
 use Tax16\SystemCheckBundle\DTO\CheckResult;
+use Tax16\SystemCheckBundle\Services\Health\Checker\Constant\CheckerIcon;
 
 class PhpVersionChecker implements ServiceCheckInterface
 {
@@ -59,6 +60,11 @@ class PhpVersionChecker implements ServiceCheckInterface
 
     public function getName(): string
     {
-        return 'PHP Version Check';
+        return 'PHP Version';
+    }
+
+    public function getIcon(): ?string
+    {
+        return CheckerIcon::JIRA;
     }
 }
