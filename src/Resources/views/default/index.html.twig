@@ -7,8 +7,8 @@
 {% set totalChecks = successChecks|length + failedChecks|length + warningChecks|length %}
 
 {% block body %}
-    <div class="card-container">
-        <h2>System to Check: {{ totalChecks }} service(s)</h2><br/  >
+    <div class="card-container text-align">
+        <h2>System to Check: {{ totalChecks }} service(s)</h2><br/>
         <div class="card-grid">
             <article class="card">
                 {% include '@SystemCheckBundle/component/card.html.twig' with {
@@ -29,6 +29,7 @@
                 } %}
             </article>
         </div>
+        {% include '@SystemCheckBundle/component/pie-graph.html.twig' %}
 
     </div>
 {% endblock %}

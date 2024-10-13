@@ -382,6 +382,26 @@ img {
     }
 }
 
+.text-align {
+    text-align: center !important;
+}
+.outer-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    .chart-container {
+        max-width: 500px;
+        margin-top: 40px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        canvas {
+            width: 200px;
+            height: 200px;
+        }
+    }
+}
+
 .content-main {
     padding-top: 2rem;
     padding-bottom: 6rem;
