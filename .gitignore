@@ -1,3 +1,4 @@
+./.php-cs-fixer.cache
 /.idea
 # Cache and logs (Symfony2)
 /app/cache/*
