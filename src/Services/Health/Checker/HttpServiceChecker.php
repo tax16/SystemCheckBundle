@@ -76,6 +76,6 @@ class HttpServiceChecker implements ServiceCheckInterface
 
     public function getIcon(): ?string
     {
-        return CheckerIcon::FIGMA;
+        return CheckerIcon::WEBSITE;
     }
 }

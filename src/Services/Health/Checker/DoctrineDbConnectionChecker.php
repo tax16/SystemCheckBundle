@@ -60,6 +60,6 @@ class DoctrineDbConnectionChecker implements ServiceCheckInterface
 
     public function getIcon(): ?string
     {
-        return CheckerIcon::ZEPLIN;
+        return CheckerIcon::DATABASE;
     }
 }

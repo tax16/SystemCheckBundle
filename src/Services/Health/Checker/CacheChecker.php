@@ -54,6 +54,6 @@ class CacheChecker implements ServiceCheckInterface
 
     public function getIcon(): ?string
     {
-        return CheckerIcon::GOOGlE_CHROME;
+        return CheckerIcon::CACHE;
     }
 }

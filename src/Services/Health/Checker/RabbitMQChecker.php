@@ -107,6 +107,6 @@ class RabbitMQChecker implements ServiceCheckInterface
 
     public function getIcon(): ?string
     {
-        return CheckerIcon::ZAPIER;
+        return CheckerIcon::RABBIT_MQ;
     }
 }

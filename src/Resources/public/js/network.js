@@ -1,6 +1,7 @@
 var network = null;
 
 function draw() {
+    console.log('networkData', networkData);
     var container = document.getElementById("mynetwork");
     var options = {
         edges: {

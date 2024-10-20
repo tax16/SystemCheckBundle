@@ -6,7 +6,7 @@ class SystemNodeEdge
 {
     public const EDGE_LENGTH_MAIN = 150;
 
-    public const EDGE_LENGTH_SUB = 200;
+    public const EDGE_LENGTH_SUB = 300;
 
     private int $from;
 
@@ -17,15 +17,18 @@ class SystemNodeEdge
     /** @var array<mixed> */
     private array $color;
 
+    private ?string $label;
+
     /**
      * @param array<mixed> $color
      */
-    public function __construct(int $from, int $to, int $length = self::EDGE_LENGTH_SUB, array $color = [])
+    public function __construct(int $from, int $to, int $length = self::EDGE_LENGTH_SUB, array $color = [], ?string $label = null)
     {
         $this->from = $from;
         $this->to = $to;
         $this->length = $length;
         $this->color = $color;
+        $this->label = $label;
     }
 
     /**
@@ -38,6 +41,10 @@ class SystemNodeEdge
             'to' => $this->to,
             'length' => $this->length,
             'color' => $this->color,
+            'label' => $this->label,
+            'labelHighlightBold' => true,
+            'widthConstraint' => 100,
+            'width' => 5
         ];
     }
 }

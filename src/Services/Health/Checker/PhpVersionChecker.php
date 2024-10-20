@@ -65,6 +65,6 @@ class PhpVersionChecker implements ServiceCheckInterface
 
     public function getIcon(): ?string
     {
-        return CheckerIcon::JIRA;
+        return CheckerIcon::PHP;
     }
 }

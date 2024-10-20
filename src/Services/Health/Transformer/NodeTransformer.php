@@ -17,59 +17,51 @@ class NodeTransformer implements TransformerInterface
      */
     public function transform(array $results): SystemNetwork
     {
-        $primaryNodeIndex = $this->getThePrimaryNode($results);
+        $primaryNodeIndex = $this->getPrimaryNodeIndex($results);
         $nodes = [];
         $edges = [];
+
         foreach ($results as $index => $result) {
-            $nodes[] = $this->transformHealthCheckToNode($result, $index + 1);
+            $nodes[] = $this->transformHealthCheckToNode($result, $index);
 
-            if ($index === $primaryNodeIndex) {
-                continue;
+            if ($index !== $primaryNodeIndex) {
+                $edges[] = $this->transformHealthCheckToEdges($result, $index, $primaryNodeIndex);
             }
-
-            $edges[] = $this->transformHealthCheckToEdges($result, $index, $primaryNodeIndex);
         }
 
-        return new SystemNetwork(
-            $nodes,
-            $edges
-        );
+        return new SystemNetwork($nodes, $edges);
     }
 
-    private function transformHealthCheckToEdges(HealthCheckDTO $checkDTO, int $index, int $idPrimary): SystemNodeEdge
+    private function transformHealthCheckToEdges(HealthCheckDTO $checkDTO, int $index, int $primaryNodeIndex): SystemNodeEdge
     {
         return new SystemNodeEdge(
-            $idPrimary,
+            $primaryNodeIndex,
             $index,
             SystemNodeEdge::EDGE_LENGTH_SUB,
-            $this->determineState($checkDTO)->getEdgeStyle()
+            $this->determineState($checkDTO)->getEdgeStyle(),
+            !$checkDTO->getResult()->isSuccess() ? $checkDTO->getResult()->getMessage() : null
         );
     }
 
     /**
      * @param array<HealthCheckDTO> $results
-     *
-     **/
-    private function getThePrimaryNode(array $results): int
+     */
+    private function getPrimaryNodeIndex(array $results): int
     {
         foreach ($results as $index => $result) {
-            if (CriticalityLevel::HEAD === $result->getPriority()) {
+            if ($result->getPriority() === CriticalityLevel::HEAD) {
                 return $index;
             }
         }
 
-        throw new NotFoundHttpException('The primary node not found');
+        throw new NotFoundHttpException('The primary node was not found.');
     }
 
     private function transformHealthCheckToNode(HealthCheckDTO $checkDTO, int $index): SystemNode
     {
-        if (CriticalityLevel::HEAD === $checkDTO->getPriority()) {
-            $index = 0;
-        }
-
         return new SystemNode(
             $index,
-            $checkDTO->getIcon() ?? '',
+            $checkDTO->getIcon() ?? '', // Default empty icon if null
             $checkDTO->getLabel(),
             $this->determineState($checkDTO)->getStyle()
         );
@@ -77,14 +69,10 @@ class NodeTransformer implements TransformerInterface
 
     private function determineState(HealthCheckDTO $checkDTO): ResultState
     {
-        if ($checkDTO->getResult()->isSuccess()) {
-            return ResultState::SUCCESS;
-        }
-
-        if (CriticalityLevel::LOW === $checkDTO->getPriority()) {
-            return ResultState::WARNING;
-        }
-
-        return ResultState::ERROR;
+        return match (true) {
+            $checkDTO->getResult()->isSuccess() => ResultState::SUCCESS,
+            $checkDTO->getPriority() === CriticalityLevel::LOW => ResultState::WARNING,
+            default => ResultState::ERROR,
+        };
     }
 }
