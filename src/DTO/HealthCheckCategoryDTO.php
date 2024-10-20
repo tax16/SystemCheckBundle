@@ -19,6 +19,11 @@ class HealthCheckCategoryDTO
      */
     private array $warningChecks;
 
+    /**
+     * @param array<HealthCheckDTO> $successChecks
+     * @param array<HealthCheckDTO> $failedChecks
+     * @param array<HealthCheckDTO> $warningChecks
+     */
     public function __construct(array $successChecks, array $failedChecks, array $warningChecks)
     {
         $this->successChecks = $successChecks;
@@ -48,5 +53,10 @@ class HealthCheckCategoryDTO
     public function getWarningChecks(): array
     {
         return $this->warningChecks;
+    }
+
+    public function getServiceCount(): int
+    {
+        return count($this->successChecks) + count($this->failedChecks) + count($this->warningChecks);
     }
 }

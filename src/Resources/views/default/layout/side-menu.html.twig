@@ -6,8 +6,8 @@
         <a href="{{ path('system_details') }}" class="{{ app.request.attributes.get('_route') == 'system_details' ? 'active' : '' }}">
             View all
         </a>
-        <a href="#" class="{{ app.request.attributes.get('_route') == 'system_trace' ? 'active' : '' }}">
-            Trace
+        <a  href="{{ path('system_network') }}" class="{{ app.request.attributes.get('_route') == 'system_network' ? 'active' : '' }}">
+            Network
         </a>
     </div>
 </div>

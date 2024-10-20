@@ -7,27 +7,27 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Tax16\SystemCheckBundle\Enum\CriticalityLevel;
 use Tax16\SystemCheckBundle\Services\Health\Checker\ServiceCheckInterface;
-use Tax16\SystemCheckBundle\Services\Health\HealthCheckManager;
+use Tax16\SystemCheckBundle\Services\Health\HealthCheckProcessor;
 
 class HealthCheckCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
-        if (!$container->has(HealthCheckManager::class)) {
+        if (!$container->has(HealthCheckProcessor::class)) {
             return;
         }
 
-        $definition = $container->findDefinition(HealthCheckManager::class);
+        $definition = $container->findDefinition(HealthCheckProcessor::class);
 
         $taggedServices = $container->findTaggedServiceIds('system_check.health_check');
 
         $healthChecks = [];
         foreach ($taggedServices as $id => $tags) {
             foreach ($tags as $attributes) {
-                $priorityValue = $attributes['priority'] ?? CriticalityLevel::LOW->value;
+                $priorityValue = CriticalityLevel::LOW;
 
-                if (!CriticalityLevel::isValid($priorityValue)) {
-                    $priorityValue = CriticalityLevel::LOW->value;
+                if (CriticalityLevel::isValid($attributes['priority'])) {
+                    $priorityValue = CriticalityLevel::from($attributes['priority']);
                 }
 
                 $serviceDefinition = $container->getDefinition($id);

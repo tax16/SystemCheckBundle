@@ -4,10 +4,14 @@ services:
     autowire: true
     public: false
 
+  Tax16\SystemCheckBundle\:
+    resource: '../../*'
+    exclude: '../../{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+
   Tax16\SystemCheckBundle\Controller\SystemCheckController:
     tags: ['controller.service_arguments']
 
-  Tax16\SystemCheckBundle\Services\Health\HealthCheckManager:
+  Tax16\SystemCheckBundle\Services\Health\HealthCheckProcessor:
     arguments:
       - !tagged_iterator system_check.health_check
       - '@logger'

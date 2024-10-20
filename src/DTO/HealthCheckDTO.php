@@ -2,6 +2,7 @@
 
 namespace Tax16\SystemCheckBundle\DTO;
 
+use Tax16\SystemCheckBundle\Enum\CriticalityLevel;
 use Tax16\SystemCheckBundle\Services\Health\Checker\Constant\CheckerIcon;
 
 class HealthCheckDTO
@@ -12,11 +13,11 @@ class HealthCheckDTO
 
     private string $description;
 
-    private int $priority;
+    private CriticalityLevel $priority;
 
     private ?string $icon;
 
-    public function __construct(CheckResult $result, string $label, string $description, int $priority, ?string $icon = CheckerIcon::SLACK)
+    public function __construct(CheckResult $result, string $label, string $description, CriticalityLevel $priority, ?string $icon = CheckerIcon::SLACK)
     {
         $this->result = $result;
         $this->label = $label;
@@ -35,7 +36,7 @@ class HealthCheckDTO
         return $this->description;
     }
 
-    public function getPriority(): int
+    public function getPriority(): CriticalityLevel
     {
         return $this->priority;
     }

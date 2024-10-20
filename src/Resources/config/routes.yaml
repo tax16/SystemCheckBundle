@@ -4,6 +4,9 @@ system_index:
 system_details:
   path: /system-check/details
   controller: Tax16\SystemCheckBundle\Controller\SystemCheckController::details
+system_network:
+  path: /system-check/network
+  controller: Tax16\SystemCheckBundle\Controller\SystemCheckController::network
 system_health_json:
   path: /system-check/health
   controller: Tax16\SystemCheckBundle\Controller\SystemCheckController::healthJson

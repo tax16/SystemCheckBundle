@@ -4,11 +4,9 @@
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('bundles/systemcheck/css/card.css') }}">
 {% endblock %}
-{% set totalChecks = successChecks|length + failedChecks|length + warningChecks|length %}
 
 {% block body %}
     <div class="card-container text-align">
-        <h2>System to Check: {{ totalChecks }} service(s)</h2><br/>
         <div class="card-grid">
             <article class="card">
                 {% include '@SystemCheckBundle/component/card.html.twig' with {
@@ -29,7 +27,18 @@
                 } %}
             </article>
         </div>
-        {% include '@SystemCheckBundle/component/pie-graph.html.twig' %}
+        <div class="responsive-container">
+            <div class="component-wrapper">
+                {% include '@SystemCheckBundle/component/pie-graph.html.twig' %}
+            </div>
+            <div class="component-wrapper">
+                <div class="network-nodes-dashboard">
+                    {% include '@SystemCheckBundle/component/node.html.twig' with {
+                        networkData: networkData
+                    } %}
+                </div>
+            </div>
+        </div>
 
     </div>
 {% endblock %}

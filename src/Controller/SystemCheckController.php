@@ -5,34 +5,48 @@ namespace Tax16\SystemCheckBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Tax16\SystemCheckBundle\Services\Health\HealthCheckManager;
+use Tax16\SystemCheckBundle\Services\Health\HealthCheckHandler;
 
 class SystemCheckController extends AbstractController
 {
-    private HealthCheckManager $checkManager;
+    private HealthCheckHandler $healthCheckHandler;
 
-    public function __construct(HealthCheckManager $checkManager)
+    public function __construct(HealthCheckHandler $healthCheckHandler)
     {
-        $this->checkManager = $checkManager;
+        $this->healthCheckHandler = $healthCheckHandler;
     }
 
     public function index(): Response
     {
-        $categorizedResults = $this->checkManager->dashboardCheck();
+        $categorizedResults = $this->healthCheckHandler->getHealthCheckDashboard();
+        $networkData = $this->healthCheckHandler->getNodeSystem();
 
         return $this->render('@SystemCheckBundle/default/index.html.twig', [
             'successChecks' => $categorizedResults->getSuccessChecks(),
             'failedChecks' => $categorizedResults->getFailedChecks(),
             'warningChecks' => $categorizedResults->getWarningChecks(),
+            'totalChecks' => $categorizedResults->getServiceCount(),
+            'networkData' => json_encode($networkData->toArray()),
         ]);
     }
 
     public function details(): Response
     {
-        $resultCheck = $this->checkManager->performChecks();
+        $resultCheck = $this->healthCheckHandler->getHealthCheckResult();
 
         return $this->render('@SystemCheckBundle/default/view-all.html.twig', [
             'resultCheck' => $resultCheck,
+            'totalChecks' => count($resultCheck),
+        ]);
+    }
+
+    public function network(): Response
+    {
+        $networkData = $this->healthCheckHandler->getNodeSystem();
+
+        return $this->render('@SystemCheckBundle/default/network.html.twig', [
+            'networkData' => json_encode($networkData->toArray()),
+            'totalChecks' => count($networkData->getEdges()),
         ]);
     }
 
