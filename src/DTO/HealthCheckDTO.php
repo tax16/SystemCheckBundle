@@ -17,7 +17,7 @@ class HealthCheckDTO
 
     private ?string $icon;
 
-    public function __construct(CheckResult $result, string $label, string $description, CriticalityLevel $priority, ?string $icon = CheckerIcon::UNKOWN)
+    public function __construct(CheckResult $result, string $label, string $description, CriticalityLevel $priority, ?string $icon = CheckerIcon::UNKNOWN)
     {
         $this->result = $result;
         $this->label = $label;

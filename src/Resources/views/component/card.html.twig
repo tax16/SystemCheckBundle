@@ -1,4 +1,3 @@
-{% block stylesheets %} <link rel="stylesheet" href="{{ asset('bundles/systemcheck/css/card.css') }}"> {% endblock %}
 <div class="card">
     <div class="img {{ status }}">
         <h3>{{ status|capitalize }}</h3>
@@ -25,10 +24,20 @@
         <p class="h3"> <i>{{ check|length }}</i>  / {{ totalChecks }}</p>
         <p class="p"> <b>"{{ status }}"</b> to the health check status</p>
 
-        <div class="icon-box">
-            <p class="span">
-                <a href="{{ path('system_details') }}">Detail > </a>
-            </p>
+
+        <div class="select-menu visibility-none">
+            <div class="select-btn">
+                <span class="sBtn-text">detail > </span>
+            </div>
+            <ul class="options">
+                {% for item in check %}
+                    <li class="option">
+                        <span><img src="{{  asset('bundles/systemcheck/images/icon/' ~ item.icon) }}" class="menu-img"/></span>
+                        <span class="option-text">{{ item.label }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
         </div>
+
     </div>
 </div>

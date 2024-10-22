@@ -49,7 +49,7 @@ class NodeTransformer implements TransformerInterface
     private function getPrimaryNodeIndex(array $results): int
     {
         foreach ($results as $index => $result) {
-            if ($result->getPriority() === CriticalityLevel::HEAD) {
+            if (CriticalityLevel::HEAD === $result->getPriority()) {
                 return $index;
             }
         }
@@ -71,7 +71,7 @@ class NodeTransformer implements TransformerInterface
     {
         return match (true) {
             $checkDTO->getResult()->isSuccess() => ResultState::SUCCESS,
-            $checkDTO->getPriority() === CriticalityLevel::LOW => ResultState::WARNING,
+            CriticalityLevel::LOW === $checkDTO->getPriority() => ResultState::WARNING,
             default => ResultState::ERROR,
         };
     }

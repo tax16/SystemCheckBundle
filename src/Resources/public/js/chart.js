@@ -4,9 +4,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const failedChecks = JSON.parse(document.getElementById('failedChecksData').textContent);
     const warningChecks = JSON.parse(document.getElementById('warningChecksData').textContent);
 
-    successChecks.forEach((check, index) => {
-        console.log(`Success Check ${index + 1}:`, check);
-    });
     const successCount = successChecks.length;
     const failedCount = failedChecks.length;
     const warningCount = warningChecks.length;

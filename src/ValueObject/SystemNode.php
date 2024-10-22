@@ -43,14 +43,14 @@ class SystemNode
     {
         return [
             'id' => $this->id,
-            'image' => self::PATH_ICON . $this->image,
+            'image' => self::PATH_ICON.$this->image,
             'label' => $this->label,
             'shape' => $this->shape,
             'color' => $this->color,
             'shapeProperties' => [
                 'useImageSize' => false,
                 'useBorderWithImage' => false,
-            ]
+            ],
         ];
     }
 }

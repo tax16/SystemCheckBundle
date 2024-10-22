@@ -42,7 +42,7 @@ class HealthCheckHandler
             'Head check',
             'my label head',
             CriticalityLevel::HEAD,
-            CheckerIcon::UNKOWN
+            CheckerIcon::UNKNOWN
         );
     }
 

@@ -71,7 +71,7 @@ class NodeTransformerTest extends TestCase
         ];
 
         $this->expectException(NotFoundHttpException::class);
-        $this->expectExceptionMessage('The primary node not found');
+        $this->expectExceptionMessage('The primary node was not found.');
 
         $this->transformer->transform($results);
     }
@@ -81,7 +81,7 @@ class NodeTransformerTest extends TestCase
         $results = [];
 
         $this->expectException(NotFoundHttpException::class);
-        $this->expectExceptionMessage('The primary node not found');
+        $this->expectExceptionMessage('The primary node was not found.');
 
         $this->transformer->transform($results);
     }

@@ -8,6 +8,6 @@ class CheckerIcon
     public const DATABASE = 'database-management';
     public const PHP = 'php.png';
     public const RABBIT_MQ = 'rabbitmq.svg';
-    public const UNKOWN = 'unkown-location.png';
+    public const UNKNOWN = 'unkown-location.png';
     public const WEBSITE = 'website.png';
 }

@@ -34,7 +34,6 @@ class HttpServiceChecker implements ServiceCheckInterface
         try {
             $response = $this->httpClient->request('GET', $this->url);
 
-            // Check the status code
             $statusCode = $response->getStatusCode();
 
             if ($statusCode !== $this->statusCode) {

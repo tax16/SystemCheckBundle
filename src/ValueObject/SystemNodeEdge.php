@@ -8,6 +8,8 @@ class SystemNodeEdge
 
     public const EDGE_LENGTH_SUB = 300;
 
+    public const LABEL_LENGTH_MAX = 150;
+
     private int $from;
 
     private int $to;
@@ -28,7 +30,16 @@ class SystemNodeEdge
         $this->to = $to;
         $this->length = $length;
         $this->color = $color;
-        $this->label = $label;
+        $this->setLabel($label);
+    }
+
+    private function setLabel(?string $label): void
+    {
+        if (null !== $label && strlen($label) > self::LABEL_LENGTH_MAX) {
+            $this->label = substr($label, 0, self::LABEL_LENGTH_MAX).'...';
+        } else {
+            $this->label = $label;
+        }
     }
 
     /**
@@ -44,7 +55,7 @@ class SystemNodeEdge
             'label' => $this->label,
             'labelHighlightBold' => true,
             'widthConstraint' => 100,
-            'width' => 5
+            'width' => 5,
         ];
     }
 }

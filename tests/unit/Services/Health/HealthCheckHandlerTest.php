@@ -55,14 +55,14 @@ class HealthCheckHandlerTest extends TestCase
                 'Check 1',
                 'Check 1 Description',
                 CriticalityLevel::HIGH,
-                CheckerIcon::UNKOWN
+                CheckerIcon::UNKNOWN
             ),
             new HealthCheckDTO(
                 new CheckResult('Check 2', false),
                 'Check 2',
                 'Check 2 Description',
                 CriticalityLevel::LOW,
-                CheckerIcon::UNKOWN
+                CheckerIcon::UNKNOWN
             ),
         ];
 
@@ -89,7 +89,7 @@ class HealthCheckHandlerTest extends TestCase
                 'Check 1',
                 'Check 1 Description',
                 CriticalityLevel::HIGH,
-                CheckerIcon::UNKOWN
+                CheckerIcon::UNKNOWN
             ),
         ];
 
@@ -113,7 +113,7 @@ class HealthCheckHandlerTest extends TestCase
                 'Check 1',
                 'Check 1 Description',
                 CriticalityLevel::HIGH,
-                CheckerIcon::UNKOWN
+                CheckerIcon::UNKNOWN
             ),
         ];
 

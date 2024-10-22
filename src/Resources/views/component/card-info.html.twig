@@ -2,7 +2,7 @@
     <div class="card-header">
         <div>
             <span><img src="{{ asset('bundles/systemcheck/images/icon/' ~ check.icon) }}" alt="{{ check.result.name }} icon"/></span>
-            <h3>{{ check.result.name }}</h3>
+            <h3>{{ check.label }}</h3>
         </div>
 
         <label class="toggle">
@@ -15,6 +15,6 @@
     </div>
     <div class="card-footer">
         <a >Priority: <b>{{ check.priority.value }}</b> </a> &nbsp;|&nbsp;
-        <a href="{{ path('system_details') }}">View integration</a>
+        <a href="#" data-dialog-open="dialog-{{ check.label }}">View detail</a>
     </div>
 </article>
