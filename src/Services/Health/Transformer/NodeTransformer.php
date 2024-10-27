@@ -13,38 +13,67 @@ use Tax16\SystemCheckBundle\ValueObject\SystemNodeEdge;
 class NodeTransformer implements TransformerInterface
 {
     /**
+     * @var array<SystemNode>
+     */
+    private array $nodes = [];
+    /**
+     * @var array<SystemNodeEdge>
+     */
+    private array $edges = [];
+
+    /**
+     * Transforms an array of HealthCheckDTO objects into a SystemNetwork.
+     *
      * @param array<HealthCheckDTO> $results
      */
-    public function transform(array $results): SystemNetwork
+    public function transform(array $results, string $prefix = '', ?string $primaryNodeIndex = null): SystemNetwork
     {
-        $primaryNodeIndex = $this->getPrimaryNodeIndex($results);
-        $nodes = [];
-        $edges = [];
+        $primaryNodeIndex ??= $prefix.$this->getPrimaryNodeIndex($results);
 
         foreach ($results as $index => $result) {
-            $nodes[] = $this->transformHealthCheckToNode($result, $index);
+            $currentIndex = $prefix.$index;
+            $this->nodes[] = $this->transformHealthCheckToNode($result, $currentIndex);
 
-            if ($index !== $primaryNodeIndex) {
-                $edges[] = $this->transformHealthCheckToEdges($result, $index, $primaryNodeIndex);
+            $children = $result->getResult()->getChildren();
+            $length = empty($children) ? SystemNodeEdge::EDGE_LENGTH_SUB : SystemNodeEdge::EDGE_LENGTH_MAIN;
+
+            if (!empty($children)) {
+                $this->transform($children, $currentIndex.'_', $currentIndex);
+            }
+
+            if ($currentIndex !== $primaryNodeIndex) {
+                $this->edges[] = $this->transformHealthCheckToEdges($result, $currentIndex, $primaryNodeIndex, $length);
             }
         }
 
-        return new SystemNetwork($nodes, $edges);
+        return new SystemNetwork($this->nodes, $this->edges);
     }
 
-    private function transformHealthCheckToEdges(HealthCheckDTO $checkDTO, int $index, int $primaryNodeIndex): SystemNodeEdge
-    {
+    /**
+     * Transforms a HealthCheckDTO object into a SystemNodeEdge.
+     */
+    private function transformHealthCheckToEdges(
+        HealthCheckDTO $checkDTO,
+        string $index,
+        string $primaryNodeIndex,
+        int $length = SystemNodeEdge::EDGE_LENGTH_SUB,
+    ): SystemNodeEdge {
         return new SystemNodeEdge(
             $primaryNodeIndex,
             $index,
-            SystemNodeEdge::EDGE_LENGTH_SUB,
+            $length,
             $this->determineState($checkDTO)->getEdgeStyle(),
-            !$checkDTO->getResult()->isSuccess() ? $checkDTO->getResult()->getMessage() : null
+            $checkDTO->getResult()->isSuccess() ? null : $checkDTO->getResult()->getMessage(),
+            !$checkDTO->getResult()->isSuccess()
         );
     }
 
     /**
+     * Gets the index of the primary node from the results.
+     *
      * @param array<HealthCheckDTO> $results
+     *
+     * @throws NotFoundHttpException
      */
     private function getPrimaryNodeIndex(array $results): int
     {
@@ -57,7 +86,10 @@ class NodeTransformer implements TransformerInterface
         throw new NotFoundHttpException('The primary node was not found.');
     }
 
-    private function transformHealthCheckToNode(HealthCheckDTO $checkDTO, int $index): SystemNode
+    /**
+     * Transforms a HealthCheckDTO object into a SystemNode.
+     */
+    private function transformHealthCheckToNode(HealthCheckDTO $checkDTO, string $index): SystemNode
     {
         return new SystemNode(
             $index,
@@ -67,6 +99,9 @@ class NodeTransformer implements TransformerInterface
         );
     }
 
+    /**
+     * Determines the ResultState based on the HealthCheckDTO.
+     */
     private function determineState(HealthCheckDTO $checkDTO): ResultState
     {
         return match (true) {

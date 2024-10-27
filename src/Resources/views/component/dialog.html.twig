@@ -7,6 +7,7 @@
             {% if check.description is not null and check.description|length > 0 %}
                 <p><b>Priority "{{ check.priority.value }}": </b>{{ check.description }}</p>
             {% endif %}
+            <p><b>Report ({{ check.result.name }}):</b> {{ check.result.message }}</p>
             <table class="content-table">
                 <thead>
                 <tr>

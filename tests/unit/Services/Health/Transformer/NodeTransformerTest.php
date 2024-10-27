@@ -23,8 +23,8 @@ class NodeTransformerTest extends TestCase
     public function testTransformWithAllSuccessChecks(): void
     {
         $results = [
-            new HealthCheckDTO(new CheckResult("Check 1", true), "Label 1", "Description 1", CriticalityLevel::HEAD),
-            new HealthCheckDTO(new CheckResult("Check 2", true), "Label 2", "Description 2", CriticalityLevel::MEDIUM),
+            new HealthCheckDTO(new CheckResult("Check 1", true),"fake_id_1",  "Label 1", "Description 1", CriticalityLevel::HEAD),
+            new HealthCheckDTO(new CheckResult("Check 2", true), "fake_id_2", "Label 2", "Description 2", CriticalityLevel::MEDIUM),
         ];
 
         $network = $this->transformer->transform($results);
@@ -37,9 +37,9 @@ class NodeTransformerTest extends TestCase
     public function testTransformWithMixedChecks(): void
     {
         $results = [
-            new HealthCheckDTO(new CheckResult("Check 1", true), "Label 1", "Description 1", CriticalityLevel::HEAD),
-            new HealthCheckDTO(new CheckResult("Check 2", false), "Label 2", "Description 2", CriticalityLevel::HIGH), // failed
-            new HealthCheckDTO(new CheckResult("Check 3", false), "Label 3", "Description 3", CriticalityLevel::LOW), // warning
+            new HealthCheckDTO(new CheckResult("Check 1", true), "fake_id_1", "Label 1", "Description 1", CriticalityLevel::HEAD),
+            new HealthCheckDTO(new CheckResult("Check 2", false), "fake_id_2", "Label 2", "Description 2", CriticalityLevel::HIGH), // failed
+            new HealthCheckDTO(new CheckResult("Check 3", false), "fake_id_3", "Label 3", "Description 3", CriticalityLevel::LOW), // warning
         ];
 
         $network = $this->transformer->transform($results);
@@ -51,8 +51,8 @@ class NodeTransformerTest extends TestCase
     public function testTransformWithHeadPriority(): void
     {
         $results = [
-            new HealthCheckDTO(new CheckResult("Check 1", true), "Label 1", "Description 1", CriticalityLevel::HEAD),
-            new HealthCheckDTO(new CheckResult("Check 2", false), "Label 2", "Description 2", CriticalityLevel::HIGH),
+            new HealthCheckDTO(new CheckResult("Check 1", true), "fake_id_1", "Label 1", "Description 1", CriticalityLevel::HEAD),
+            new HealthCheckDTO(new CheckResult("Check 2", false), "fake_id_2", "Label 2", "Description 2", CriticalityLevel::HIGH),
         ];
 
         $network = $this->transformer->transform($results);
@@ -66,8 +66,8 @@ class NodeTransformerTest extends TestCase
     public function testTransformWithNoHeadNode(): void
     {
         $results = [
-            new HealthCheckDTO(new CheckResult("Check 1", true), "Label 1", "Description 1", CriticalityLevel::HIGH),
-            new HealthCheckDTO(new CheckResult("Check 2", true), "Label 2", "Description 2", CriticalityLevel::LOW),
+            new HealthCheckDTO(new CheckResult("Check 1", true), "fake_id_1", "Label 1", "Description 1", CriticalityLevel::HIGH),
+            new HealthCheckDTO(new CheckResult("Check 2", true), "fake_id_2", "Label 2", "Description 2", CriticalityLevel::LOW),
         ];
 
         $this->expectException(NotFoundHttpException::class);

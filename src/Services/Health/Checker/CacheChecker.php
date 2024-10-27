@@ -3,6 +3,7 @@
 namespace Tax16\SystemCheckBundle\Services\Health\Checker;
 
 use Tax16\SystemCheckBundle\DTO\CheckResult;
+use Tax16\SystemCheckBundle\DTO\HealthCheckDTO;
 use Tax16\SystemCheckBundle\Enum\CacheType;
 use Tax16\SystemCheckBundle\Services\Health\Checker\Constant\CheckerIcon;
 
@@ -55,5 +56,13 @@ class CacheChecker implements ServiceCheckInterface
     public function getIcon(): ?string
     {
         return CheckerIcon::CACHE;
+    }
+
+    /**
+     * @param array<HealthCheckDTO> $childrenChecker
+     */
+    public function setChildren(array $childrenChecker): void
+    {
+        throw new \InvalidArgumentException('Not accept child process');
     }
 }

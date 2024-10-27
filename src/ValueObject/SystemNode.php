@@ -6,7 +6,7 @@ class SystemNode
 {
     private const PATH_ICON = '/bundles/systemcheck/images/icon/';
 
-    private int $id;
+    private string $id;
 
     private string $image;
 
@@ -23,7 +23,7 @@ class SystemNode
      * @param array<string, mixed> $color
      */
     public function __construct(
-        int $id,
+        string $id,
         string $image,
         string $label,
         array $color,

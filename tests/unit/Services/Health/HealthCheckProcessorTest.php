@@ -23,12 +23,14 @@ class HealthCheckProcessorTest extends TestCase
             [
                 'service' => $this->createMock(ServiceCheckInterface::class),
                 'label' => 'Check 1',
+                'id' => 'check_1',
                 'description' => 'Description 1',
                 'priority' => CriticalityLevel::HIGH,
             ],
             [
                 'service' => $this->createMock(ServiceCheckInterface::class),
                 'label' => 'Check 2',
+                'id' => 'check_2',
                 'description' => 'Description 2',
                 'priority' => CriticalityLevel::LOW,
             ],

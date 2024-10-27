@@ -4,6 +4,7 @@ namespace Tax16\SystemCheckBundle\Services\Health\Checker;
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use Tax16\SystemCheckBundle\DTO\CheckResult;
+use Tax16\SystemCheckBundle\DTO\HealthCheckDTO;
 use Tax16\SystemCheckBundle\Enum\RabbitMQMode;
 use Tax16\SystemCheckBundle\Services\Health\Checker\Class\RabbitMQConsumer;
 use Tax16\SystemCheckBundle\Services\Health\Checker\Class\RabbitMQFactory;
@@ -21,6 +22,10 @@ class RabbitMQChecker implements ServiceCheckInterface
     private string $password;
     private string $vhost;
     private ?string $cacert;
+    /**
+     * @var HealthCheckDTO[]
+     */
+    private array $childrenChecker = [];
 
     public function __construct(
         string $host,
@@ -108,5 +113,21 @@ class RabbitMQChecker implements ServiceCheckInterface
     public function getIcon(): ?string
     {
         return CheckerIcon::RABBIT_MQ;
+    }
+
+    /**
+     * @param HealthCheckDTO[] $childrenChecker
+     */
+    public function setChildren(array $childrenChecker): void
+    {
+        $this->childrenChecker = $childrenChecker;
+    }
+
+    /**
+     * @return HealthCheckDTO[]
+     */
+    public function getChildrenChecker(): array
+    {
+        return $this->childrenChecker;
     }
 }

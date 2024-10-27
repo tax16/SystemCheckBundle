@@ -39,6 +39,7 @@ class HealthCheckHandler
                 'Head pattern',
                 true
             ),
+            'Head',
             'Head check',
             'my label head',
             CriticalityLevel::HEAD,

@@ -4,15 +4,15 @@ namespace Tax16\SystemCheckBundle\ValueObject;
 
 class SystemNodeEdge
 {
-    public const EDGE_LENGTH_MAIN = 150;
+    public const EDGE_LENGTH_MAIN = 400;
 
-    public const EDGE_LENGTH_SUB = 300;
+    public const EDGE_LENGTH_SUB = 400;
 
     public const LABEL_LENGTH_MAX = 150;
 
-    private int $from;
+    private string $from;
 
-    private int $to;
+    private string $to;
 
     private int $length;
 
@@ -21,16 +21,19 @@ class SystemNodeEdge
 
     private ?string $label;
 
+    private ?bool $dashes = false;
+
     /**
      * @param array<mixed> $color
      */
-    public function __construct(int $from, int $to, int $length = self::EDGE_LENGTH_SUB, array $color = [], ?string $label = null)
+    public function __construct(string $from, string $to, int $length = self::EDGE_LENGTH_SUB, array $color = [], ?string $label = null, ?bool $dashes = false)
     {
         $this->from = $from;
         $this->to = $to;
         $this->length = $length;
         $this->color = $color;
         $this->setLabel($label);
+        $this->dashes = $dashes;
     }
 
     private function setLabel(?string $label): void
@@ -55,7 +58,11 @@ class SystemNodeEdge
             'label' => $this->label,
             'labelHighlightBold' => true,
             'widthConstraint' => 100,
-            'width' => 5,
+            'dashes' => $this->dashes,
+            'width' => 3,
+            'font' => [
+                'align' => 'right',
+            ],
         ];
     }
 }

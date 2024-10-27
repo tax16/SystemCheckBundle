@@ -10,12 +10,3 @@ services:
 
   Tax16\SystemCheckBundle\Controller\SystemCheckController:
     tags: ['controller.service_arguments']
-
-  Tax16\SystemCheckBundle\Services\Health\HealthCheckProcessor:
-    arguments:
-      - !tagged_iterator system_check.health_check
-      - '@logger'
-
-  Tax16\SystemCheckBundle\DependencyInjection\HealthCheckCompilerPass:
-    tags:
-      - { name: 'kernel.compiler_pass', priority: 10 }

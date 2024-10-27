@@ -41,7 +41,8 @@ dialog {
         margin-bottom: 15px;
     }
     p {
-        margin-bottom: 40px;
+        margin-bottom: 0px;
+        max-width: 500px;
         font-size: 18px;
     }
     button.success {
@@ -69,7 +70,7 @@ dialog {
 
 .content-table {
     border-collapse: collapse;
-    margin: -10px 0 45px;
+    margin: 50px 0 45px;
     font-size: 0.9em;
     min-width: 400px;
     border-radius: 5px 5px 0 0;

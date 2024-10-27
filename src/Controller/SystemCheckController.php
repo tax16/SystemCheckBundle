@@ -5,6 +5,7 @@ namespace Tax16\SystemCheckBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Tax16\SystemCheckBundle\DTO\HealthCheckDTO;
 use Tax16\SystemCheckBundle\Services\Health\HealthCheckHandler;
 
 class SystemCheckController extends AbstractController
@@ -52,9 +53,10 @@ class SystemCheckController extends AbstractController
 
     public function healthJson(): Response
     {
-        return new JsonResponse([
-            'status' => 'UP',
-        ], status: 200);
+        return new JsonResponse(
+            array_map(fn (HealthCheckDTO $checkDTO) => $checkDTO->toArray(), $this->healthCheckHandler->getHealthCheckResult()),
+            status: 200
+        );
     }
 
     public function healthHtml(): Response

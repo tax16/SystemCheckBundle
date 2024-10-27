@@ -18,7 +18,6 @@ class HealthCheckCompilerPass implements CompilerPassInterface
         }
 
         $definition = $container->findDefinition(HealthCheckProcessor::class);
-
         $taggedServices = $container->findTaggedServiceIds('system_check.health_check');
 
         $healthChecks = [];
@@ -36,11 +35,27 @@ class HealthCheckCompilerPass implements CompilerPassInterface
                     throw new \InvalidArgumentException(sprintf('Service "%s" must implement "%s".', $id, ServiceCheckInterface::class));
                 }
 
+                if ($attributes['parent'] ?? false) {
+                    if ($id === $attributes['parent']) {
+                        throw new \InvalidArgumentException(sprintf('Service parent "%s" should be different of current id', $attributes['parent']));
+                    }
+
+                    $serviceDefinition = $container->getDefinition($attributes['parent']);
+                    $classParent = $serviceDefinition->getClass();
+
+                    if (!$classParent || !is_subclass_of($classParent, ServiceCheckInterface::class)) {
+                        throw new \InvalidArgumentException(sprintf('Parent Service "%s" must implement "%s".', $id, ServiceCheckInterface::class));
+                    }
+                }
+
                 $healthChecks[] = [
                     'service' => new Reference($id),
                     'label' => $attributes['label'] ?? 'unknown',
                     'priority' => $priorityValue,
                     'description' => $attributes['description'] ?? 'No description',
+                    'execute' => $attributes['execute'] ?? true,
+                    'parent' => $attributes['parent'] ?? null,
+                    'id' => $id,
                 ];
             }
         }

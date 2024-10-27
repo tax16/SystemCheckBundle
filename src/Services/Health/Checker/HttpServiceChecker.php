@@ -6,13 +6,21 @@ use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Tax16\SystemCheckBundle\DTO\CheckResult;
+use Tax16\SystemCheckBundle\DTO\HealthCheckDTO;
 use Tax16\SystemCheckBundle\Services\Health\Checker\Constant\CheckerIcon;
 
-class HttpServiceChecker implements ServiceCheckInterface
+class HttpServiceChecker implements ServiceCheckInterface, HttpServiceCheckInterface
 {
     private string $url;
     private int $statusCode;
     private HttpClientInterface $httpClient;
+    private bool $toTrace = false;
+    private ?string $response = null;
+
+    /**
+     * @var HealthCheckDTO[]
+     */
+    private array $childrenProcess = [];
 
     /**
      * @param string                   $url        the full URL of the HTTP service to check
@@ -32,9 +40,13 @@ class HttpServiceChecker implements ServiceCheckInterface
     public function check(): CheckResult
     {
         try {
-            $response = $this->httpClient->request('GET', $this->url);
+            $response = $this->httpClient->request('GET', $this->url.'?trace='.$this->isToTrace());
 
             $statusCode = $response->getStatusCode();
+
+            if ($this->toTrace) {
+                $this->response = $response->getContent();
+            }
 
             if ($statusCode !== $this->statusCode) {
                 return new CheckResult(
@@ -76,5 +88,50 @@ class HttpServiceChecker implements ServiceCheckInterface
     public function getIcon(): ?string
     {
         return CheckerIcon::WEBSITE;
+    }
+
+    public function isToTrace(): bool
+    {
+        return $this->toTrace;
+    }
+
+    public function getHttpClient(): HttpClientInterface
+    {
+        return $this->httpClient;
+    }
+
+    public function setHttpClient(HttpClientInterface $httpClient): HttpServiceCheckInterface
+    {
+        $this->httpClient = $httpClient;
+
+        return $this;
+    }
+
+    public function setToTrace(bool $toTrace): HttpServiceCheckInterface
+    {
+        $this->toTrace = $toTrace;
+
+        return $this;
+    }
+
+    public function getResponseData(): ?string
+    {
+        return $this->response;
+    }
+
+    /**
+     * @param array<HealthCheckDTO> $childrenChecker
+     */
+    public function setChildren(array $childrenChecker): void
+    {
+        $this->childrenProcess = $childrenChecker;
+    }
+
+    /**
+     * @return HealthCheckDTO[]
+     */
+    public function getChildrenProcess(): array
+    {
+        return $this->childrenProcess;
     }
 }

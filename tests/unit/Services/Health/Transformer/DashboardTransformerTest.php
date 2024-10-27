@@ -21,8 +21,8 @@ class DashboardTransformerTest extends TestCase
     public function testTransformWithAllSuccessChecks(): void
     {
         $results = [
-            new HealthCheckDTO(new CheckResult("Check 1", true), "Label 1", "Description 1", CriticalityLevel::HIGH),
-            new HealthCheckDTO(new CheckResult("Check 2", true), "Label 2", "Description 2", CriticalityLevel::MEDIUM),
+            new HealthCheckDTO(new CheckResult("Check 1", true), "fake_id_1", "Label 1", "Description 1", CriticalityLevel::HIGH),
+            new HealthCheckDTO(new CheckResult("Check 2", true),"fake_id_2",  "Label 2", "Description 2", CriticalityLevel::MEDIUM),
         ];
 
         $result = $this->transformer->transform($results);
@@ -36,9 +36,9 @@ class DashboardTransformerTest extends TestCase
     public function testTransformWithMixedChecks(): void
     {
         $results = [
-            new HealthCheckDTO(new CheckResult("Check 1", true), "Label 1", "Description 1", CriticalityLevel::HIGH),
-            new HealthCheckDTO(new CheckResult("Check 2", false), "Label 2", "Description 2", CriticalityLevel::HIGH), // failed
-            new HealthCheckDTO(new CheckResult("Check 3", false), "Label 3", "Description 3", CriticalityLevel::LOW), // warning
+            new HealthCheckDTO(new CheckResult("Check 1", true), "fake_id_1", "Label 1", "Description 1", CriticalityLevel::HIGH),
+            new HealthCheckDTO(new CheckResult("Check 2", false), "fake_id_2", "Label 2", "Description 2", CriticalityLevel::HIGH), // failed
+            new HealthCheckDTO(new CheckResult("Check 3", false), "fake_id_3", "Label 3", "Description 3", CriticalityLevel::LOW), // warning
         ];
 
         $result = $this->transformer->transform($results);
@@ -63,24 +63,24 @@ class DashboardTransformerTest extends TestCase
     public function testTransformWithAllFailedChecks(): void
     {
         $results = [
-            new HealthCheckDTO(new CheckResult("Check 1", false), "Label 1", "Description 1", CriticalityLevel::HIGH),
-            new HealthCheckDTO(new CheckResult("Check 2", false), "Label 2", "Description 2", CriticalityLevel::LOW), // warning
+            new HealthCheckDTO(new CheckResult("Check 1", false), "fake_id_1", "Label 1", "Description 1", CriticalityLevel::HIGH),
+            new HealthCheckDTO(new CheckResult("Check 2", false), "fake_id_2", "Label 2", "Description 2", CriticalityLevel::LOW), // warning
         ];
 
         $result = $this->transformer->transform($results);
 
         $this->assertCount(0, $result->getSuccessChecks());
-        $this->assertCount(1, $result->getFailedChecks()); // expect high priority to be counted as failed
-        $this->assertCount(1, $result->getWarningChecks()); // low priority should be counted as warning
+        $this->assertCount(1, $result->getFailedChecks());
+        $this->assertCount(1, $result->getWarningChecks());
     }
 
     public function testTransformWithMixedPriorities(): void
     {
         $results = [
-            new HealthCheckDTO(new CheckResult("Check 1", true), "Label 1", "Description 1", CriticalityLevel::HIGH),
-            new HealthCheckDTO(new CheckResult("Check 2", false), "Label 2", "Description 2", CriticalityLevel::HIGH), // failed
-            new HealthCheckDTO(new CheckResult("Check 3", false), "Label 3", "Description 3", CriticalityLevel::LOW), // warning
-            new HealthCheckDTO(new CheckResult("Check 4", true), "Label 4", "Description 4", CriticalityLevel::MEDIUM),
+            new HealthCheckDTO(new CheckResult("Check 1", true), "fake_id_1", "Label 1", "Description 1", CriticalityLevel::HIGH),
+            new HealthCheckDTO(new CheckResult("Check 2", false), "fake_id_2", "Label 2", "Description 2", CriticalityLevel::HIGH), // failed
+            new HealthCheckDTO(new CheckResult("Check 3", false), "fake_id_3", "Label 3", "Description 3", CriticalityLevel::LOW), // warning
+            new HealthCheckDTO(new CheckResult("Check 4", true), "fake_id_4", "Label 4", "Description 4", CriticalityLevel::MEDIUM),
         ];
 
         $result = $this->transformer->transform($results);

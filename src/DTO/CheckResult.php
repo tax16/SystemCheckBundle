@@ -15,6 +15,11 @@ class CheckResult
     private ?array $eav;
 
     /**
+     * @var array<HealthCheckDTO>|null
+     */
+    private ?array $children = [];
+
+    /**
      * @param array<EavDTO>|null $eav
      */
     public function __construct(
@@ -64,5 +69,80 @@ class CheckResult
         $this->eav[] = $eavDTO;
 
         return $this;
+    }
+
+    /**
+     * @return HealthCheckDTO[]|null
+     */
+    public function getChildren(): ?array
+    {
+        return $this->children;
+    }
+
+    /**
+     * @param HealthCheckDTO[] $children
+     *
+     * @return $this
+     */
+    public function setChildren(array $children): CheckResult
+    {
+        $this->children = array_merge($this->children ?? [], $children);
+
+        return $this;
+    }
+
+    public function addChildren(HealthCheckDTO $children): CheckResult
+    {
+        $this->children[] = $children;
+
+        return $this;
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    public function toArray(): array
+    {
+        return [
+            'name' => $this->getName(),
+            'success' => $this->isSuccess(),
+            'message' => $this->getMessage(),
+            'stack' => $this->getStack(),
+            'eav' => $this->eav ? array_map(fn ($eavDTO) => $eavDTO->toArray(), $this->eav) : null,
+        ];
+    }
+
+    /**
+     * Create an instance from an associative array.
+     *
+     * @param mixed[] $data the data array
+     *
+     * @throws \InvalidArgumentException if required fields are missing
+     */
+    public static function fromArray(array $data): ?self
+    {
+        if (empty($data)) {
+            return null;
+        }
+
+        if (!isset($data['name'], $data['success'])) {
+            throw new \InvalidArgumentException('Missing required fields in CheckResult data array.');
+        }
+
+        $eav = [];
+        if (isset($data['eav']) && is_array($data['eav'])) {
+            $eav = array_filter(
+                array_map(fn ($eav) => EavDTO::fromArray($eav), $data['eav']),
+                fn ($item) => null !== $item
+            );
+        }
+
+        return new self(
+            $data['name'],
+            $data['success'],
+            $data['message'] ?? null,
+            $data['stack'] ?? null,
+            $eav
+        );
     }
 }

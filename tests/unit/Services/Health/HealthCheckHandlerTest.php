@@ -52,6 +52,7 @@ class HealthCheckHandlerTest extends TestCase
         $mockResults = [
             new HealthCheckDTO(
                 new CheckResult('Check 1', true),
+                'check_1',
                 'Check 1',
                 'Check 1 Description',
                 CriticalityLevel::HIGH,
@@ -59,6 +60,7 @@ class HealthCheckHandlerTest extends TestCase
             ),
             new HealthCheckDTO(
                 new CheckResult('Check 2', false),
+                'check_2',
                 'Check 2',
                 'Check 2 Description',
                 CriticalityLevel::LOW,
@@ -86,6 +88,7 @@ class HealthCheckHandlerTest extends TestCase
         $mockResults = [
             new HealthCheckDTO(
                 new CheckResult('Check 1', true),
+                'check_1',
                 'Check 1',
                 'Check 1 Description',
                 CriticalityLevel::HIGH,
@@ -110,6 +113,7 @@ class HealthCheckHandlerTest extends TestCase
         $mockResults = [
             new HealthCheckDTO(
                 new CheckResult('Check 1', true),
+                'check_1',
                 'Check 1',
                 'Check 1 Description',
                 CriticalityLevel::HIGH,
