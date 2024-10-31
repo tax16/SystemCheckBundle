@@ -1,0 +1,23 @@
+{% extends '@SystemCheckBundle/base.html.twig' %}
+
+{% block title %}System Check bundle{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/systemcheck/css/card.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="card-container">
+        <div class="card-grid">
+            <article class="card">
+                {% include '@SystemCheckBundle/component/card.html.twig' %}
+            </article>
+            <article class="card">
+                {% include '@SystemCheckBundle/component/card.html.twig' %}
+            </article>
+            <article class="card">
+                {% include '@SystemCheckBundle/component/card.html.twig' %}
+            </article>
+        </div>
+
+    </div>
+{% endblock %}
