@@ -4,6 +4,8 @@ namespace Tax16\SystemCheckBundle\Services\Health\Checker;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Tax16\SystemCheckBundle\DTO\CheckResult;
+use Tax16\SystemCheckBundle\DTO\HealthCheckDTO;
+use Tax16\SystemCheckBundle\Services\Health\Checker\Constant\CheckerIcon;
 
 class DoctrineDbConnectionChecker implements ServiceCheckInterface
 {
@@ -54,6 +56,19 @@ class DoctrineDbConnectionChecker implements ServiceCheckInterface
      */
     public function getName(): string
     {
-        return 'Doctrine DB Connection Check';
+        return 'Doctrine DB';
+    }
+
+    public function getIcon(): ?string
+    {
+        return CheckerIcon::DATABASE;
+    }
+
+    /**
+     * @param array<HealthCheckDTO> $childrenChecker
+     */
+    public function setChildren(array $childrenChecker): void
+    {
+        throw new \InvalidArgumentException('Not accept child process');
     }
 }

@@ -1,0 +1,15 @@
+{% extends '@SystemCheckBundle/base.html.twig' %}
+
+{% block title %}System Check bundle{% endblock %}
+
+{% block body %}
+    <div class="network-nodes">
+        <p>
+            Display all interaction of services.
+        </p>
+        {% include '@SystemCheckBundle/component/node.html.twig' with {
+            networkData: networkData
+        } %}
+    </div>
+
+{% endblock %}

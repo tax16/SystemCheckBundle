@@ -3,6 +3,8 @@
 namespace Tax16\SystemCheckBundle\Services\Health\Checker;
 
 use Tax16\SystemCheckBundle\DTO\CheckResult;
+use Tax16\SystemCheckBundle\DTO\HealthCheckDTO;
+use Tax16\SystemCheckBundle\Services\Health\Checker\Constant\CheckerIcon;
 
 class PhpVersionChecker implements ServiceCheckInterface
 {
@@ -29,6 +31,7 @@ class PhpVersionChecker implements ServiceCheckInterface
     /**
      * Check the current PHP version against the provided version.
      *
+     * @param bool $execute
      * @return CheckResult the result of the check, including the status, message, and criticality level
      */
     public function check(): CheckResult
@@ -59,6 +62,19 @@ class PhpVersionChecker implements ServiceCheckInterface
 
     public function getName(): string
     {
-        return 'PHP Version Check';
+        return 'PHP Version';
+    }
+
+    public function getIcon(): ?string
+    {
+        return CheckerIcon::PHP;
+    }
+
+    /**
+     * @param array<HealthCheckDTO> $childrenChecker
+     */
+    public function setChildren(array $childrenChecker): void
+    {
+        throw new \InvalidArgumentException('Not accept child process');
     }
 }

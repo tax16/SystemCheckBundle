@@ -7,27 +7,26 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Tax16\SystemCheckBundle\Enum\CriticalityLevel;
 use Tax16\SystemCheckBundle\Services\Health\Checker\ServiceCheckInterface;
-use Tax16\SystemCheckBundle\Services\Health\HealthCheckManager;
+use Tax16\SystemCheckBundle\Services\Health\HealthCheckProcessor;
 
 class HealthCheckCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
-        if (!$container->has(HealthCheckManager::class)) {
+        if (!$container->has(HealthCheckProcessor::class)) {
             return;
         }
 
-        $definition = $container->findDefinition(HealthCheckManager::class);
-
+        $definition = $container->findDefinition(HealthCheckProcessor::class);
         $taggedServices = $container->findTaggedServiceIds('system_check.health_check');
 
         $healthChecks = [];
         foreach ($taggedServices as $id => $tags) {
             foreach ($tags as $attributes) {
-                $priorityValue = $attributes['priority'] ?? CriticalityLevel::LOW->value;
+                $priorityValue = CriticalityLevel::LOW;
 
-                if (!CriticalityLevel::isValid($priorityValue)) {
-                    $priorityValue = CriticalityLevel::LOW->value;
+                if (CriticalityLevel::isValid($attributes['priority'])) {
+                    $priorityValue = CriticalityLevel::from($attributes['priority']);
                 }
 
                 $serviceDefinition = $container->getDefinition($id);
@@ -36,11 +35,27 @@ class HealthCheckCompilerPass implements CompilerPassInterface
                     throw new \InvalidArgumentException(sprintf('Service "%s" must implement "%s".', $id, ServiceCheckInterface::class));
                 }
 
+                if ($attributes['parent'] ?? false) {
+                    if ($id === $attributes['parent']) {
+                        throw new \InvalidArgumentException(sprintf('Service parent "%s" should be different of current id', $attributes['parent']));
+                    }
+
+                    $serviceDefinition = $container->getDefinition($attributes['parent']);
+                    $classParent = $serviceDefinition->getClass();
+
+                    if (!$classParent || !is_subclass_of($classParent, ServiceCheckInterface::class)) {
+                        throw new \InvalidArgumentException(sprintf('Parent Service "%s" must implement "%s".', $id, ServiceCheckInterface::class));
+                    }
+                }
+
                 $healthChecks[] = [
                     'service' => new Reference($id),
                     'label' => $attributes['label'] ?? 'unknown',
                     'priority' => $priorityValue,
                     'description' => $attributes['description'] ?? 'No description',
+                    'execute' => $attributes['execute'] ?? true,
+                    'parent' => $attributes['parent'] ?? null,
+                    'id' => $id,
                 ];
             }
         }

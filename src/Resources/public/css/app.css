@@ -10,6 +10,7 @@
     --c-background-secondary: #fdfcff;
     --c-background-tertiary: #ecf3fe;
     --c-background-quaternary: #e9ecf4;
+    --c-background-success: #2cd551;
 }
 
 body {
@@ -43,6 +44,33 @@ img {
     border-bottom: 1px solid var(--c-border-primary);
     background: linear-gradient(90deg, rgb(255 255 255) 0%, rgba(210, 210, 210, 1) 100%);
 }
+
+.responsive-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px;
+}
+
+.component-wrapper {
+    flex: 1;
+    min-width: 300px;
+    box-sizing: border-box;
+    margin: 10px;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+@media (max-width: 768px) {
+    .responsive-container {
+        flex-direction: column;
+    }
+}
+
 
 .header-content {
     display: flex;
@@ -381,6 +409,29 @@ img {
     }
 }
 
+.text-align {
+    text-align: center !important;
+}
+.outer-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    .chart-container {
+        max-width: 500px;
+        margin-top: 40px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        canvas {
+            width: 200px;
+            height: 200px;
+        }
+    }
+}
+
+.search-item {
+    margin-bottom: 30px;
+}
 .content-main {
     padding-top: 2rem;
     padding-bottom: 6rem;
@@ -388,6 +439,7 @@ img {
 }
 
 .card-grid {
+    margin-left: 30px;
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     column-gap: 1.5rem;
@@ -402,11 +454,12 @@ img {
 
 .card {
     background-color: var(--c-background-primary);
-    box-shadow: 0 3px 3px 0 rgba(#000, 0.05), 0 5px 15px 0 rgba(#000, 0.05);
     border-radius: 8px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    transition: 0.2s ease-in-out;
+    box-shadow: 1px 3px 6px 1px #dddfdf;
 }
 
 .card-header {
@@ -472,7 +525,7 @@ img {
         white-space: nowrap;
         width: 1px;
         &:checked + span {
-            background-color: var(--c-accent-primary);
+            background-color: var(--c-background-success);
             &:before {
                 transform: translateX(calc(100% - 2px));
             }
