@@ -3,7 +3,7 @@
     "description": "Check availability of system",
     "type": "symfony-bundle",
     "require": {
-        "php": ">=8.1",
+        "php": ">=7.4",
         "symfony/framework-bundle": "^5.2",
         "symfony/http-client": "^5.2",
         "doctrine/orm": "^3.2",
@@ -22,7 +22,8 @@
         "phpro/grumphp-shim": "^2.8",
         "phpstan/phpstan": "^1.12",
         "friendsofphp/php-cs-fixer": "^3.64",
-        "phpstan/phpstan-symfony": "^1.4"
+        "phpstan/phpstan-symfony": "^1.4",
+        "composer/composer": "*"
     },
     "autoload": {
         "psr-4": {
@@ -36,6 +37,15 @@
             "email": "tahiana0@gmail.com"
         }
     ],
+    "scripts": {
+        "post-install-cmd": [
+            "Tax16\\SystemCheckBundle\\Scripts\\InstallScript::installConfig"
+        ],
+        "post-update-cmd": [
+            "Tax16\\SystemCheckBundle\\Scripts\\InstallScript::installConfig"
+        ]
+    },
+
     "config": {
         "allow-plugins": {
             "phpro/grumphp-shim": true

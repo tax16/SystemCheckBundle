@@ -1,10 +1,13 @@
 <div class="content-panel">
     <div class="vertical-tabs">
-        <a href="#" class="active">View all</a>
-        <a href="#">Developer tools</a>
-        <a href="#">Communication</a>
-        <a href="#">Productivity</a>
-        <a href="#">Browser tools</a>
-        <a href="#">Marketplace</a>
+        <a href="{{ path('system_index') }}" class="{{ app.request.attributes.get('_route') == 'system_index' ? 'active' : '' }}">
+            Health check
+        </a>
+        <a href="{{ path('system_details') }}" class="{{ app.request.attributes.get('_route') == 'system_details' ? 'active' : '' }}">
+            View all
+        </a>
+        <a  href="{{ path('system_network') }}" class="{{ app.request.attributes.get('_route') == 'system_network' ? 'active' : '' }}">
+            Network
+        </a>
     </div>
 </div>
