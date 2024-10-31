@@ -6,6 +6,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Tax16\SystemCheckBundle\DTO\HealthCheckDTO;
 use Tax16\SystemCheckBundle\Enum\CriticalityLevel;
 use Tax16\SystemCheckBundle\Enum\ResultState;
+use Tax16\SystemCheckBundle\Services\Health\Checker\Constant\CheckerIcon;
 use Tax16\SystemCheckBundle\ValueObject\SystemNetwork;
 use Tax16\SystemCheckBundle\ValueObject\SystemNode;
 use Tax16\SystemCheckBundle\ValueObject\SystemNodeEdge;
@@ -93,7 +94,7 @@ class NodeTransformer implements TransformerInterface
     {
         return new SystemNode(
             $index,
-            $checkDTO->getIcon() ?? '', // Default empty icon if null
+            $checkDTO->getIcon() ?? CheckerIcon::UNKNOWN,
             $checkDTO->getLabel(),
             $this->determineState($checkDTO)->getStyle()
         );
@@ -106,6 +107,7 @@ class NodeTransformer implements TransformerInterface
     {
         return match (true) {
             $checkDTO->getResult()->isSuccess() => ResultState::SUCCESS,
+            $checkDTO->getResult()->isSuccess() === null => ResultState::NO_CHECK,
             CriticalityLevel::LOW === $checkDTO->getPriority() => ResultState::WARNING,
             default => ResultState::ERROR,
         };

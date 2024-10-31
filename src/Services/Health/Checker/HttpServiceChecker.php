@@ -5,6 +5,7 @@ namespace Tax16\SystemCheckBundle\Services\Health\Checker;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 use Tax16\SystemCheckBundle\DTO\CheckResult;
 use Tax16\SystemCheckBundle\DTO\HealthCheckDTO;
 use Tax16\SystemCheckBundle\Services\Health\Checker\Constant\CheckerIcon;
@@ -15,7 +16,7 @@ class HttpServiceChecker implements ServiceCheckInterface, HttpServiceCheckInter
     private int $statusCode;
     private HttpClientInterface $httpClient;
     private bool $toTrace = false;
-    private ?string $response = null;
+    private ?ResponseInterface $response = null;
 
     /**
      * @var HealthCheckDTO[]
@@ -43,9 +44,8 @@ class HttpServiceChecker implements ServiceCheckInterface, HttpServiceCheckInter
             $response = $this->httpClient->request('GET', $this->url.'?trace='.$this->isToTrace());
 
             $statusCode = $response->getStatusCode();
-
             if ($this->toTrace) {
-                $this->response = $response->getContent();
+                $this->response = $response;
             }
 
             if ($statusCode !== $this->statusCode) {
@@ -114,7 +114,7 @@ class HttpServiceChecker implements ServiceCheckInterface, HttpServiceCheckInter
         return $this;
     }
 
-    public function getResponseData(): ?string
+    public function getResponseData(): ?ResponseInterface
     {
         return $this->response;
     }

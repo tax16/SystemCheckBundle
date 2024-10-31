@@ -7,7 +7,7 @@
 {% block javascripts %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
     <script>
-        let networkData = JSON.parse('{{ networkData|raw }}');
+        let networkData = {{ networkData|raw }};
     </script>
 
     <script src="{{ asset('bundles/systemcheck/js/network.js') }}"></script>

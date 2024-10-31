@@ -2,7 +2,10 @@
 
 namespace Tax16\SystemCheckBundle\Services\Health\Checker\Decorator;
 
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 use Tax16\SystemCheckBundle\DTO\CheckResult;
 use Tax16\SystemCheckBundle\DTO\HealthCheckDTO;
 use Tax16\SystemCheckBundle\Services\Health\Checker\HttpServiceCheckInterface;
@@ -15,10 +18,11 @@ class HttpServiceCheckerDecorator implements HttpServiceCheckInterface
 
     public function __construct(
         HttpServiceCheckInterface $httpServiceCheck,
-        ?string $applicationId = null,
+        ParameterBagInterface $parameterBag,
+        Request $request
     ) {
+        $this->applicationId = $request->headers->get('X-Trace-Id', $parameterBag->get('system_check.id'));
         $this->httpServiceCheck = $httpServiceCheck;
-        $this->applicationId = $applicationId ?: uniqid();
     }
 
     public function isToTrace(): bool
@@ -26,26 +30,30 @@ class HttpServiceCheckerDecorator implements HttpServiceCheckInterface
         return false;
     }
 
+
     public function check(): CheckResult
     {
         $this->setToTrace(true);
 
-        $currentHttpClient = $this->getHttpClient();
-        $currentHttpClient->withOptions([
+        $currentHttpClient = $this->getHttpClient()->withOptions([
             'headers' => [
-                'x-trace-id' => $this->applicationId,
+                'X-Trace-Id' => $this->applicationId,
             ],
         ]);
+        $this->httpServiceCheck->setHttpClient($currentHttpClient);
         $response = $this->httpServiceCheck->check();
 
-        $result = json_decode($this->getResponseData() ?? '[]', true);
+        if ($this->getResponseData()) {
+            $result = json_decode($this->getResponseData()->getContent() ?? '[]', true);
 
-        $healthCheckChildren = array_filter(
-            array_map(fn ($data) => HealthCheckDTO::fromArray($data), $result ?? []),
-            fn ($item) => null !== $item
-        );
+            $healthCheckChildren = array_filter(
+                array_map(fn ($data) => HealthCheckDTO::fromArray($data), $result ?? []),
+                fn ($item) => null !== $item
+            );
 
-        $response->setChildren($healthCheckChildren);
+            $response->setChildren($healthCheckChildren);
+        }
+
 
         return $response;
     }
@@ -83,7 +91,7 @@ class HttpServiceCheckerDecorator implements HttpServiceCheckInterface
         return $this;
     }
 
-    public function getResponseData(): ?string
+    public function getResponseData(): ?ResponseInterface
     {
         return $this->httpServiceCheck->getResponseData();
     }

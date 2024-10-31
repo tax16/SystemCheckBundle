@@ -4,12 +4,14 @@ namespace Tax16\SystemCheckBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Tax16\SystemCheckBundle\DTO\HealthCheckDTO;
 use Tax16\SystemCheckBundle\Services\Health\HealthCheckHandler;
 
 class SystemCheckController extends AbstractController
 {
+
     private HealthCheckHandler $healthCheckHandler;
 
     public function __construct(HealthCheckHandler $healthCheckHandler)
@@ -51,12 +53,26 @@ class SystemCheckController extends AbstractController
         ]);
     }
 
-    public function healthJson(): Response
+
+    public function healthJson(Request $request): Response
     {
-        return new JsonResponse(
-            array_map(fn (HealthCheckDTO $checkDTO) => $checkDTO->toArray(), $this->healthCheckHandler->getHealthCheckResult()),
-            status: 200
+        $traceId = $request->headers->get('X-Trace-Id', null);
+
+        $appId = $this->getParameter('system_check.id');
+
+        if (!empty($traceId) && $traceId === $appId) {
+            $response = new JsonResponse([], Response::HTTP_OK);
+            $response->headers->set('X-Trace-Id', $traceId);
+
+            return $response;
+        }
+
+        $responseData = array_map(
+            fn(HealthCheckDTO $checkDTO) => $checkDTO->toArray(),
+            $this->healthCheckHandler->getHealthCheckResult()
         );
+
+        return  new JsonResponse($responseData, Response::HTTP_OK);
     }
 
     public function healthHtml(): Response

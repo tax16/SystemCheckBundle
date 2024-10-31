@@ -31,6 +31,7 @@ class PhpVersionChecker implements ServiceCheckInterface
     /**
      * Check the current PHP version against the provided version.
      *
+     * @param bool $execute
      * @return CheckResult the result of the check, including the status, message, and criticality level
      */
     public function check(): CheckResult

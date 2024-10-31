@@ -5,7 +5,7 @@ namespace Tax16\SystemCheckBundle\DTO;
 class CheckResult
 {
     private string $name;
-    private bool $success;
+    private ?bool $success;
     private ?string $message;
     private ?string $stack;
 
@@ -24,7 +24,7 @@ class CheckResult
      */
     public function __construct(
         string $name,
-        bool $success,
+        ?bool $success,
         ?string $message = null,
         ?string $stack = null,
         ?array $eav = [],
@@ -41,7 +41,7 @@ class CheckResult
         return $this->name;
     }
 
-    public function isSuccess(): bool
+    public function isSuccess(): ?bool
     {
         return $this->success;
     }
@@ -98,6 +98,11 @@ class CheckResult
         return $this;
     }
 
+    public function hasChildren(): bool
+    {
+        return count($this->children) > 0;
+    }
+
     /**
      * @return array<mixed>
      */
@@ -125,7 +130,7 @@ class CheckResult
             return null;
         }
 
-        if (!isset($data['name'], $data['success'])) {
+        if (!isset($data['name'])) {
             throw new \InvalidArgumentException('Missing required fields in CheckResult data array.');
         }
 

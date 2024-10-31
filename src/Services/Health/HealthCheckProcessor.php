@@ -3,7 +3,9 @@
 namespace Tax16\SystemCheckBundle\Services\Health;
 
 use Psr\Log\LoggerInterface;
+use Tax16\SystemCheckBundle\DTO\CheckResult;
 use Tax16\SystemCheckBundle\DTO\HealthCheckDTO;
+use Tax16\SystemCheckBundle\Enum\CriticalityLevel;
 use Tax16\SystemCheckBundle\Services\Health\Checker\ServiceCheckInterface;
 
 class HealthCheckProcessor
@@ -39,25 +41,21 @@ class HealthCheckProcessor
             return $cachedResults;
         }
 
+        // Create health checks and prepare for hierarchy
         $results = [];
-        $childResults = [];
-
         foreach ($this->healthChecks as $check) {
             if (!$this->isValidServiceCheck($check)) {
                 continue;
             }
-
-            $dto = $this->createHealthCheckDTO($check);
-            if (!isset($check['parent'])) {
-                $results[$check['id']] = $dto;
-            } else {
-                $childResults[(string) $check['parent']][] = $dto;
-            }
+            // Store in a flat array
+            $results[] = $this->createHealthCheckDTO($check);
         }
 
-        $this->associateChildChecks($results, $childResults);
+        // Build parent-child relationships
+        $this->buildHierarchy($results);
 
-        $this->cachedResults = array_values($results);
+        // Cache and return the results
+        $this->cachedResults = $results;
         $this->logger->info('Health checks processed.', ['results' => $this->cachedResults]);
 
         return $this->cachedResults;
@@ -94,7 +92,6 @@ class HealthCheckProcessor
     {
         if (!isset($check['service']) || !$check['service'] instanceof ServiceCheckInterface) {
             $this->logger->error('Invalid health check service provided.', ['service' => $check['service'] ?? 'unknown']);
-
             return false;
         }
 
@@ -108,6 +105,22 @@ class HealthCheckProcessor
      */
     private function createHealthCheckDTO(array $check): HealthCheckDTO
     {
+        if (false === $check['execute']) {
+            return new HealthCheckDTO(
+                new CheckResult(
+                    $check['service']->getName(),
+                    null,
+                    'Not be able to check'
+                ),
+                $check['id'] ?? 'unknown',
+                $check['label'] ?? 'unknown',
+                $check['description'] ?? 'No description provided',
+                $check['priority'] ?? CriticalityLevel::LOW,
+                $check['service']->getIcon(),
+                $check['parent'] ?? null
+            );
+        }
+
         $resultData = $check['service']->check();
 
         return new HealthCheckDTO(
@@ -115,28 +128,65 @@ class HealthCheckProcessor
             $check['id'] ?? 'unknown',
             $check['label'] ?? 'unknown',
             $check['description'] ?? 'No description provided',
-            $check['priority'] ?? 0,
+            $check['priority'] ?? CriticalityLevel::LOW,
             $check['service']->getIcon(),
             $check['parent'] ?? null
         );
     }
 
     /**
-     * Associate child checks with their respective parent results.
+     * Build parent-child relationships among health checks.
      *
-     * @param array<string, HealthCheckDTO>        $results
-     * @param array<string, array<HealthCheckDTO>> $childResults
+     * @param array<HealthCheckDTO> $results
      */
-    private function associateChildChecks(array &$results, array $childResults): void
+    private function buildHierarchy(array &$results): void
     {
-        foreach ($childResults as $parentId => $children) {
-            if (isset($results[$parentId])) {
-                foreach ($children as $child) {
-                    $results[$parentId]->getResult()->addChildren($child);
+        foreach ($results as $index => $check) {
+            $parentId = $check->getParent();
+
+            if ($parentId !== null) {
+                // Try to find the parent in the main results array
+                $parent = $this->findParent($results, $parentId);
+
+                if ($parent !== null) {
+                    // Add this check as a child to the found parent
+                    $parent->getResult()->addChildren($check);
+                    // Remove the child from the main results array
+                    unset($results[$index]);
+                } else {
+                    // If parent does not exist, log a warning
+                    $this->logger->warning('Parent health check not found for child check.', ['parent_id' => $parentId]);
                 }
-            } else {
-                $this->logger->warning('Parent health check not found for child checks.', ['parent_id' => $parentId]);
             }
         }
+
+        // Re-index the results array after unsetting elements
+        $results = array_values($results);
+    }
+
+    /**
+     * Find a parent HealthCheckDTO by ID recursively.
+     *
+     * @param array<HealthCheckDTO> $results
+     * @param string $parentId
+     * @return HealthCheckDTO|null
+     */
+    private function findParent(array $results, string $parentId): ?HealthCheckDTO
+    {
+        foreach ($results as $check) {
+            if ($check->getId() === $parentId) {
+                return $check;
+            }
+
+            if ($check->getResult()->hasChildren()) {
+                $foundParent = $this->findParent($check->getResult()->getChildren(), $parentId);
+                if ($foundParent !== null) {
+                    return $foundParent;
+                }
+            }
+        }
+
+        // Return null if parent not found
+        return null;
     }
 }

@@ -4,6 +4,7 @@ namespace Tax16\SystemCheckBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 use Tax16\SystemCheckBundle\Services\Health\Checker\Decorator\HttpServiceCheckerDecorator;
 use Tax16\SystemCheckBundle\Services\Health\Checker\HttpServiceCheckInterface;
 
@@ -11,6 +12,11 @@ class HttpDecoratorCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
+        if (!$container->hasParameter('system_check.id')) {
+            throw new \InvalidArgumentException('The parameter "system_check.id" is not defined.');
+        }
+        $applicationId = $container->getParameter('system_check.id');
+
         $taggedServices = $container->findTaggedServiceIds('system_check.health_check_trace');
 
         foreach ($taggedServices as $id => $tags) {
@@ -24,8 +30,10 @@ class HttpDecoratorCompilerPass implements CompilerPassInterface
 
             $container->register($decoratedServiceId, HttpServiceCheckerDecorator::class)
                 ->setDecoratedService($id, null, 2)
-                ->setAutowired(true)
-                ->setPublic(false);
+                ->setAutowired(false)
+                ->setPublic(false)
+                ->addArgument(new Reference($decoratedServiceId . '.inner'))
+                ->addArgument($applicationId);
         }
     }
 }

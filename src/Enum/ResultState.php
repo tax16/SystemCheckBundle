@@ -7,6 +7,7 @@ enum ResultState: string
     case WARNING = 'warning';
     case SUCCESS = 'success';
     case ERROR = 'error';
+    case NO_CHECK = 'no_check';
 
     /**
      * @return array<mixed>
@@ -53,6 +54,19 @@ enum ResultState: string
                     'background' => '#F1B0B7',
                 ],
             ],
+            self::NO_CHECK => [
+                'background' => '#E2E3E5',
+                'border' => '#6C757D',
+                'textColor' => '#495057',
+                'highlight' => [
+                    'border' => '#5A6268',
+                    'background' => '#CED4DA',
+                ],
+                'hover' => [
+                    'border' => '#5A6268',
+                    'background' => '#D3D3D3',
+                ],
+            ],
         };
     }
 
@@ -67,12 +81,16 @@ enum ResultState: string
                 'highlight' => '#FFA000',
             ],
             self::SUCCESS => [
-                'color' => '#D4EDDA',
+                'color' => '#28A745',
                 'highlight' => '#218838',
             ],
             self::ERROR => [
                 'color' => '#DC3545',
                 'highlight' => '#C82333',
+            ],
+            self::NO_CHECK => [
+                'color' => '#6C757D',
+                'highlight' => '#5A6268',
             ],
         };
     }

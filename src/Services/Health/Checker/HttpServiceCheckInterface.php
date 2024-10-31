@@ -3,6 +3,7 @@
 namespace Tax16\SystemCheckBundle\Services\Health\Checker;
 
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
 interface HttpServiceCheckInterface extends ServiceCheckInterface
 {
@@ -14,5 +15,5 @@ interface HttpServiceCheckInterface extends ServiceCheckInterface
 
     public function setHttpClient(HttpClientInterface $httpClient): HttpServiceCheckInterface;
 
-    public function getResponseData(): ?string;
+    public function getResponseData(): ?ResponseInterface;
 }
