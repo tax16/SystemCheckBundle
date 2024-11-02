@@ -2,18 +2,18 @@
 
 namespace unit\Services\Health\Transformer;
 
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Tax16\SystemCheckBundle\DTO\CheckResult;
-use Tax16\SystemCheckBundle\DTO\HealthCheckDTO;
-use Tax16\SystemCheckBundle\Enum\CriticalityLevel;
-use Tax16\SystemCheckBundle\Services\Health\Transformer\NodeTransformer;
 use PHPUnit\Framework\TestCase;
-use Tax16\SystemCheckBundle\ValueObject\SystemNetwork;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Tax16\SystemCheckBundle\Core\Application\Transformer\NodeTransformer;
+use Tax16\SystemCheckBundle\Core\Domain\Enum\CriticalityLevel;
+use Tax16\SystemCheckBundle\Core\Domain\Model\CheckInfo;
+use Tax16\SystemCheckBundle\Core\Domain\Model\HealthCheck;
+use Tax16\SystemCheckBundle\Core\Domain\ValueObject\SystemNetwork;
 
 
 class NodeTransformerTest extends TestCase
 {
-    private NodeTransformer $transformer;
+    private $transformer;
 
     protected function setUp(): void
     {
@@ -23,8 +23,8 @@ class NodeTransformerTest extends TestCase
     public function testTransformWithAllSuccessChecks(): void
     {
         $results = [
-            new HealthCheckDTO(new CheckResult("Check 1", true),"fake_id_1",  "Label 1", "Description 1", CriticalityLevel::HEAD),
-            new HealthCheckDTO(new CheckResult("Check 2", true), "fake_id_2", "Label 2", "Description 2", CriticalityLevel::MEDIUM),
+            new HealthCheck(new CheckInfo("Check 1", true),"fake_id_1",  "Label 1", "Description 1", CriticalityLevel::HEAD),
+            new HealthCheck(new CheckInfo("Check 2", true), "fake_id_2", "Label 2", "Description 2", CriticalityLevel::MEDIUM),
         ];
 
         $network = $this->transformer->transform($results);
@@ -37,9 +37,9 @@ class NodeTransformerTest extends TestCase
     public function testTransformWithMixedChecks(): void
     {
         $results = [
-            new HealthCheckDTO(new CheckResult("Check 1", true), "fake_id_1", "Label 1", "Description 1", CriticalityLevel::HEAD),
-            new HealthCheckDTO(new CheckResult("Check 2", false), "fake_id_2", "Label 2", "Description 2", CriticalityLevel::HIGH), // failed
-            new HealthCheckDTO(new CheckResult("Check 3", false), "fake_id_3", "Label 3", "Description 3", CriticalityLevel::LOW), // warning
+            new HealthCheck(new CheckInfo("Check 1", true), "fake_id_1", "Label 1", "Description 1", CriticalityLevel::HEAD),
+            new HealthCheck(new CheckInfo("Check 2", false), "fake_id_2", "Label 2", "Description 2", CriticalityLevel::HIGH), // failed
+            new HealthCheck(new CheckInfo("Check 3", false), "fake_id_3", "Label 3", "Description 3", CriticalityLevel::LOW), // warning
         ];
 
         $network = $this->transformer->transform($results);
@@ -51,8 +51,8 @@ class NodeTransformerTest extends TestCase
     public function testTransformWithHeadPriority(): void
     {
         $results = [
-            new HealthCheckDTO(new CheckResult("Check 1", true), "fake_id_1", "Label 1", "Description 1", CriticalityLevel::HEAD),
-            new HealthCheckDTO(new CheckResult("Check 2", false), "fake_id_2", "Label 2", "Description 2", CriticalityLevel::HIGH),
+            new HealthCheck(new CheckInfo("Check 1", true), "fake_id_1", "Label 1", "Description 1", CriticalityLevel::HEAD),
+            new HealthCheck(new CheckInfo("Check 2", false), "fake_id_2", "Label 2", "Description 2", CriticalityLevel::HIGH),
         ];
 
         $network = $this->transformer->transform($results);
@@ -66,8 +66,8 @@ class NodeTransformerTest extends TestCase
     public function testTransformWithNoHeadNode(): void
     {
         $results = [
-            new HealthCheckDTO(new CheckResult("Check 1", true), "fake_id_1", "Label 1", "Description 1", CriticalityLevel::HIGH),
-            new HealthCheckDTO(new CheckResult("Check 2", true), "fake_id_2", "Label 2", "Description 2", CriticalityLevel::LOW),
+            new HealthCheck(new CheckInfo("Check 1", true), "fake_id_1", "Label 1", "Description 1", CriticalityLevel::HIGH),
+            new HealthCheck(new CheckInfo("Check 2", true), "fake_id_2", "Label 2", "Description 2", CriticalityLevel::LOW),
         ];
 
         $this->expectException(NotFoundHttpException::class);

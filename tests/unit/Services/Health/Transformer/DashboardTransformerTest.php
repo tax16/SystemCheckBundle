@@ -2,16 +2,16 @@
 
 namespace unit\Services\Health\Transformer;
 
-use Tax16\SystemCheckBundle\DTO\CheckResult;
-use Tax16\SystemCheckBundle\DTO\HealthCheckCategoryDTO;
-use Tax16\SystemCheckBundle\DTO\HealthCheckDTO;
-use Tax16\SystemCheckBundle\Enum\CriticalityLevel;
-use Tax16\SystemCheckBundle\Services\Health\Transformer\DashboardTransformer;
 use PHPUnit\Framework\TestCase;
+use Tax16\SystemCheckBundle\Core\Application\DTO\HealthCheckCategory;
+use Tax16\SystemCheckBundle\Core\Application\Transformer\DashboardTransformer;
+use Tax16\SystemCheckBundle\Core\Domain\Enum\CriticalityLevel;
+use Tax16\SystemCheckBundle\Core\Domain\Model\CheckInfo;
+use Tax16\SystemCheckBundle\Core\Domain\Model\HealthCheck;
 
 class DashboardTransformerTest extends TestCase
 {
-    private DashboardTransformer $transformer;
+    private $transformer;
 
     protected function setUp(): void
     {
@@ -21,13 +21,13 @@ class DashboardTransformerTest extends TestCase
     public function testTransformWithAllSuccessChecks(): void
     {
         $results = [
-            new HealthCheckDTO(new CheckResult("Check 1", true), "fake_id_1", "Label 1", "Description 1", CriticalityLevel::HIGH),
-            new HealthCheckDTO(new CheckResult("Check 2", true),"fake_id_2",  "Label 2", "Description 2", CriticalityLevel::MEDIUM),
+            new HealthCheck(new CheckInfo("Check 1", true), "fake_id_1", "Label 1", "Description 1", CriticalityLevel::HIGH),
+            new HealthCheck(new CheckInfo("Check 2", true),"fake_id_2",  "Label 2", "Description 2", CriticalityLevel::MEDIUM),
         ];
 
         $result = $this->transformer->transform($results);
 
-        $this->assertInstanceOf(HealthCheckCategoryDTO::class, $result);
+        $this->assertInstanceOf(HealthCheckCategory::class, $result);
         $this->assertCount(2, $result->getSuccessChecks());
         $this->assertCount(0, $result->getFailedChecks());
         $this->assertCount(0, $result->getWarningChecks());
@@ -36,9 +36,9 @@ class DashboardTransformerTest extends TestCase
     public function testTransformWithMixedChecks(): void
     {
         $results = [
-            new HealthCheckDTO(new CheckResult("Check 1", true), "fake_id_1", "Label 1", "Description 1", CriticalityLevel::HIGH),
-            new HealthCheckDTO(new CheckResult("Check 2", false), "fake_id_2", "Label 2", "Description 2", CriticalityLevel::HIGH), // failed
-            new HealthCheckDTO(new CheckResult("Check 3", false), "fake_id_3", "Label 3", "Description 3", CriticalityLevel::LOW), // warning
+            new HealthCheck(new CheckInfo("Check 1", true), "fake_id_1", "Label 1", "Description 1", CriticalityLevel::HIGH),
+            new HealthCheck(new CheckInfo("Check 2", false), "fake_id_2", "Label 2", "Description 2", CriticalityLevel::HIGH), // failed
+            new HealthCheck(new CheckInfo("Check 3", false), "fake_id_3", "Label 3", "Description 3", CriticalityLevel::LOW), // warning
         ];
 
         $result = $this->transformer->transform($results);
@@ -54,7 +54,7 @@ class DashboardTransformerTest extends TestCase
 
         $result = $this->transformer->transform($results);
 
-        $this->assertInstanceOf(HealthCheckCategoryDTO::class, $result);
+        $this->assertInstanceOf(HealthCheckCategory::class, $result);
         $this->assertCount(0, $result->getSuccessChecks());
         $this->assertCount(0, $result->getFailedChecks());
         $this->assertCount(0, $result->getWarningChecks());
@@ -63,8 +63,8 @@ class DashboardTransformerTest extends TestCase
     public function testTransformWithAllFailedChecks(): void
     {
         $results = [
-            new HealthCheckDTO(new CheckResult("Check 1", false), "fake_id_1", "Label 1", "Description 1", CriticalityLevel::HIGH),
-            new HealthCheckDTO(new CheckResult("Check 2", false), "fake_id_2", "Label 2", "Description 2", CriticalityLevel::LOW), // warning
+            new HealthCheck(new CheckInfo("Check 1", false), "fake_id_1", "Label 1", "Description 1", CriticalityLevel::HIGH),
+            new HealthCheck(new CheckInfo("Check 2", false), "fake_id_2", "Label 2", "Description 2", CriticalityLevel::LOW), // warning
         ];
 
         $result = $this->transformer->transform($results);
@@ -77,10 +77,10 @@ class DashboardTransformerTest extends TestCase
     public function testTransformWithMixedPriorities(): void
     {
         $results = [
-            new HealthCheckDTO(new CheckResult("Check 1", true), "fake_id_1", "Label 1", "Description 1", CriticalityLevel::HIGH),
-            new HealthCheckDTO(new CheckResult("Check 2", false), "fake_id_2", "Label 2", "Description 2", CriticalityLevel::HIGH), // failed
-            new HealthCheckDTO(new CheckResult("Check 3", false), "fake_id_3", "Label 3", "Description 3", CriticalityLevel::LOW), // warning
-            new HealthCheckDTO(new CheckResult("Check 4", true), "fake_id_4", "Label 4", "Description 4", CriticalityLevel::MEDIUM),
+            new HealthCheck(new CheckInfo("Check 1", true), "fake_id_1", "Label 1", "Description 1", CriticalityLevel::HIGH),
+            new HealthCheck(new CheckInfo("Check 2", false), "fake_id_2", "Label 2", "Description 2", CriticalityLevel::HIGH), // failed
+            new HealthCheck(new CheckInfo("Check 3", false), "fake_id_3", "Label 3", "Description 3", CriticalityLevel::LOW), // warning
+            new HealthCheck(new CheckInfo("Check 4", true), "fake_id_4", "Label 4", "Description 4", CriticalityLevel::MEDIUM),
         ];
 
         $result = $this->transformer->transform($results);

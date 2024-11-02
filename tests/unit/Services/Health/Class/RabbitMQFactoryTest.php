@@ -4,7 +4,7 @@ namespace unit\Services\Health\Class;
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PHPUnit\Framework\TestCase;
-use Tax16\SystemCheckBundle\Enum\RabbitMQMode;
+use Tax16\SystemCheckBundle\Core\Domain\Enum\RabbitMQMode;
 use Tax16\SystemCheckBundle\Services\Health\Checker\Class\RabbitMQConsumer;
 use Tax16\SystemCheckBundle\Services\Health\Checker\Class\RabbitMQFactory;
 use Tax16\SystemCheckBundle\Services\Health\Checker\Class\RabbitMQSender;

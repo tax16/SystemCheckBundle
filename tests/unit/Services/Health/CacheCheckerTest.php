@@ -4,7 +4,7 @@ namespace unit\Services\Health;
 
 use PHPUnit\Framework\TestCase;
 use Redis;
-use Tax16\SystemCheckBundle\Enum\CacheType;
+use Tax16\SystemCheckBundle\Core\Domain\Enum\CacheType;
 use Tax16\SystemCheckBundle\Services\Health\Checker\CacheChecker;
 
 class CacheCheckerTest extends TestCase
@@ -14,7 +14,7 @@ class CacheCheckerTest extends TestCase
         $redis = $this->createMock(Redis::class);
         $redis->method('ping')->willReturn(true);
 
-        $checker = new CacheChecker($redis, CacheType::Redis);
+        $checker = new CacheChecker($redis, CacheType::REDIS);
         $result = $checker->check();
 
         $this->assertTrue($result->isSuccess());
@@ -26,7 +26,7 @@ class CacheCheckerTest extends TestCase
         $redis = $this->createMock(Redis::class);
         $redis->method('ping')->will($this->throwException(new \Exception('Connection error')));
 
-        $checker = new CacheChecker($redis, CacheType::Redis);
+        $checker = new CacheChecker($redis, CacheType::REDIS);
         $result = $checker->check();
 
         $this->assertFalse($result->isSuccess());
@@ -35,7 +35,7 @@ class CacheCheckerTest extends TestCase
 
     public function testInvalidRedisClientThrowsException(): void
     {
-        $checker = new CacheChecker(new \stdClass(), CacheType::Redis);
+        $checker = new CacheChecker(new \stdClass(), CacheType::REDIS);
         $result = $checker->check();
 
         $this->assertFalse($result->isSuccess());

@@ -2,18 +2,18 @@
 
 namespace unit\Services\Health;
 
-use Psr\Log\LoggerInterface;
-use Tax16\SystemCheckBundle\DTO\CheckResult;
-use Tax16\SystemCheckBundle\DTO\HealthCheckDTO;
-use Tax16\SystemCheckBundle\Enum\CriticalityLevel;
-use Tax16\SystemCheckBundle\Services\Health\Checker\ServiceCheckInterface;
-use Tax16\SystemCheckBundle\Services\Health\HealthCheckProcessor;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
+use Tax16\SystemCheckBundle\Core\Application\Service\HealthCheckProcessor;
+use Tax16\SystemCheckBundle\Core\Domain\Enum\CriticalityLevel;
+use Tax16\SystemCheckBundle\Core\Domain\Model\CheckInfo;
+use Tax16\SystemCheckBundle\Core\Domain\Model\HealthCheck;
+use Tax16\SystemCheckBundle\Core\Domain\Service\ServiceCheckInterface;
 
 class HealthCheckProcessorTest extends TestCase
 {
-    private HealthCheckProcessor $processor;
-    private array $mockHealthChecks;
+    private $processor;
+    private $mockHealthChecks;
 
     protected function setUp(): void
     {
@@ -43,10 +43,10 @@ class HealthCheckProcessorTest extends TestCase
     public function testPerformChecksReturnsCachedResults(): void
     {
         // Set up mocked service results
-        $check1Result = $this->createMock(CheckResult::class);
+        $check1Result = $this->createMock(CheckInfo::class);
         $check1Result->method('isSuccess')->willReturn(true);
 
-        $check2Result = $this->createMock(CheckResult::class);
+        $check2Result = $this->createMock(CheckInfo::class);
         $check2Result->method('isSuccess')->willReturn(false);
 
         // Define the return values for the service checks
@@ -56,8 +56,8 @@ class HealthCheckProcessorTest extends TestCase
         // Perform the checks for the first time
         $resultsFirstRun = $this->processor->performChecks();
         $this->assertCount(2, $resultsFirstRun);
-        $this->assertInstanceOf(HealthCheckDTO::class, $resultsFirstRun[0]);
-        $this->assertInstanceOf(HealthCheckDTO::class, $resultsFirstRun[1]);
+        $this->assertInstanceOf(HealthCheck::class, $resultsFirstRun[0]);
+        $this->assertInstanceOf(HealthCheck::class, $resultsFirstRun[1]);
 
         // Perform the checks again (should return cached results)
         $resultsSecondRun = $this->processor->performChecks();
@@ -69,7 +69,7 @@ class HealthCheckProcessorTest extends TestCase
     public function testPerformChecksCachesResults(): void
     {
         // Set up mocked service results
-        $checkResult = $this->createMock(CheckResult::class);
+        $checkResult = $this->createMock(CheckInfo::class);
         $checkResult->method('isSuccess')->willReturn(true);
 
         // Define the return values for the service checks
@@ -94,7 +94,7 @@ class HealthCheckProcessorTest extends TestCase
     public function testClearCacheResetsCachedResults(): void
     {
         // Set up mocked service results
-        $checkResult = $this->createMock(CheckResult::class);
+        $checkResult = $this->createMock(CheckInfo::class);
         $checkResult->method('isSuccess')->willReturn(true);
 
         // Define the return values for the service checks

@@ -2,26 +2,28 @@
 
 namespace unit\Services\Health;
 
-use Tax16\SystemCheckBundle\DTO\CheckResult;
-use Tax16\SystemCheckBundle\DTO\HealthCheckCategoryDTO;
-use Tax16\SystemCheckBundle\DTO\HealthCheckDTO;
-use Tax16\SystemCheckBundle\Enum\CriticalityLevel;
-use Tax16\SystemCheckBundle\Services\Health\Checker\Constant\CheckerIcon;
-use Tax16\SystemCheckBundle\Services\Health\HealthCheckHandler;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use Tax16\SystemCheckBundle\Services\Health\HealthCheckProcessor;
-use Tax16\SystemCheckBundle\Services\Health\Transformer\DashboardTransformer;
-use Tax16\SystemCheckBundle\Services\Health\Transformer\NodeTransformer;
-use Tax16\SystemCheckBundle\ValueObject\SystemNetwork;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Tax16\SystemCheckBundle\Core\Application\DTO\HealthCheckCategory;
+use Tax16\SystemCheckBundle\Core\Application\Service\HealthCheckHandler;
+use Tax16\SystemCheckBundle\Core\Application\Service\HealthCheckProcessor;
+use Tax16\SystemCheckBundle\Core\Application\Transformer\DashboardTransformer;
+use Tax16\SystemCheckBundle\Core\Application\Transformer\NodeTransformer;
+use Tax16\SystemCheckBundle\Core\Domain\Constant\CheckerIcon;
+use Tax16\SystemCheckBundle\Core\Domain\Enum\CriticalityLevel;
+use Tax16\SystemCheckBundle\Core\Domain\Model\CheckInfo;
+use Tax16\SystemCheckBundle\Core\Domain\Model\HealthCheck;
+use Tax16\SystemCheckBundle\Core\Domain\ValueObject\SystemNetwork;
 
 class HealthCheckHandlerTest extends TestCase
 {
-    private HealthCheckHandler $handler;
-    private LoggerInterface $loggerMock;
-    private HealthCheckProcessor $processorMock;
-    private DashboardTransformer $dashboardTransformerMock;
-    private NodeTransformer $nodeTransformerMock;
+    private $handler;
+    private $loggerMock;
+    private $processorMock;
+    private $dashboardTransformerMock;
+    private $nodeTransformerMock;
+    private $parameterBagMock;
 
     protected function setUp(): void
     {
@@ -37,12 +39,15 @@ class HealthCheckHandlerTest extends TestCase
         // Create mock for NodeTransformer
         $this->nodeTransformerMock = $this->createMock(NodeTransformer::class);
 
+        $this->parameterBagMock = $this->createMock(ParameterBagInterface::class);
+
         // Instantiate the HealthCheckHandler with mocked dependencies
         $this->handler = new HealthCheckHandler(
             $this->loggerMock,
             $this->processorMock,
             $this->dashboardTransformerMock,
-            $this->nodeTransformerMock
+            $this->nodeTransformerMock,
+            $this->parameterBagMock
         );
     }
 
@@ -50,16 +55,16 @@ class HealthCheckHandlerTest extends TestCase
     {
         // Mocking the results from the HealthCheckProcessor
         $mockResults = [
-            new HealthCheckDTO(
-                new CheckResult('Check 1', true),
+            new HealthCheck(
+                new CheckInfo('Check 1', true),
                 'check_1',
                 'Check 1',
                 'Check 1 Description',
                 CriticalityLevel::HIGH,
                 CheckerIcon::UNKNOWN
             ),
-            new HealthCheckDTO(
-                new CheckResult('Check 2', false),
+            new HealthCheck(
+                new CheckInfo('Check 2', false),
                 'check_2',
                 'Check 2',
                 'Check 2 Description',
@@ -71,14 +76,14 @@ class HealthCheckHandlerTest extends TestCase
         $this->processorMock->method('performChecks')->willReturn($mockResults);
 
         // Mocking the dashboard transformation
-        $mockDashboardDTO = new HealthCheckCategoryDTO([], [], []);
+        $mockDashboardDTO = new HealthCheckCategory([], [], []);
         $this->dashboardTransformerMock->method('transform')->willReturn($mockDashboardDTO);
 
         // Call the method
         $result = $this->handler->getHealthCheckDashboard();
 
         // Assert that the result is of type HealthCheckCategoryDTO
-        $this->assertInstanceOf(HealthCheckCategoryDTO::class, $result);
+        $this->assertInstanceOf(HealthCheckCategory::class, $result);
         $this->assertSame($mockDashboardDTO, $result); // Assert that the returned DTO is the same as the mocked one
     }
 
@@ -86,8 +91,8 @@ class HealthCheckHandlerTest extends TestCase
     {
         // Mocking the results from the HealthCheckProcessor
         $mockResults = [
-            new HealthCheckDTO(
-                new CheckResult('Check 1', true),
+            new HealthCheck(
+                new CheckInfo('Check 1', true),
                 'check_1',
                 'Check 1',
                 'Check 1 Description',
@@ -104,15 +109,15 @@ class HealthCheckHandlerTest extends TestCase
         // Assert that the result is an array
         $this->assertIsArray($result);
         $this->assertCount(1, $result); // Expecting one health check result
-        $this->assertInstanceOf(HealthCheckDTO::class, $result[0]); // Assert type of the first element
+        $this->assertInstanceOf(HealthCheck::class, $result[0]); // Assert type of the first element
     }
 
     public function testGetNodeSystemReturnsCorrectSystemNetwork(): void
     {
         // Mocking the results from the HealthCheckProcessor
         $mockResults = [
-            new HealthCheckDTO(
-                new CheckResult('Check 1', true),
+            new HealthCheck(
+                new CheckInfo('Check 1', true),
                 'check_1',
                 'Check 1',
                 'Check 1 Description',

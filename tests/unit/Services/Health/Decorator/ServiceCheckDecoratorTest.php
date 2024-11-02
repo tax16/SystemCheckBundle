@@ -5,10 +5,10 @@ namespace unit\Services\Health\Decorator;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Tax16\SystemCheckBundle\Core\Domain\Model\CheckInfo;
+use Tax16\SystemCheckBundle\Core\Domain\Model\Eav;
+use Tax16\SystemCheckBundle\Core\Domain\Service\ServiceCheckInterface;
 use Tax16\SystemCheckBundle\Services\Health\Checker\Decorator\ServiceCheckDecorator;
-use Tax16\SystemCheckBundle\Services\Health\Checker\ServiceCheckInterface;
-use Tax16\SystemCheckBundle\DTO\CheckResult;
-use Tax16\SystemCheckBundle\DTO\EavDTO;
 
 class ServiceCheckDecoratorTest extends TestCase
 {
@@ -23,12 +23,12 @@ class ServiceCheckDecoratorTest extends TestCase
 
     public function testCheckMeasuresDurationMemoryAndCpuLoad(): void
     {
-        $mockResult = $this->createMock(CheckResult::class);
+        $mockResult = $this->createMock(CheckInfo::class);
         $this->mockService->method('check')->willReturn($mockResult);
 
         $mockResult->expects($this->exactly(3))
             ->method('addEav')
-            ->with($this->isInstanceOf(EavDTO::class));
+            ->with($this->isInstanceOf(Eav::class));
 
         $result = $this->decorator->check();
 

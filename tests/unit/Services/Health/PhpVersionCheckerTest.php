@@ -3,7 +3,7 @@
 namespace unit\Services\Health;
 
 use Codeception\Test\Unit;
-use Tax16\SystemCheckBundle\DTO\CheckResult;
+use Tax16\SystemCheckBundle\Core\Domain\Model\CheckInfo;
 use Tax16\SystemCheckBundle\Services\Health\Checker\PhpVersionChecker;
 
 class PhpVersionCheckerTest extends Unit
@@ -40,7 +40,7 @@ class PhpVersionCheckerTest extends Unit
 
         $result = $checker->check();
 
-        $this->assertInstanceOf(CheckResult::class, $result);
+        $this->assertInstanceOf(CheckInfo::class, $result);
         $this->assertEquals($expectedResult, $result->isSuccess());
     }
 

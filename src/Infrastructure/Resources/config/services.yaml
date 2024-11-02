@@ -1,0 +1,26 @@
+services:
+  _defaults:
+    autoconfigure: true
+    autowire: true
+    public: false
+
+  Psr\Log\LoggerInterface:
+    class: Monolog\Logger
+    arguments: ['app']
+      
+  Tax16\SystemCheckBundle\:
+    resource: '../../../*'
+    exclude: '../../../{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+
+  Tax16\SystemCheckBundle\UserInterface\Controller\SystemCheckController:
+    tags: ['controller.service_arguments']
+
+  Tax16\SystemCheckBundle\Core\Domain\Port\ApplicationLoggerInterface:
+    class: Tax16\SystemCheckBundle\Infrastructure\Logger\PsrLoggerAdapter
+    arguments:
+      - '@Psr\Log\LoggerInterface'
+
+  Tax16\SystemCheckBundle\Core\Domain\Port\ConfigurationProviderInterface:
+    class: Tax16\SystemCheckBundle\Infrastructure\Services\ParameterBagAdapter
+    arguments:
+      $parameterBag: '@parameter_bag'

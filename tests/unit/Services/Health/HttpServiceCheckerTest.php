@@ -6,7 +6,7 @@ use Codeception\Test\Unit;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
-use Tax16\SystemCheckBundle\DTO\CheckResult;
+use Tax16\SystemCheckBundle\Core\Domain\Model\CheckInfo;
 use Tax16\SystemCheckBundle\Services\Health\Checker\HttpServiceChecker;
 
 class HttpServiceCheckerTest extends Unit
@@ -28,7 +28,7 @@ class HttpServiceCheckerTest extends Unit
         $checker = new HttpServiceChecker('http://example.com', 200, $this->httpClientMock);
         $result = $checker->check();
 
-        $this->assertInstanceOf(CheckResult::class, $result);
+        $this->assertInstanceOf(CheckInfo::class, $result);
         $this->assertTrue($result->isSuccess());
         $this->assertStringContainsString('The service at http://example.com is available with status code 200.', $result->getMessage());
     }
@@ -41,7 +41,7 @@ class HttpServiceCheckerTest extends Unit
         $checker = new HttpServiceChecker('http://example.com', 200, $this->httpClientMock);
         $result = $checker->check();
 
-        $this->assertInstanceOf(CheckResult::class, $result);
+        $this->assertInstanceOf(CheckInfo::class, $result);
         $this->assertFalse($result->isSuccess());
         $this->assertStringContainsString('Expected status code 200 but received 404.', $result->getMessage());
     }
@@ -55,7 +55,7 @@ class HttpServiceCheckerTest extends Unit
         $checker = new HttpServiceChecker('http://example.com', 200, $this->httpClientMock);
         $result = $checker->check();
 
-        $this->assertInstanceOf(CheckResult::class, $result);
+        $this->assertInstanceOf(CheckInfo::class, $result);
         $this->assertFalse($result->isSuccess());
         $this->assertStringContainsString('Transport error', $result->getMessage());
     }
@@ -67,7 +67,7 @@ class HttpServiceCheckerTest extends Unit
         $checker = new HttpServiceChecker('http://example.com', 200, $this->httpClientMock);
         $result = $checker->check();
 
-        $this->assertInstanceOf(CheckResult::class, $result);
+        $this->assertInstanceOf(CheckInfo::class, $result);
         $this->assertFalse($result->isSuccess());
         $this->assertStringContainsString('An unexpected error occurred: Some unexpected error', $result->getMessage());
     }

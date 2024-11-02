@@ -1,0 +1,15 @@
+system_index:
+  path: /system-check/index
+  controller: Tax16\SystemCheckBundle\UserInterface\Controller\SystemCheckController::index
+system_details:
+  path: /system-check/details
+  controller: Tax16\SystemCheckBundle\UserInterface\Controller\SystemCheckController::details
+system_network:
+  path: /system-check/network
+  controller: Tax16\SystemCheckBundle\UserInterface\Controller\SystemCheckController::network
+system_health_json:
+  path: /system-check/health
+  controller: Tax16\SystemCheckBundle\UserInterface\Controller\SystemCheckController::healthJson
+system_health:
+  path: /system-check/health
+  controller: Tax16\SystemCheckBundle\UserInterface\Controller\SystemCheckController::health
