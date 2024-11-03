@@ -1,6 +1,8 @@
 <?php
 
-namespace Tax16\SystemCheckBundle\Services\Health\Checker\Decorator;
+declare(strict_types=1);
+
+namespace Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\Decorator;
 
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -12,8 +14,14 @@ use Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\HttpServiceCh
 
 class HttpServiceCheckerDecorator implements HttpServiceCheckInterface
 {
+    /**
+     * @var HttpServiceCheckInterface
+     */
     private $httpServiceCheck;
 
+    /**
+     * @var mixed|string|null
+     */
     private $applicationId;
 
     public function __construct(
@@ -35,9 +43,12 @@ class HttpServiceCheckerDecorator implements HttpServiceCheckInterface
         return false;
     }
 
-
-    public function check(): CheckInfo
+    public function check(bool $withNetwork = false): CheckInfo
     {
+        if (!$withNetwork) {
+            return $this->httpServiceCheck->check($withNetwork);
+        }
+
         $this->setToTrace(true);
 
         $currentHttpClient = $this->getHttpClient()->withOptions([

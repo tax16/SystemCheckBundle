@@ -1,17 +1,31 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tax16\SystemCheckBundle\Core\Domain\ValueObject;
 
 class SystemNode
 {
     private const PATH_ICON = '/bundles/systemcheck/images/icon/';
 
+    /**
+     * @var string
+     */
     private $id;
 
+    /**
+     * @var string
+     */
     private $image;
 
+    /**
+     * @var string
+     */
     private $label;
 
+    /**
+     * @var string
+     */
     private $shape;
 
     /**

@@ -1,6 +1,6 @@
 <div class="outer-container">
     <div class="chart-container">
-        <canvas id="resultChart" width="200" height="200"></canvas>
+        <canvas id="resultChart"></canvas>
     </div>
 </div>
 <script id="successChecksData" type="application/json">{{ successChecks|json_encode }}</script>
@@ -9,6 +9,6 @@
 
 {% block javascripts %}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="{{ asset('bundles/systemcheck/js/chart.js') }}"></script>
+    <script src="{{ asset('bundles/systemcheck/js/component/chart.js') }}"></script>
 {% endblock %}
 

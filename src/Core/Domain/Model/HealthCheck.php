@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tax16\SystemCheckBundle\Core\Domain\Model;
 
 use Tax16\SystemCheckBundle\Core\Domain\Constant\CheckerIcon;
@@ -7,16 +9,39 @@ use Tax16\SystemCheckBundle\Core\Domain\Enum\CriticalityLevel;
 
 class HealthCheck
 {
+    /**
+     * @var CheckInfo
+     */
     private $result;
 
+    /**
+     * @var string
+     */
     private $label;
+
+    /**
+     * @var string
+     */
     private $id;
 
+    /**
+     * @var string
+     */
     private $description;
 
+    /**
+     * @var int
+     */
     private $priority;
 
+    /**
+     * @var string|null
+     */
     private $icon;
+
+    /**
+     * @var string|null
+     */
     private $parent;
 
     public function __construct(CheckInfo $result, string $id, string $label, string $description, int $priority, ?string $icon = CheckerIcon::UNKNOWN, ?string $parent = null)

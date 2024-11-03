@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tax16\SystemCheckBundle\Infrastructure\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Tax16\SystemCheckBundle\Core\Domain\Port\ConfigurationProviderInterface;
+use Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\Decorator\HttpServiceCheckerDecorator;
 use Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\HttpServiceCheckInterface;
-use Tax16\SystemCheckBundle\Services\Health\Checker\Decorator\HttpServiceCheckerDecorator;
 
 class HttpDecoratorCompilerPass implements CompilerPassInterface
 {

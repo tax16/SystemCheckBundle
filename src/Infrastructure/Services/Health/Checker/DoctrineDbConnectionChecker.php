@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -10,7 +12,14 @@ use Tax16\SystemCheckBundle\Core\Domain\Service\ServiceCheckInterface;
 
 class DoctrineDbConnectionChecker implements ServiceCheckInterface
 {
+    /**
+     * @var EntityManagerInterface
+     */
     private $entityManager;
+
+    /**
+     * @var string
+     */
     private $connectionName;
 
     /**
@@ -26,9 +35,10 @@ class DoctrineDbConnectionChecker implements ServiceCheckInterface
     /**
      * Check the Doctrine DB connection by pinging the database.
      *
+     * @param bool $withNetwork
      * @return CheckInfo the result of the Doctrine DB connection check
      */
-    public function check(): CheckInfo
+    public function check(bool $withNetwork = false): CheckInfo
     {
         try {
             $connection = $this->entityManager->getConnection();

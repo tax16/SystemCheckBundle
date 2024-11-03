@@ -16,14 +16,29 @@ use Tax16\SystemCheckBundle\Core\Domain\ValueObject\SystemNetwork;
 
 class HealthCheckHandler
 {
+    /**
+     * @var HealthCheck
+     */
     private $head;
 
+    /**
+     * @var ApplicationLoggerInterface
+     */
     private $logger;
 
+    /**
+     * @var HealthCheckProcessorInterface
+     */
     private $checkProcessor;
 
+    /**
+     * @var NodeTransformer
+     */
     private $nodeTransformer;
 
+    /**
+     * @var DashboardTransformer
+     */
     private $dashboardTransformer;
 
     public function __construct(
@@ -68,12 +83,12 @@ class HealthCheckHandler
      */
     public function getHealthCheckResult(): array
     {
-        return $this->checkProcessor->process();
+        return $this->checkProcessor->process(true);
     }
 
-    public function getNodeSystem(): SystemNetwork
+    public function getNodeSystem(bool $withNetwork = false): SystemNetwork
     {
-        $result = $this->checkProcessor->process();
+        $result = $this->checkProcessor->process($withNetwork);
         $result[] = $this->head;
 
         $this->logger->info('network_view_check', $result);

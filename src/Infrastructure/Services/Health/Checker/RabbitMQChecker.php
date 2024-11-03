@@ -6,27 +6,58 @@ use PhpAmqpLib\Connection\AMQPStreamConnection;
 use Tax16\SystemCheckBundle\Core\Domain\Constant\CheckerIcon;
 use Tax16\SystemCheckBundle\Core\Domain\Enum\RabbitMQMode;
 use Tax16\SystemCheckBundle\Core\Domain\Model\CheckInfo;
-use Tax16\SystemCheckBundle\Core\Domain\Model\HealthCheck;
 use Tax16\SystemCheckBundle\Core\Domain\Service\ServiceCheckInterface;
-use Tax16\SystemCheckBundle\Services\Health\Checker\Rabbit\RabbitMQConsumer;
-use Tax16\SystemCheckBundle\Services\Health\Checker\Rabbit\RabbitMQFactory;
-use Tax16\SystemCheckBundle\Services\Health\Checker\Rabbit\RabbitMQSender;
+use Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\Rabbit\RabbitMQConsumer;
+use Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\Rabbit\RabbitMQFactory;
+use Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\Rabbit\RabbitMQSender;
 
 class RabbitMQChecker implements ServiceCheckInterface
 {
-    private $connection;
-    private $queue;
-    private $mode;
-    private $host;
-    private $port;
-    private $username;
-    private $password;
-    private $vhost;
-    private $cacert;
     /**
-     * @var HealthCheck[]
+     * @var
      */
-    private $childrenChecker = [];
+    private $connection;
+
+    /**
+     * @var string
+     */
+    private $queue;
+
+    /**
+     * @var string
+     */
+    private $mode;
+
+    /**
+     * @var string
+     */
+    private $host;
+
+    /**
+     * @var int
+     */
+    private $port;
+
+    /**
+     * @var string
+     */
+    private $username;
+
+    /**
+     * @var string
+     */
+    private $password;
+
+    /**
+     * @var string
+     */
+    private $vhost;
+
+    /**
+     * @var string|null
+     */
+    private $cacert;
+
 
     public function __construct(
         string $host,
@@ -93,7 +124,7 @@ class RabbitMQChecker implements ServiceCheckInterface
         $client->consumeMessage();
     }
 
-    public function check(): CheckInfo
+    public function check(bool $withNetwork = false): CheckInfo
     {
         try {
             $this->checkClientConnection();

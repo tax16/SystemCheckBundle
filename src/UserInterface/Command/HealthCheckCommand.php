@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tax16\SystemCheckBundle\UserInterface\Command;
 
 use Symfony\Component\Console\Command\Command;
@@ -11,10 +13,13 @@ use Tax16\SystemCheckBundle\Core\Domain\Model\HealthCheck;
 
 class HealthCheckCommand extends Command
 {
-    protected static $defaultName = 'app:health:check';
+    protected static $defaultName = 'system-check:health:check';
 
     protected static $defaultDescription = 'Execute health check of the application by command line';
 
+    /**
+     * @var HealthCheckHandler
+     */
     private $healthCheckHandler;
 
     public function __construct(HealthCheckHandler $healthCheckHandler)

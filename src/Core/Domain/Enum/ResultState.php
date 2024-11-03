@@ -1,7 +1,6 @@
 <?php
-
+declare(strict_types=1);
 namespace Tax16\SystemCheckBundle\Core\Domain\Enum;
-
 
 use Tax16\SystemCheckBundle\Core\Domain\Constant\SystemEdgeColor;
 use Tax16\SystemCheckBundle\Core\Domain\Constant\SystemNodeColor;

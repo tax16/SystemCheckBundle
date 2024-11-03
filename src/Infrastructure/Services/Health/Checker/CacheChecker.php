@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker;
 
 use Tax16\SystemCheckBundle\Core\Domain\Constant\CheckerIcon;
@@ -9,7 +11,14 @@ use Tax16\SystemCheckBundle\Core\Domain\Service\ServiceCheckInterface;
 
 class CacheChecker implements ServiceCheckInterface
 {
+    /**
+     * @var mixed
+     */
     private $cacheClient;
+
+    /**
+     * @var string
+     */
     private $cacheType;
 
     /**
@@ -23,7 +32,7 @@ class CacheChecker implements ServiceCheckInterface
         $this->cacheClient = $cacheClient;
     }
 
-    public function check(): CheckInfo
+    public function check(bool $withNetwork = false): CheckInfo
     {
         try {
             if (CacheType::REDIS === $this->cacheType) {

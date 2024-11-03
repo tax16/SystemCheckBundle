@@ -29,14 +29,16 @@
             <div class="select-btn">
                 <span class="sBtn-text">detail > </span>
             </div>
-            <ul class="options">
-                {% for item in check %}
-                    <li class="option">
-                        <span><img src="{{  asset('bundles/systemcheck/images/icon/' ~ item.icon) }}" class="menu-img"/></span>
-                        <span class="option-text">{{ item.label }}</span>
-                    </li>
-                {% endfor %}
-            </ul>
+            {% if check|length > 0 %}
+                <ul class="options">
+                    {% for item in check %}
+                        <li class="option">
+                            <span><img src="{{  asset('bundles/systemcheck/images/icon/' ~ item.icon) }}" class="menu-img"/></span>
+                            <span class="option-text">{{ item.label }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
         </div>
 
     </div>

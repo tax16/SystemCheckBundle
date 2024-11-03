@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tax16\SystemCheckBundle\Core\Application\DTO;
 
 use Tax16\SystemCheckBundle\Core\Domain\Model\HealthCheck;

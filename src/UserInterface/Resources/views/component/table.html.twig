@@ -1,0 +1,24 @@
+<div class="quiz-window">
+    <div class="quiz-window-body">
+        <div class="gui-window-awards">
+            <ul class="guiz-awards-row guiz-awards-header">
+                <li class="guiz-awards-header-star">&nbsp;</li>
+                <li class="guiz-awards-header-title">Service</li>
+                <li class="guiz-awards-header-track">Type</li>
+                <li class="guiz-awards-header-time">Priority</li>
+            </ul>
+
+            {% for check in datatables %}
+                <ul class="guiz-awards-row guiz-awards-row-even">
+                    <li class="guiz-awards-star"><span class="star {{ check.result.isSuccess ? 'state-ok' : 'state-nok' }}"></span></li>
+                    <li class="guiz-awards-title">{{ check.label }}
+                        <div class="guiz-awards-subtitle">{{ check.description }}</div>
+                    </li>
+                    <li class="guiz-awards-track">{{ check.result.name }}</li>
+                    <li class="guiz-awards-time">{{ check.priority }}</li>
+                </ul>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>

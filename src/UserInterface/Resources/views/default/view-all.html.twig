@@ -3,20 +3,19 @@
 {% block title %}System Check bundle{% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('bundles/systemcheck/css/dialog.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/systemcheck/css/component/dialog.css') }}">
 {% endblock %}
 
 {% block body %}
     <div class="card-container">
-        <div class="search-item">
+        <!--<div class="search-item">
             <div class="search">
                 <input type="text" placeholder="Search" />
                 <button type="submit">
                     <i class="ph-magnifying-glass-bold"></i>
                 </button>
             </div>
-        </div>
-
+        </div>-->
         <div class="card-grid">
             {% for check in resultCheck %}
                 {% include '@SystemCheckBundle/component/card-info.html.twig' %}
@@ -27,5 +26,5 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('bundles/systemcheck/js/dialog.js') }}"></script>
+    <script src="{{ asset('bundles/systemcheck/js/component/dialog.js') }}"></script>
 {% endblock %}

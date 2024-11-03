@@ -2,18 +2,16 @@
 
 namespace unit\Services\Health\Decorator;
 
-
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Tax16\SystemCheckBundle\Core\Domain\Model\CheckInfo;
 use Tax16\SystemCheckBundle\Core\Domain\Model\Eav;
 use Tax16\SystemCheckBundle\Core\Domain\Service\ServiceCheckInterface;
-use Tax16\SystemCheckBundle\Services\Health\Checker\Decorator\ServiceCheckDecorator;
+use Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\Decorator\ServiceCheckDecorator;
 
 class ServiceCheckDecoratorTest extends TestCase
 {
-    private ServiceCheckInterface|MockObject $mockService;
-    private ServiceCheckDecorator $decorator;
+    private $mockService;
+    private $decorator;
 
     protected function setUp(): void
     {

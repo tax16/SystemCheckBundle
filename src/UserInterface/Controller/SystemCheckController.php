@@ -1,17 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tax16\SystemCheckBundle\UserInterface\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tax16\SystemCheckBundle\Core\Application\Helper\HealthCheckHelper;
 use Tax16\SystemCheckBundle\Core\Application\Service\HealthCheckHandler;
 use Tax16\SystemCheckBundle\Core\Domain\Model\HealthCheck;
 
 class SystemCheckController extends AbstractController
 {
-
     private $healthCheckHandler;
 
     public function __construct(HealthCheckHandler $healthCheckHandler)
@@ -22,7 +24,7 @@ class SystemCheckController extends AbstractController
     public function index(): Response
     {
         $categorizedResults = $this->healthCheckHandler->getHealthCheckDashboard();
-        $networkData = $this->healthCheckHandler->getNodeSystem();
+        $networkData = $this->healthCheckHandler->getNodeSystem(false);
 
         return $this->render('@SystemCheckBundle/default/index.html.twig', [
             'successChecks' => $categorizedResults->getSuccessChecks(),
@@ -38,14 +40,14 @@ class SystemCheckController extends AbstractController
         $resultCheck = $this->healthCheckHandler->getHealthCheckResult();
 
         return $this->render('@SystemCheckBundle/default/view-all.html.twig', [
-            'resultCheck' => $resultCheck,
-            'totalChecks' => count($resultCheck),
+            'resultCheck' => HealthCheckHelper::listAllHealthChecks($resultCheck),
+            'totalChecks' => HealthCheckHelper::countHealthChecks($resultCheck)
         ]);
     }
 
     public function network(): Response
     {
-        $networkData = $this->healthCheckHandler->getNodeSystem();
+        $networkData = $this->healthCheckHandler->getNodeSystem(true);
 
         return $this->render('@SystemCheckBundle/default/network.html.twig', [
             'networkData' => json_encode($networkData->toArray()),

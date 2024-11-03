@@ -13,16 +13,30 @@ use Tax16\SystemCheckBundle\Core\Domain\Service\ServiceCheckInterface;
 
 class HttpServiceChecker implements ServiceCheckInterface, HttpServiceCheckInterface
 {
+    /**
+     * @var string
+     */
     private $url;
-    private $statusCode;
-    private $httpClient;
-    private $toTrace = false;
-    private $response;
 
     /**
-     * @var HealthCheck[]
+     * @var int
      */
-    private $childrenProcess = [];
+    private $statusCode;
+
+    /**
+     * @var HttpClientInterface
+     */
+    private $httpClient;
+
+    /**
+     * @var bool
+     */
+    private $toTrace = false;
+
+    /**
+     * @var ResponseInterface|null  $response the HTTP response object (if trace is enabled)
+     */
+    private $response;
 
     /**
      * @param string                   $url        the full URL of the HTTP service to check
@@ -37,15 +51,16 @@ class HttpServiceChecker implements ServiceCheckInterface, HttpServiceCheckInter
     }
 
     /**
+     * @param bool $withNetwork
      * @return CheckInfo the result of the HTTP service check
      */
-    public function check(): CheckInfo
+    public function check(bool $withNetwork = false): CheckInfo
     {
         try {
-            $response = $this->httpClient->request('GET', $this->url.'?trace='.$this->isToTrace());
+            $response = $this->httpClient->request('GET', $this->url);
 
             $statusCode = $response->getStatusCode();
-            if ($this->toTrace) {
+            if ($this->toTrace && $withNetwork) {
                 $this->response = $response;
             }
 

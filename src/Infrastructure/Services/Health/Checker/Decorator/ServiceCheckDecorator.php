@@ -1,6 +1,8 @@
 <?php
 
-namespace Tax16\SystemCheckBundle\Services\Health\Checker\Decorator;
+declare(strict_types=1);
+
+namespace Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\Decorator;
 
 use Tax16\SystemCheckBundle\Core\Domain\Model\CheckInfo;
 use Tax16\SystemCheckBundle\Core\Domain\Model\Eav;
@@ -14,6 +16,9 @@ class ServiceCheckDecorator implements ServiceCheckInterface
 
     private const EAV_CPU_USE = 'cpu_load';
 
+    /**
+     * @var ServiceCheckInterface
+     */
     private $decoratedService;
 
     public function __construct(ServiceCheckInterface $decoratedService)
@@ -21,7 +26,7 @@ class ServiceCheckDecorator implements ServiceCheckInterface
         $this->decoratedService = $decoratedService;
     }
 
-    public function check(): CheckInfo
+    public function check(bool $withNetwork = false): CheckInfo
     {
         $startTime = microtime(true);
         $startMemory = memory_get_usage();

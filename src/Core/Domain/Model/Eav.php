@@ -1,10 +1,16 @@
 <?php
-
+declare(strict_types=1);
 namespace Tax16\SystemCheckBundle\Core\Domain\Model;
 
 class Eav
 {
+    /**
+     * @var string
+     */
     private $label;
+    /**
+     * @var
+     */
     private $value;
 
     public function __construct(string $label, $value)

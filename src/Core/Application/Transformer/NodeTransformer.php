@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Tax16\SystemCheckBundle\Core\Application\Transformer;
 
@@ -28,7 +29,7 @@ class NodeTransformer implements TransformerInterface
      *
      * @param array<HealthCheck> $results
      */
-    public function transform(array $results, string $prefix = '', ?string $primaryNodeIndex = null)
+    public function transform(array $results, string $prefix = '', ?string $primaryNodeIndex = null): SystemNetwork
     {
         $primaryNodeIndex = $primaryNodeIndex ?? $prefix.$this->getPrimaryNodeIndex($results);
 

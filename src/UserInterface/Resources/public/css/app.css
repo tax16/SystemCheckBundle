@@ -55,22 +55,32 @@ img {
     margin: 10px;
 }
 
+.responsive-container .component-wrapper:first-child {
+    flex: 0 1 66%;
+}
+
+.responsive-container .component-wrapper:last-child {
+    flex: 0 1 30%;
+}
+
+.separator {
+    width: 70%;           /* Width of the line */
+    margin: 20px auto;    /* Center it horizontally and add some vertical spacing */
+    border-top: 1px solid #ccc;  /* Line style */
+}
+
 .component-wrapper {
-    flex: 1;
-    min-width: 300px;
     box-sizing: border-box;
-    margin: 10px;
-    border: 1px solid #CCCCCC;
     border-radius: 5px;
-    padding: 10px;
+    margin-left: 20px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 768px) {
-    .responsive-container {
-        flex-direction: column;
+    .responsive-container .component-wrapper {
+        flex: 0 1 100%;
     }
 }
-
 
 .header-content {
     display: flex;
@@ -374,7 +384,7 @@ img {
 }
 .content-panel {
     display: none;
-    max-width: 280px;
+    max-width: 150px;
     width: 25%;
     padding: 2rem 1rem 2rem 0;
     margin-right: 3rem;
@@ -417,11 +427,8 @@ img {
     display: flex;
     justify-content: center;
     .chart-container {
-        max-width: 500px;
-        margin-top: 40px;
-        width: 100%;
-        display: flex;
         justify-content: center;
+        margin-top: 30px;
         canvas {
             width: 200px;
             height: 200px;
@@ -448,7 +455,7 @@ img {
         grid-template-columns: repeat(2, 1fr);
     }
     @media (min-width: 1200px) {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
     }
 }
 
@@ -479,16 +486,19 @@ img {
             align-items: center;
             justify-content: center;
             img {
-            // max-width: 85%;
+                margin-top: -10px;
                 max-height: 100%;
             }
         }
-
-        h3 {
-            margin-left: 0.75rem;
-            font-weight: 500;
-        }
     }
+
+}
+.card-title {
+    font-weight: 500;
+    overflow-wrap: break-word;
+    white-space: normal;
+    text-align: center;
+    margin: -15px 5px 0px 5px;
 }
 
 .toggle {

@@ -1,12 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\Rabbit;
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 class RabbitMQConsumer
 {
+    /**
+     * @var AMQPStreamConnection
+     */
     private $connection;
+
+    /**
+     * @var string
+     */
     private $queue;
 
     public function __construct(AMQPStreamConnection $connection, string $queue)

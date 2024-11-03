@@ -24,3 +24,9 @@ services:
     class: Tax16\SystemCheckBundle\Infrastructure\Services\ParameterBagAdapter
     arguments:
       $parameterBag: '@parameter_bag'
+
+  Tax16\SystemCheckBundle\UserInterface\Command\InitSystemCheckCommand:
+    tags: [ 'console.command' ]
+
+  Tax16\SystemCheckBundle\UserInterface\Command\HealthCheckCommand:
+    tags: [ 'console.command' ]

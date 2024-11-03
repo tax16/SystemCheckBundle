@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tax16\SystemCheckBundle\Core\Domain\Enum;
 
 abstract class Enum
@@ -7,7 +9,7 @@ abstract class Enum
     /**
      * Get all constant values from the child class.
      *
-     * @return array
+     * @return mixed[]
      */
     public static function values(): array
     {

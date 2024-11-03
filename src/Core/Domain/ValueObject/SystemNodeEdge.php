@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tax16\SystemCheckBundle\Core\Domain\ValueObject;
 
 class SystemNodeEdge
@@ -10,17 +12,32 @@ class SystemNodeEdge
 
     public const LABEL_LENGTH_MAX = 150;
 
+    /**
+     * @var string
+     */
     private $from;
 
+    /**
+     * @var string
+     */
     private $to;
 
+    /**
+     * @var int
+     */
     private $length;
 
     /** @var array<mixed> */
     private $color;
 
+    /**
+     * @var string|null
+     */
     private $label;
 
+    /**
+     * @var bool|null
+     */
     private $dashes;
 
     /**

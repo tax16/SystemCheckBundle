@@ -2,9 +2,12 @@
 
 {% block title %}System Check bundle{% endblock %}
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('bundles/systemcheck/css/card.css') }}">
-    <link rel="stylesheet" href="{{ asset('bundles/systemcheck/css/drop-down.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/systemcheck/css/component/card.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/systemcheck/css/component/drop-down.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/systemcheck/css/component/table.css') }}">
 {% endblock %}
+
+{% set datatables = successChecks | merge(failedChecks) | merge(warningChecks) %}
 
 {% block body %}
     <div class="card-container text-align">
@@ -27,10 +30,16 @@
                     'status': 'warning'
                 } %}
             </article>
+            <article class="card">
+                {% include '@SystemCheckBundle/component/pie-graph.html.twig' %}
+            </article>
         </div>
+        <div class="separator"></div>
         <div class="responsive-container">
             <div class="component-wrapper">
-                {% include '@SystemCheckBundle/component/pie-graph.html.twig' %}
+                {% include '@SystemCheckBundle/component/table.html.twig' with {
+                    datatables: datatables
+                } %}
             </div>
             <div class="component-wrapper">
                 <div class="network-nodes-dashboard">
@@ -45,5 +54,5 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('bundles/systemcheck/js/drop-down.js') }}"></script>
+    <script src="{{ asset('bundles/systemcheck/js/component/drop-down.js') }}"></script>
 {% endblock %}

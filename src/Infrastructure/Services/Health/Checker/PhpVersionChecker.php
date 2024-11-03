@@ -1,15 +1,22 @@
 <?php
+declare(strict_types=1);
 
 namespace Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker;
 
 use Tax16\SystemCheckBundle\Core\Domain\Constant\CheckerIcon;
 use Tax16\SystemCheckBundle\Core\Domain\Model\CheckInfo;
-use Tax16\SystemCheckBundle\Core\Domain\Model\HealthCheck;
 use Tax16\SystemCheckBundle\Core\Domain\Service\ServiceCheckInterface;
 
 class PhpVersionChecker implements ServiceCheckInterface
 {
+    /**
+     * @var string
+     */
     private $versionToCheck;
+
+    /**
+     * @var string
+     */
     private $operator;
 
     /**
@@ -32,10 +39,11 @@ class PhpVersionChecker implements ServiceCheckInterface
     /**
      * Check the current PHP version against the provided version.
      *
+     * @param bool $withNetwork
      * @param bool $execute
      * @return CheckInfo the result of the check, including the status, message, and criticality level
      */
-    public function check(): CheckInfo
+    public function check(bool $withNetwork = false): CheckInfo
     {
         $currentVersion = $this->getPhpVersion();
 

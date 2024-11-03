@@ -1,0 +1,7 @@
+services:
+  # app_service_check1:
+    # class: Tax16\SystemCheckBundle\Services\Health\Checker\HttpServiceChecker
+    # arguments:
+      # - 'http://nginx2/system-check/health'
+    # tags:
+      #- { name: 'system_check.health_check', label: 'http_client_1', priority: 2, description: 'Health check for test 1 via HTTP client' }

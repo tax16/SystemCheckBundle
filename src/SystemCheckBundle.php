@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tax16\SystemCheckBundle;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;

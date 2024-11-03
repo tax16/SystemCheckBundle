@@ -1,12 +1,24 @@
 <?php
-
+declare(strict_types=1);
 namespace Tax16\SystemCheckBundle\Core\Domain\Model;
 
 class CheckInfo
 {
+    /**
+     * @var string
+     */
     private $name;
+    /**
+     * @var bool|null
+     */
     private $success;
+    /**
+     * @var string|null
+     */
     private $message;
+    /**
+     * @var string|null
+     */
     private $stack;
 
     /**

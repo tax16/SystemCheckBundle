@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Tax16\SystemCheckBundle\Core\Application\Service;
 
@@ -21,6 +22,10 @@ class HealthCheckProcessor implements HealthCheckProcessorInterface
      * @var iterable<array<string, mixed>>
      */
     private $healthChecks;
+
+    /**
+     * @var ApplicationLoggerInterface
+     */
     private $logger;
 
     /**
@@ -39,8 +44,9 @@ class HealthCheckProcessor implements HealthCheckProcessorInterface
 
     /**
      * {@inheritdoc}
+     * @param bool $withNetwork
      */
-    public function process(): array
+    public function process(bool $withNetwork = false): array
     {
         if ($cachedResults = $this->getCachedResults()) {
             return $cachedResults;
@@ -48,8 +54,11 @@ class HealthCheckProcessor implements HealthCheckProcessorInterface
 
         $results = [];
         foreach ($this->healthChecks as $check) {
+            if (!$withNetwork && $check['parent']) {
+                continue;
+            }
             $this->isValidParentService($check);
-            $results[] = $this->createHealthCheckDTO($check);
+            $results[] = $this->createHealthCheckDTO($check, $withNetwork);
         }
 
         $this->buildHierarchy($results);
@@ -123,7 +132,7 @@ class HealthCheckProcessor implements HealthCheckProcessorInterface
      *
      * @param array<string, mixed> $check
      */
-    private function createHealthCheckDTO(array $check): HealthCheck
+    private function createHealthCheckDTO(array $check, bool $withNetwork = false): HealthCheck
     {
         if (false === $check['execute']) {
             return new HealthCheck(
@@ -141,7 +150,7 @@ class HealthCheckProcessor implements HealthCheckProcessorInterface
             );
         }
 
-        $resultData = $check['service']->check();
+        $resultData = $check['service']->check($withNetwork);
 
         return new HealthCheck(
             $resultData,
@@ -165,22 +174,17 @@ class HealthCheckProcessor implements HealthCheckProcessorInterface
             $parentId = $check->getParent();
 
             if ($parentId !== null) {
-                // Try to find the parent in the main results array
                 $parent = $this->findParentOnTheResults($results, $parentId);
 
                 if ($parent !== null) {
-                    // Add this check as a child to the found parent
                     $parent->getResult()->addChildren($check);
-                    // Remove the child from the main results array
                     unset($results[$index]);
                 } else {
-                    // If parent does not exist, log a warning
                     $this->logger->warning('Parent health check not found for child check.', ['parent_id' => $parentId]);
                 }
             }
         }
 
-        // Re-index the results array after unsetting elements
         $results = array_values($results);
     }
 
@@ -206,7 +210,6 @@ class HealthCheckProcessor implements HealthCheckProcessorInterface
             }
         }
 
-        // Return null if parent not found
         return null;
     }
 }
