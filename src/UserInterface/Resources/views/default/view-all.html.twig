@@ -1,0 +1,23 @@
+{% extends '@SystemCheckBundle/base.html.twig' %}
+
+{% block title %}System Check bundle{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/systemcheck/css/component/dialog.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/systemcheck/css/component/card-index.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="card-container">
+        <div class="card-grid">
+            {% for check in resultCheck %}
+                {% include '@SystemCheckBundle/component/card-info.html.twig' %}
+                {% include '@SystemCheckBundle/component/dialog.html.twig' %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('bundles/systemcheck/js/component/dialog.js') }}"></script>
+{% endblock %}

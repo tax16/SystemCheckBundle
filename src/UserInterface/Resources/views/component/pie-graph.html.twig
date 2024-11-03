@@ -1,0 +1,14 @@
+<div class="outer-container">
+    <div class="chart-container">
+        <canvas id="resultChart"></canvas>
+    </div>
+</div>
+<script id="successChecksData" type="application/json">{{ successChecks|json_encode }}</script>
+<script id="failedChecksData" type="application/json">{{ failedChecks|json_encode }}</script>
+<script id="warningChecksData" type="application/json">{{ warningChecks|json_encode }}</script>
+
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ asset('bundles/systemcheck/js/component/chart.js') }}"></script>
+{% endblock %}
+

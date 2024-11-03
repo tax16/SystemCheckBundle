@@ -1,0 +1,110 @@
+dialog {
+    padding: 50px;
+    border-radius: 5px;
+    border: 0;
+
+    &::backdrop {
+        background: rgba(0, 0, 0, 0.4);
+    }
+
+    &[open],
+    &::backdrop {
+        animation: show 500ms ease;
+    }
+}
+
+.modal-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--c-background-primary);
+    color: var(--c-text-black);
+    text-align: center;
+    border-radius: 20px;
+
+    button.close {
+        width: 30px;
+        font-size: 20px;
+        color: var(--c-text-secondary);
+        align-self: flex-end;
+        background-color: transparent;
+        border: none;
+        margin-bottom: 10px;
+    }
+
+    img {
+        width: 82px;
+        margin-bottom: 15px;
+    }
+
+    p {
+        margin-bottom: 0px;
+        max-width: 500px;
+        font-size: 18px;
+    }
+
+    button.success {
+        background-color: var(--c-background-success);
+        border: none;
+        border-radius: 5px;
+        width: 200px;
+        padding: 14px;
+        font-size: 16px;
+        color: var(--c-background-primary);
+        box-shadow: 0px 6px 18px -5px rgba(45, 213, 81, 0.7);
+    }
+
+    button.failed {
+        background-color: var(--c-background-light-red);
+        border: none;
+        border-radius: 5px;
+        width: 200px;
+        padding: 14px;
+        font-size: 16px;
+        color: var(--c-background-primary);
+        box-shadow: 0px 6px 18px -5px rgba(237, 32, 5, 0.7);
+    }
+}
+
+.content-table {
+    border-collapse: collapse;
+    margin: 50px 0 45px;
+    font-size: 0.9em;
+    min-width: 400px;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.content-table thead tr {
+    background-color: var(--c-text-secondary);
+    color: var(--c-background-primary);
+    text-align: left;
+    font-weight: bold;
+}
+
+.content-table th,
+.content-table td {
+    padding: 12px 15px;
+}
+
+.content-table td {
+    text-align: left;
+}
+
+.content-table tbody tr {
+    border-bottom: 1px solid var(--c-border-primary);
+}
+
+.content-table tbody tr:nth-of-type(even) {
+    background-color: var(--c-background-light-gray);
+}
+
+.content-table tbody tr:last-of-type {
+    border-bottom: 2px solid var(--c-border-primary);
+}
+
+.content-table tbody tr.active-row {
+    font-weight: bold;
+    color: var(--c-text-gray);
+}

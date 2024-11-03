@@ -1,0 +1,14 @@
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/systemcheck/css/component/network.css') }}">
+{% endblock %}
+
+<div id="mynetwork"></div>
+
+{% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+    <script>
+        let networkData = {{ networkData|raw }};
+    </script>
+
+    <script src="{{ asset('bundles/systemcheck/js/component/network.js') }}"></script>
+{% endblock %}

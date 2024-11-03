@@ -1,0 +1,30 @@
+{# templates/base.html.twig #}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}System Check Status{% endblock %}</title>
+    {% block stylesheets %}{% endblock %}
+    <link rel="stylesheet" href="{{ asset('bundles/systemcheck/css/app.css') }}">
+</head>
+{% include '@SystemCheckBundle/default/layout/header.html.twig' %}
+<body>
+    <main class="main">
+        <div class="responsive-wrapper">
+            {% include '@SystemCheckBundle/default/layout/head-menu.html.twig' %}
+            <div class="content">
+                {% include '@SystemCheckBundle/default/layout/side-menu.html.twig' %}
+                <div class="content-main">
+                    {% block body %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </main>
+
+</body>
+
+{% include '@SystemCheckBundle/default/layout/footer.html.twig' %}
+
+{% block javascripts %}
+{% endblock %}
+</html>

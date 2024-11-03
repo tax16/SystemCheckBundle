@@ -1,0 +1,59 @@
+{% extends '@SystemCheckBundle/base.html.twig' %}
+
+{% block title %}System Check bundle{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/systemcheck/css/component/card.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/systemcheck/css/component/card-index.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/systemcheck/css/component/drop-down.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/systemcheck/css/component/table.css') }}">
+{% endblock %}
+
+{% set datatables = successChecks | merge(failedChecks) | merge(warningChecks) %}
+
+{% block body %}
+    <div class="card-container text-align">
+        <div class="card-grid">
+            <article class="card">
+                {% include '@SystemCheckBundle/component/card.html.twig' with {
+                    'check': successChecks,
+                    'status': 'success'
+                } %}
+            </article>
+            <article class="card">
+                {% include '@SystemCheckBundle/component/card.html.twig' with {
+                    'check': failedChecks,
+                    'status': 'failed'
+                } %}
+            </article>
+            <article class="card">
+                {% include '@SystemCheckBundle/component/card.html.twig' with {
+                    'check': warningChecks,
+                    'status': 'warning'
+                } %}
+            </article>
+            <article class="card">
+                {% include '@SystemCheckBundle/component/pie-graph.html.twig' %}
+            </article>
+        </div>
+        <div class="separator"></div>
+        <div class="responsive-container">
+            <div class="component-wrapper">
+                {% include '@SystemCheckBundle/component/table.html.twig' with {
+                    datatables: datatables
+                } %}
+            </div>
+            <div class="component-wrapper">
+                <div class="network-nodes-dashboard">
+                    {% include '@SystemCheckBundle/component/node.html.twig' with {
+                        networkData: networkData
+                    } %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('bundles/systemcheck/js/component/drop-down.js') }}"></script>
+{% endblock %}
