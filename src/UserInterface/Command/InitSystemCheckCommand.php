@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tax16\SystemCheckBundle\UserInterface\Command;
 
+use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -14,9 +15,9 @@ class InitSystemCheckCommand extends Command
 {
     protected static $defaultName = 'system-check:init';
 
-    private const ASSETS_SOURCE = __DIR__ . '/../../UserInterface/Resources/public/';
+    private const ASSETS_SOURCE = __DIR__.'/../../UserInterface/Resources/public/';
     private const ASSETS_DESTINATION = '/public/bundles/systemcheck';
-    private const CONFIG_SOURCE = __DIR__ . '/../../Resources/config/packages/';
+    private const CONFIG_SOURCE = __DIR__.'/../../Resources/config/packages/';
     private const CONFIG_DESTINATION = '/config/packages/';
     private const CONFIG_FILES = [
         'system_check.yaml',
@@ -30,8 +31,14 @@ class InitSystemCheckCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        /**
+         * @var Application $application
+         */
+        $application = $this->getApplication();
+
         $filesystem = new Filesystem();
-        $projectDir = $this->getApplication()->getKernel()->getProjectDir();
+
+        $projectDir = $application->getKernel()->getProjectDir();
 
         $this->copyAssets($filesystem, $output, $projectDir);
 
@@ -42,7 +49,7 @@ class InitSystemCheckCommand extends Command
 
     private function copyAssets(Filesystem $filesystem, OutputInterface $output, string $projectDir): void
     {
-        $destination = $projectDir . self::ASSETS_DESTINATION;
+        $destination = $projectDir.self::ASSETS_DESTINATION;
 
         try {
             $output->writeln('<info>Copying assets...</info>');
@@ -54,20 +61,20 @@ class InitSystemCheckCommand extends Command
             $filesystem->mirror(self::ASSETS_SOURCE, $destination);
             $output->writeln('<info>Assets copied successfully.</info>');
         } catch (IOExceptionInterface $exception) {
-            $output->writeln('<error>Error copying assets: ' . $exception->getPath() . '</error>');
+            $output->writeln('<error>Error copying assets: '.$exception->getPath().'</error>');
         }
     }
 
     private function copyConfigFiles(Filesystem $filesystem, OutputInterface $output, string $projectDir): void
     {
-        $destinationConfig = $projectDir . self::CONFIG_DESTINATION;
+        $destinationConfig = $projectDir.self::CONFIG_DESTINATION;
 
         try {
             $output->writeln('<info>Copying configuration files...</info>');
 
             foreach (self::CONFIG_FILES as $file) {
-                $sourceFile = self::CONFIG_SOURCE . $file;
-                $destinationFile = $destinationConfig . $file;
+                $sourceFile = self::CONFIG_SOURCE.$file;
+                $destinationFile = $destinationConfig.$file;
 
                 if ($filesystem->exists($destinationFile)) {
                     $output->writeln("<info>File '$file' exists, skipping copy.</info>");
@@ -79,7 +86,7 @@ class InitSystemCheckCommand extends Command
             }
             $output->writeln('<info>Configuration files copied successfully.</info>');
         } catch (IOExceptionInterface $exception) {
-            $output->writeln('<error>Error copying configuration files: ' . $exception->getPath() . '</error>');
+            $output->writeln('<error>Error copying configuration files: '.$exception->getPath().'</error>');
         }
     }
 }

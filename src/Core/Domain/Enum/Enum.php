@@ -14,14 +14,14 @@ abstract class Enum
     public static function values(): array
     {
         $reflection = new \ReflectionClass(static::class);
+
         return array_values($reflection->getConstants());
     }
 
     /**
      * Check if a given value is valid in the enum.
      *
-     * @param mixed $value
-     * @return bool
+     * @param mixed|int|string $value
      */
     public static function isValid($value): bool
     {
@@ -31,8 +31,8 @@ abstract class Enum
     /**
      * Get the enum value if it exists, or throw an exception if it does not.
      *
-     * @param mixed $value
-     * @return mixed
+     * @param mixed|int|string $value
+     *
      * @throws \InvalidArgumentException
      */
     public static function from($value): string
@@ -42,8 +42,8 @@ abstract class Enum
 
         $name = array_search($value, $constants, true);
 
-        if ($name === false) {
-            throw new \InvalidArgumentException("Invalid value '$value' for enum " . static::class);
+        if (false === $name) {
+            throw new \InvalidArgumentException("Invalid value '$value' for enum ".static::class);
         }
 
         return $name;

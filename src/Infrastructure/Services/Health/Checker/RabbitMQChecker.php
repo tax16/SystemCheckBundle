@@ -14,7 +14,7 @@ use Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\Rabbit\Rabbit
 class RabbitMQChecker implements ServiceCheckInterface
 {
     /**
-     * @var
+     * @var AMQPStreamConnection
      */
     private $connection;
 
@@ -58,7 +58,6 @@ class RabbitMQChecker implements ServiceCheckInterface
      */
     private $cacert;
 
-
     public function __construct(
         string $host,
         int $port,
@@ -67,7 +66,7 @@ class RabbitMQChecker implements ServiceCheckInterface
         string $queue,
         string $mode,
         string $vhost = '/',
-        ?string $cacert = null
+        ?string $cacert = null,
     ) {
         assert(RabbitMQMode::isValid($mode));
 
@@ -82,7 +81,8 @@ class RabbitMQChecker implements ServiceCheckInterface
     }
 
     /**
-     * @return RabbitMQConsumer|RabbitMQSender|null
+     * @return RabbitMQConsumer|RabbitMQSender
+     *
      * @throws \Exception
      */
     private function createClientConnection()
@@ -111,6 +111,7 @@ class RabbitMQChecker implements ServiceCheckInterface
             ]);
 
             $connection->connect();
+
             return;
         }
 
@@ -118,6 +119,7 @@ class RabbitMQChecker implements ServiceCheckInterface
 
         if ($client instanceof RabbitMQSender) {
             $client->sendMessage('Health Check');
+
             return;
         }
 

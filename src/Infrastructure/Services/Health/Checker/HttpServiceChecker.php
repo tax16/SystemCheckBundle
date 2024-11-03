@@ -8,7 +8,6 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use Tax16\SystemCheckBundle\Core\Domain\Constant\CheckerIcon;
 use Tax16\SystemCheckBundle\Core\Domain\Model\CheckInfo;
-use Tax16\SystemCheckBundle\Core\Domain\Model\HealthCheck;
 use Tax16\SystemCheckBundle\Core\Domain\Service\ServiceCheckInterface;
 
 class HttpServiceChecker implements ServiceCheckInterface, HttpServiceCheckInterface
@@ -34,7 +33,7 @@ class HttpServiceChecker implements ServiceCheckInterface, HttpServiceCheckInter
     private $toTrace = false;
 
     /**
-     * @var ResponseInterface|null  $response the HTTP response object (if trace is enabled)
+     * @var ResponseInterface|null the HTTP response object (if trace is enabled)
      */
     private $response;
 
@@ -51,7 +50,6 @@ class HttpServiceChecker implements ServiceCheckInterface, HttpServiceCheckInter
     }
 
     /**
-     * @param bool $withNetwork
      * @return CheckInfo the result of the HTTP service check
      */
     public function check(bool $withNetwork = false): CheckInfo

@@ -10,10 +10,7 @@ use Tax16\SystemCheckBundle\Core\Domain\Enum\RabbitMQMode;
 class RabbitMQFactory
 {
     /**
-     * @param AMQPStreamConnection $connection
-     * @param string $queue
-     * @param string $mode
-     * @return RabbitMQConsumer|RabbitMQSender|void
+     * @return RabbitMQConsumer|RabbitMQSender
      */
     public static function create(AMQPStreamConnection $connection, string $queue, string $mode)
     {

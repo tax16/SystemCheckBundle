@@ -33,7 +33,7 @@ class HttpDecoratorCompilerPass implements CompilerPassInterface
                 ->setDecoratedService($id, null, 2)
                 ->setAutowired(false)
                 ->setPublic(false)
-                ->addArgument(new Reference($decoratedServiceId . '.inner'))
+                ->addArgument(new Reference($decoratedServiceId.'.inner'))
                 ->addArgument(new Reference(ConfigurationProviderInterface::class))
                 ->addArgument(new Reference('request_stack'));
         }

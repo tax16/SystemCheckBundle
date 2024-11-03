@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace Tax16\SystemCheckBundle\Core\Domain\Enum;
 
 use Tax16\SystemCheckBundle\Core\Domain\Constant\SystemEdgeColor;
@@ -12,6 +14,9 @@ class ResultState extends Enum
     public const ERROR = 'error';
     public const NO_CHECK = 'no_check';
 
+    /**
+     * @var string
+     */
     private $state;
 
     private const NODE_STYLES = [
@@ -27,7 +32,6 @@ class ResultState extends Enum
         self::ERROR => SystemEdgeColor::ERROR,
         self::NO_CHECK => SystemEdgeColor::NO_CHECK,
     ];
-
 
     public function __construct(string $state)
     {

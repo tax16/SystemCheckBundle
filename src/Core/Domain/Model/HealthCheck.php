@@ -132,14 +132,12 @@ class HealthCheck
             throw new \InvalidArgumentException('Result value not valid.');
         }
 
-        $priority = CriticalityLevel::from($data['priority']);
-
         return new self(
             $result,
             $data['label'],
             $data['id'],
             $data['description'],
-            $priority,
+            $data['priority'],
             $data['icon'] ?? CheckerIcon::UNKNOWN
         );
     }

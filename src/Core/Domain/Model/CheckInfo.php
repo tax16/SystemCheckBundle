@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace Tax16\SystemCheckBundle\Core\Domain\Model;
 
 class CheckInfo
@@ -39,7 +41,7 @@ class CheckInfo
         ?bool $success,
         ?string $message = null,
         ?string $stack = null,
-        ?array $eav = []
+        ?array $eav = [],
     ) {
         $this->name = $name;
         $this->success = $success;
@@ -112,7 +114,7 @@ class CheckInfo
 
     public function hasChildren(): bool
     {
-        return count($this->children) > 0;
+        return count($this->children ?? []) > 0;
     }
 
     /**

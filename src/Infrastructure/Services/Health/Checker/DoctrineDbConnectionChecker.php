@@ -35,7 +35,6 @@ class DoctrineDbConnectionChecker implements ServiceCheckInterface
     /**
      * Check the Doctrine DB connection by pinging the database.
      *
-     * @param bool $withNetwork
      * @return CheckInfo the result of the Doctrine DB connection check
      */
     public function check(bool $withNetwork = false): CheckInfo

@@ -9,6 +9,9 @@ use Tax16\SystemCheckBundle\Core\Domain\Port\ConfigurationProviderInterface;
 
 class ParameterBagAdapter implements ConfigurationProviderInterface
 {
+    /**
+     * @var ParameterBagInterface
+     */
     private $parameterBag;
 
     public function __construct(ParameterBagInterface $parameterBag)
@@ -17,7 +20,7 @@ class ParameterBagAdapter implements ConfigurationProviderInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @return array<mixed>|bool|float|int|string|null
      */
     public function get(string $key)
     {

@@ -7,8 +7,7 @@ namespace Tax16\SystemCheckBundle\Core\Domain\Port;
 interface ConfigurationProviderInterface
 {
     /**
-     * @param string $key
-     * @return mixed
+     * @return array<mixed>|bool|float|int|string|null
      */
     public function get(string $key);
 }

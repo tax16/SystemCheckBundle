@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker;
@@ -39,8 +40,6 @@ class PhpVersionChecker implements ServiceCheckInterface
     /**
      * Check the current PHP version against the provided version.
      *
-     * @param bool $withNetwork
-     * @param bool $execute
      * @return CheckInfo the result of the check, including the status, message, and criticality level
      */
     public function check(bool $withNetwork = false): CheckInfo

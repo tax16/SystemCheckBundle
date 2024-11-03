@@ -12,7 +12,7 @@ use Tax16\SystemCheckBundle\Core\Domain\Service\ServiceCheckInterface;
 class CacheChecker implements ServiceCheckInterface
 {
     /**
-     * @var mixed
+     * @var object|mixed
      */
     private $cacheClient;
 
@@ -22,8 +22,8 @@ class CacheChecker implements ServiceCheckInterface
     private $cacheType;
 
     /**
-     * @param mixed $cacheClient The cache client (Redis, Memcached, etc.)
-     * @param string $cacheType the type of cache being checked
+     * @param mixed  $cacheClient The cache client (Redis, Memcached, etc.)
+     * @param string $cacheType   the type of cache being checked
      */
     public function __construct($cacheClient, string $cacheType = CacheType::REDIS)
     {

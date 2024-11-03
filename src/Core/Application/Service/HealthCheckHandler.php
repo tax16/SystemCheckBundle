@@ -3,6 +3,7 @@
 namespace Tax16\SystemCheckBundle\Core\Application\Service;
 
 use Tax16\SystemCheckBundle\Core\Application\DTO\HealthCheckCategory;
+use Tax16\SystemCheckBundle\Core\Application\Helper\StringHelper;
 use Tax16\SystemCheckBundle\Core\Application\Transformer\DashboardTransformer;
 use Tax16\SystemCheckBundle\Core\Application\Transformer\NodeTransformer;
 use Tax16\SystemCheckBundle\Core\Domain\Constant\CheckerIcon;
@@ -46,7 +47,7 @@ class HealthCheckHandler
         HealthCheckProcessorInterface $checkProcessor,
         DashboardTransformer $dashboardTransformer,
         NodeTransformer $nodeTransformer,
-        ConfigurationProviderInterface $parameterBag
+        ConfigurationProviderInterface $parameterBag,
     ) {
         $this->logger = $logger;
         $this->checkProcessor = $checkProcessor;
@@ -55,6 +56,9 @@ class HealthCheckHandler
 
         $appName = $parameterBag->get('system_check.name');
         $appId = $parameterBag->get('system_check.id');
+
+        $appName = StringHelper::validateNonEmptyString($appName, 'Application name');
+        $appId = StringHelper::validateNonEmptyString($appId, 'Application id');
 
         if (empty($appName)) {
             throw new \InvalidArgumentException('Application name is required');
@@ -72,7 +76,6 @@ class HealthCheckHandler
             CheckerIcon::UNKNOWN
         );
     }
-
 
     public function getHealthCheckDashboard(): HealthCheckCategory
     {

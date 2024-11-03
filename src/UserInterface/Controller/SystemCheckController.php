@@ -14,6 +14,9 @@ use Tax16\SystemCheckBundle\Core\Domain\Model\HealthCheck;
 
 class SystemCheckController extends AbstractController
 {
+    /**
+     * @var HealthCheckHandler
+     */
     private $healthCheckHandler;
 
     public function __construct(HealthCheckHandler $healthCheckHandler)
@@ -41,7 +44,7 @@ class SystemCheckController extends AbstractController
 
         return $this->render('@SystemCheckBundle/default/view-all.html.twig', [
             'resultCheck' => HealthCheckHelper::listAllHealthChecks($resultCheck),
-            'totalChecks' => HealthCheckHelper::countHealthChecks($resultCheck)
+            'totalChecks' => HealthCheckHelper::countHealthChecks($resultCheck),
         ]);
     }
 
@@ -54,7 +57,6 @@ class SystemCheckController extends AbstractController
             'totalChecks' => count($networkData->getEdges()),
         ]);
     }
-
 
     public function healthJson(Request $request): Response
     {

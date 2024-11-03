@@ -19,25 +19,16 @@ class PsrLoggerAdapter implements ApplicationLoggerInterface
         $this->logger = $logger;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function info(string $message, array $context = []): void
     {
         $this->logger->info($message, $context);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function error(string $message, array $context = []): void
     {
         $this->logger->error($message, $context);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function warning(string $message, array $context = []): void
     {
         $this->logger->warning($message, $context);

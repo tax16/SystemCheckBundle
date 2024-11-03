@@ -10,7 +10,8 @@ interface TransformerInterface
 {
     /**
      * @param array<HealthCheck> $results
-     * @return mixed
+     *
+     * @return mixed|mixed[
      */
     public function transform(array $results);
 }

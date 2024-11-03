@@ -1,9 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tax16\SystemCheckBundle\Core\Application\Service;
 
-use InvalidArgumentException;
 use Tax16\SystemCheckBundle\Core\Domain\Enum\CriticalityLevel;
 use Tax16\SystemCheckBundle\Core\Domain\Model\CheckInfo;
 use Tax16\SystemCheckBundle\Core\Domain\Model\HealthCheck;
@@ -35,17 +35,13 @@ class HealthCheckProcessor implements HealthCheckProcessorInterface
     {
         foreach ($healthChecks as $check) {
             if (!$check['service'] instanceof ServiceCheckInterface) {
-                throw new InvalidArgumentException('Service must implement HealthCheckServiceInterface');
+                throw new \InvalidArgumentException('Service must implement HealthCheckServiceInterface');
             }
         }
         $this->healthChecks = $healthChecks;
         $this->logger = $logger;
     }
 
-    /**
-     * {@inheritdoc}
-     * @param bool $withNetwork
-     */
     public function process(bool $withNetwork = false): array
     {
         if ($cachedResults = $this->getCachedResults()) {
@@ -92,30 +88,30 @@ class HealthCheckProcessor implements HealthCheckProcessorInterface
     }
 
     /**
-     * @param array $check
      * @param array<string, mixed> $check
      */
-    private function isValidParentService(array $check): bool
+    private function isValidParentService(array $check): void
     {
         if (empty($check['parent'])) {
-            return true;
+            return;
         }
 
         if ($check['parent'] === $check['id']) {
-            $this->logger->error('Circular reference detected in health check configuration: ' . $check['id']);
-            throw new InvalidArgumentException('Circular reference detected in health check configuration: ' . $check['id']);
+            $this->logger->error('Circular reference detected in health check configuration: '.$check['id']);
+            throw new \InvalidArgumentException('Circular reference detected in health check configuration: '.$check['id']);
         }
 
-        $parentCheck = $this->findParentOnConfiguredService($this->healthChecks, $check['parent']);
+        $parentCheck = $this->findParentOnConfiguredService((array) $this->healthChecks, $check['parent']);
 
         if (!$parentCheck->isAllowedToHaveChildren()) {
             $this->logger->error(sprintf('Service %s does not allow children.', $check['parent']));
-            throw new InvalidArgumentException(sprintf('Service %s does not allow children.', $check['parent']));
+            throw new \InvalidArgumentException(sprintf('Service %s does not allow children.', $check['parent']));
         }
-
-        return true;
     }
 
+    /**
+     * @param mixed[] $configured
+     */
     private function findParentOnConfiguredService(array $configured, string $parentId): ServiceCheckInterface
     {
         foreach ($configured as $configuredCheck) {
@@ -124,7 +120,7 @@ class HealthCheckProcessor implements HealthCheckProcessorInterface
             }
         }
 
-        throw new InvalidArgumentException('Parent health check not found in configured health checks.');
+        throw new \InvalidArgumentException('Parent health check not found in configured health checks.');
     }
 
     /**
@@ -173,10 +169,10 @@ class HealthCheckProcessor implements HealthCheckProcessorInterface
         foreach ($results as $index => $check) {
             $parentId = $check->getParent();
 
-            if ($parentId !== null) {
+            if (null !== $parentId) {
                 $parent = $this->findParentOnTheResults($results, $parentId);
 
-                if ($parent !== null) {
+                if (null !== $parent) {
                     $parent->getResult()->addChildren($check);
                     unset($results[$index]);
                 } else {
@@ -192,8 +188,6 @@ class HealthCheckProcessor implements HealthCheckProcessorInterface
      * Find a parent HealthCheckDTO by ID recursively.
      *
      * @param array<HealthCheck> $results
-     * @param string $parentId
-     * @return HealthCheck|null
      */
     private function findParentOnTheResults(array $results, string $parentId): ?HealthCheck
     {
@@ -203,8 +197,8 @@ class HealthCheckProcessor implements HealthCheckProcessorInterface
             }
 
             if ($check->getResult()->hasChildren()) {
-                $foundParent = $this->findParentOnTheResults($check->getResult()->getChildren(), $parentId);
-                if ($foundParent !== null) {
+                $foundParent = $this->findParentOnTheResults($check->getResult()->getChildren() ?? [], $parentId);
+                if (null !== $foundParent) {
                     return $foundParent;
                 }
             }

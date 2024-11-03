@@ -68,6 +68,6 @@ class ServiceCheckDecorator implements ServiceCheckInterface
 
     public function isAllowedToHaveChildren(): bool
     {
-        return $this->decoratedService->isAllowedToHaveChildren();;
+        return $this->decoratedService->isAllowedToHaveChildren();
     }
 }

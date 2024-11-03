@@ -10,8 +10,6 @@ services:
     working_dir: /var/www
     networks:
       - test-network
-    depends_on:
-      - db
 
   php81:
     build:
@@ -22,8 +20,6 @@ services:
     working_dir: /var/www
     networks:
       - test-network
-    depends_on:
-      - db
 
 networks:
   test-network:

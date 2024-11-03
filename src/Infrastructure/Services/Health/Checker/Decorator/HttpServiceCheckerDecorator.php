@@ -7,6 +7,7 @@ namespace Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\Decorat
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
+use Tax16\SystemCheckBundle\Core\Application\Helper\StringHelper;
 use Tax16\SystemCheckBundle\Core\Domain\Model\CheckInfo;
 use Tax16\SystemCheckBundle\Core\Domain\Model\HealthCheck;
 use Tax16\SystemCheckBundle\Core\Domain\Port\ConfigurationProviderInterface;
@@ -27,13 +28,15 @@ class HttpServiceCheckerDecorator implements HttpServiceCheckInterface
     public function __construct(
         HttpServiceCheckInterface $httpServiceCheck,
         ConfigurationProviderInterface $parameterBag,
-        RequestStack $requestStack
+        RequestStack $requestStack,
     ) {
         $request = $requestStack->getCurrentRequest();
 
+        $paramId = StringHelper::validateNonEmptyString($parameterBag->get('system_check.id'), 'id');
+
         $this->applicationId = $request
-            ? $request->headers->get('X-Trace-Id', $parameterBag->get('system_check.id'))
-            : $parameterBag->get('system_check.id');
+            ? $request->headers->get('X-Trace-Id', $paramId)
+            : $paramId;
 
         $this->httpServiceCheck = $httpServiceCheck;
     }
@@ -60,7 +63,7 @@ class HttpServiceCheckerDecorator implements HttpServiceCheckInterface
         $response = $this->httpServiceCheck->check();
 
         if ($this->getResponseData()) {
-            $result = json_decode($this->getResponseData()->getContent() ?? '[]', true);
+            $result = json_decode($this->getResponseData()->getContent(), true);
 
             $healthCheckChildren = array_filter(
                 array_map(static function ($data) {

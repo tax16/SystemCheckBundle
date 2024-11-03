@@ -10,14 +10,12 @@ class HealthCheckHelper
 {
     /**
      * @param array<HealthCheck> $healthChecks
-     * @return int
      */
     public static function countHealthChecks(array $healthChecks): int
     {
         $count = 0;
-        foreach ($healthChecks as $healthCheck)
-        {
-            $count++;
+        foreach ($healthChecks as $healthCheck) {
+            ++$count;
             if (count($healthCheck->getResult()->getChildren() ?? []) > 0) {
                 $count += self::countHealthChecks($healthCheck->getResult()->getChildren());
             }
@@ -28,6 +26,7 @@ class HealthCheckHelper
 
     /**
      * @param array<HealthCheck> $healthChecks
+     *
      * @return HealthCheck[]
      */
     public static function listAllHealthChecks(array $healthChecks): array

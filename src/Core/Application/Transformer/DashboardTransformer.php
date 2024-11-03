@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tax16\SystemCheckBundle\Core\Application\Transformer;
@@ -11,8 +12,10 @@ class DashboardTransformer implements TransformerInterface
 {
     /**
      * @param array<HealthCheck> $results
+     *
+     * @return HealthCheckCategory the transformed data structure for the dashboard view
      */
-    public function transform(array $results): HealthCheckCategory
+    public function transform(array $results)
     {
         $successChecks = [];
         $failedChecks = [];

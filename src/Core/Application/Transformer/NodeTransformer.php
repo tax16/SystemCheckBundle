@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tax16\SystemCheckBundle\Core\Application\Transformer;
@@ -57,9 +58,9 @@ class NodeTransformer implements TransformerInterface
      */
     private function transformHealthCheckToEdges(
         HealthCheck $checkDTO,
-        string      $index,
-        string      $primaryNodeIndex,
-        int         $length = SystemNodeEdge::EDGE_LENGTH_SUB
+        string $index,
+        string $primaryNodeIndex,
+        int $length = SystemNodeEdge::EDGE_LENGTH_SUB,
     ): SystemNodeEdge {
         return new SystemNodeEdge(
             $primaryNodeIndex,
@@ -110,7 +111,7 @@ class NodeTransformer implements TransformerInterface
         if ($checkDTO->getResult()->isSuccess()) {
             return new ResultState(ResultState::SUCCESS);
         }
-        if ($checkDTO->getResult()->isSuccess() === null) {
+        if (null === $checkDTO->getResult()->isSuccess()) {
             return new ResultState(ResultState::NO_CHECK);
         }
 

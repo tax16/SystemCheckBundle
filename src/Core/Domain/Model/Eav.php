@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace Tax16\SystemCheckBundle\Core\Domain\Model;
 
 class Eav
@@ -8,11 +10,15 @@ class Eav
      * @var string
      */
     private $label;
+
     /**
-     * @var
+     * @var mixed|object
      */
     private $value;
 
+    /**
+     * @param mixed|object $value
+     */
     public function __construct(string $label, $value)
     {
         $this->label = $label;
@@ -29,11 +35,17 @@ class Eav
         $this->label = $label;
     }
 
+    /**
+     * @return mixed|object
+     */
     public function getValue()
     {
         return $this->value;
     }
 
+    /**
+     * @param mixed|object $value
+     */
     public function setValue($value): void
     {
         $this->value = $value;
