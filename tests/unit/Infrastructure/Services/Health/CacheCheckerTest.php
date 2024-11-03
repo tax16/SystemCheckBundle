@@ -1,11 +1,11 @@
 <?php
 
-namespace unit\Services\Health;
+namespace unit\Infrastructure\Services\Health;
 
 use PHPUnit\Framework\TestCase;
 use Redis;
 use Tax16\SystemCheckBundle\Core\Domain\Enum\CacheType;
-use Tax16\SystemCheckBundle\Services\Health\Checker\CacheChecker;
+use Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\CacheChecker;
 
 class CacheCheckerTest extends TestCase
 {

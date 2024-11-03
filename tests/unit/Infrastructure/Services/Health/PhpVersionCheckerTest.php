@@ -1,10 +1,10 @@
 <?php
 
-namespace unit\Services\Health;
+namespace unit\Infrastructure\Services\Health;
 
 use Codeception\Test\Unit;
 use Tax16\SystemCheckBundle\Core\Domain\Model\CheckInfo;
-use Tax16\SystemCheckBundle\Services\Health\Checker\PhpVersionChecker;
+use Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\PhpVersionChecker;
 
 class PhpVersionCheckerTest extends Unit
 {

@@ -1,27 +1,31 @@
-
 .select-menu {
     margin-top: -15px;
     margin-left: 100px;
 }
+
 .visibility-none {
     visibility: hidden;
 }
+
 .menu-img {
     width: 40px;
     margin-top: 3px;
     margin-right: 13px;
 }
+
 .visible {
     visibility: visible;
 }
+
 .select-menu .select-btn {
     padding-top: 42px;
     font-size: 12px;
     text-align: right;
     font-weight: 400;
     cursor: pointer;
-    color: #3b0475;
+    color: var(--c-text-select-button);
 }
+
 .select-menu .options {
     position: absolute;
     width: 330px;
@@ -30,15 +34,13 @@
     padding: 10px;
     margin-top: 10px;
     border-radius: 8px;
-    background: #fff;
+    background: var(--c-background-primary);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     animation-name: fadeInDown;
-    -webkit-animation-name: fadeInDown;
     animation-duration: 0.35s;
     animation-fill-mode: both;
-    -webkit-animation-duration: 0.35s;
-    -webkit-animation-fill-mode: both;
 }
+
 .select-menu .options .option {
     display: flex;
     height: 55px;
@@ -46,18 +48,21 @@
     padding: 0 16px;
     border-radius: 8px;
     align-items: center;
-    background: #fff;
+    background: var(--c-background-primary);
 }
+
 .select-menu .options .option:hover {
-    background: #f2f2f2;
+    background: var(--c-background-quaternary);
 }
+
 .select-menu .options .option i {
     font-size: 25px;
     margin-right: 12px;
 }
+
 .select-menu .options .option .option-text {
     font-size: 18px;
-    color: #333;
+    color: var(--c-text-option);
 }
 
 .select-btn i {
@@ -68,16 +73,14 @@
 .select-menu.active .select-btn i {
     transform: rotate(-180deg);
 }
+
 .select-menu.active .options {
     display: block;
     opacity: 0;
     z-index: 10;
     animation-name: fadeInUp;
-    -webkit-animation-name: fadeInUp;
     animation-duration: 0.4s;
     animation-fill-mode: both;
-    -webkit-animation-duration: 0.4s;
-    -webkit-animation-fill-mode: both;
 }
 
 @keyframes fadeInUp {
@@ -89,6 +92,7 @@
         opacity: 1;
     }
 }
+
 @keyframes fadeInDown {
     from {
         transform: translate3d(0, 0, 0);

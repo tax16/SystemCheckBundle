@@ -1,5 +1,4 @@
 var network = null;
-
 function draw() {
     var container = document.getElementById("mynetwork");
     var options = {
@@ -50,7 +49,6 @@ function draw() {
         }
     };
     network = new vis.Network(container, networkData, options);
-    console.log(network.getSeed());
 }
 
 window.addEventListener("load", () => {

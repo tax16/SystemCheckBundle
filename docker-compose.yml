@@ -25,17 +25,6 @@ services:
     depends_on:
       - db
 
-  db:
-    image: mysql:5.7
-    container_name: db
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: test
-    networks:
-      - test-network
-    volumes:
-      - mysql-data:/var/lib/mysql
-
 networks:
   test-network:
 

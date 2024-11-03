@@ -1,15 +1,9 @@
 .card {
-    --primary-clr: #8b8686;
-    --dot-clr: #BBC0FF;
-    --play: hsl(195, 74%, 62%);
     width: 200px;
     height: 170px;
     border-radius: 10px;
-}
-
-.card {
     font-family: "Arial";
-    color: #fff;
+    color: var(--c-text-black);
     display: grid;
     cursor: pointer;
     grid-template-rows: 50px 1fr;
@@ -26,7 +20,7 @@
     top: -10px;
     display: grid;
     gap: 10px;
-    background: var(--primary-clr);
+    background: var(--c-background-gray);
 }
 
 .card-time {
@@ -38,17 +32,16 @@
     transition: 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    background: hsl(116.83deg 64.01% 57.07%);
+    background: var(--c-background-success);
 }
 
 .card-header {
     display: flex;
     align-items: center;
     width: 100%;
-    background: white;
+    background: var(--c-background-primary);
     border-radius: 10px;
-    color: #656565;
-
+    color: var(--c-text-secondary);
 }
 
 .card-title-state {
@@ -58,25 +51,25 @@
 }
 
 .card-menu {
-display: flex;
-gap: 4px;
-margin-inline: auto;
+    display: flex;
+    gap: 4px;
+    margin-inline: auto;
 }
 
 .card svg {
-float: right;
-max-width: 100%;
-max-height: 100%;
+    float: right;
+    max-width: 100%;
+    max-height: 100%;
 }
 
 .card .dot {
-width: 5px;
-height: 5px;
-border-radius: 50%;
-background: var(--dot-clr);
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--c-text-light-blue);
 }
 
 .card .recent {
-line-height: 0;
-font-size: 0.8em;
+    line-height: 0;
+    font-size: 0.8em;
 }

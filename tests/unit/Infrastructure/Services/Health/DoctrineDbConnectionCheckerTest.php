@@ -1,11 +1,11 @@
 <?php
 
-namespace unit\Services\Health;
+namespace unit\Infrastructure\Services\Health;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
-use Tax16\SystemCheckBundle\Services\Health\Checker\DoctrineDbConnectionChecker;
+use Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\DoctrineDbConnectionChecker;
 
 class DoctrineDbConnectionCheckerTest extends TestCase
 {

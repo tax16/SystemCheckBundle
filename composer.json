@@ -37,23 +37,6 @@
             "email": "tahiana0@gmail.com"
         }
     ],
-    "extra": {
-        "symfony": {
-            "assets": {
-                "public": "SystemCheckBundle/UserInterface/Resources/public"
-            }
-        },
-        "public-dir": "UserInterface/Resources/public"
-    },
-    "scripts": {
-        "post-install-cmd": [
-            "Tax16\\SystemCheckBundle\\Scripts\\InstallScript::installConfig"
-        ],
-        "post-update-cmd": [
-            "Tax16\\SystemCheckBundle\\Scripts\\InstallScript::installConfig"
-        ]
-    },
-
     "config": {
         "allow-plugins": {
             "phpro/grumphp-shim": true

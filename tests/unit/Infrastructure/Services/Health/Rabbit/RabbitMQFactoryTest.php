@@ -1,13 +1,13 @@
 <?php
 
-namespace unit\Services\Health\Class;
+namespace unit\Infrastructure\Services\Health\Rabbit;
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PHPUnit\Framework\TestCase;
 use Tax16\SystemCheckBundle\Core\Domain\Enum\RabbitMQMode;
-use Tax16\SystemCheckBundle\Services\Health\Checker\Class\RabbitMQConsumer;
-use Tax16\SystemCheckBundle\Services\Health\Checker\Class\RabbitMQFactory;
-use Tax16\SystemCheckBundle\Services\Health\Checker\Class\RabbitMQSender;
+use Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\Rabbit\RabbitMQConsumer;
+use Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\Rabbit\RabbitMQFactory;
+use Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\Rabbit\RabbitMQSender;
 
 class RabbitMQFactoryTest extends TestCase
 {

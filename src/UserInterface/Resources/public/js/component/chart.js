@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", function() {
     const successChecks = JSON.parse(document.getElementById('successChecksData').textContent);
     const failedChecks = JSON.parse(document.getElementById('failedChecksData').textContent);

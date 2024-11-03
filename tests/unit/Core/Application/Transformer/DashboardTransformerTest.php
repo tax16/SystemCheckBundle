@@ -1,6 +1,6 @@
 <?php
 
-namespace unit\Services\Health\Transformer;
+namespace unit\Core\Application\Transformer;
 
 use PHPUnit\Framework\TestCase;
 use Tax16\SystemCheckBundle\Core\Application\DTO\HealthCheckCategory;

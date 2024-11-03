@@ -56,6 +56,10 @@ class HealthCheckHandler
         $appName = $parameterBag->get('system_check.name');
         $appId = $parameterBag->get('system_check.id');
 
+        if (empty($appName)) {
+            throw new \InvalidArgumentException('Application name is required');
+        }
+
         $this->head = new HealthCheck(
             new CheckInfo(
                 $appName,

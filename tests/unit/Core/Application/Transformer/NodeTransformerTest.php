@@ -1,9 +1,9 @@
 <?php
 
-namespace unit\Services\Health\Transformer;
+namespace unit\Core\Application\Transformer;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Tax16\SystemCheckBundle\Core\Application\Exception\NotFoundException;
 use Tax16\SystemCheckBundle\Core\Application\Transformer\NodeTransformer;
 use Tax16\SystemCheckBundle\Core\Domain\Enum\CriticalityLevel;
 use Tax16\SystemCheckBundle\Core\Domain\Model\CheckInfo;
@@ -70,7 +70,7 @@ class NodeTransformerTest extends TestCase
             new HealthCheck(new CheckInfo("Check 2", true), "fake_id_2", "Label 2", "Description 2", CriticalityLevel::LOW),
         ];
 
-        $this->expectException(NotFoundHttpException::class);
+        $this->expectException(NotFoundException::class);
         $this->expectExceptionMessage('The primary node was not found.');
 
         $this->transformer->transform($results);
@@ -80,7 +80,7 @@ class NodeTransformerTest extends TestCase
     {
         $results = [];
 
-        $this->expectException(NotFoundHttpException::class);
+        $this->expectException(NotFoundException::class);
         $this->expectExceptionMessage('The primary node was not found.');
 
         $this->transformer->transform($results);

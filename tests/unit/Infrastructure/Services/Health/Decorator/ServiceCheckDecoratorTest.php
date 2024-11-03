@@ -1,6 +1,6 @@
 <?php
 
-namespace unit\Services\Health\Decorator;
+namespace unit\Infrastructure\Services\Health\Decorator;
 
 use PHPUnit\Framework\TestCase;
 use Tax16\SystemCheckBundle\Core\Domain\Model\CheckInfo;

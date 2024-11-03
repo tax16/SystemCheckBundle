@@ -1,56 +1,68 @@
-
 .quiz-window-header {
     padding: 20px 15px;
-    text-align:center;
+    text-align: center;
     position: relative;
 }
+
 .quiz-window-close {
     position: absolute;
-    top:20px;
-    right:20px;
-    padding:0;
-    background:none;
-    border:0;
+    top: 20px;
+    right: 20px;
+    padding: 0;
+    background: none;
+    border: 0;
     width: 30px;
     height: 30px;
     font-size: 60px;
     font-weight: 100;
     line-height: 24px;
-    color: #777;
-    cursor:pointer;
+    color: var(--c-text-secondary);
+    cursor: pointer;
 }
+
 .quiz-window-body {
-    background-color: #f9f9f9;
+    background-color: var(--c-background-secondary);
 }
+
 .guiz-awards-row {
-    margin:0;
+    margin: 0;
     padding: 10px 40px;
     list-style: none;
 }
+
 .guiz-awards-row:after {
     content: '';
     display: table;
-    clear:both;
+    clear: both;
 }
+
 .guiz-awards-row-even {
-    background-color: #fff;
-    border: 1px solid #ededed;
+    background-color: #ffffff;
+    border: 1px solid var(--c-border-light);
 }
+
 .guiz-awards-row li {
-    display:inline-block;
+    display: inline-block;
     vertical-align: top;
     float: left;
 }
+
 .guiz-awards-header {
     text-align: center;
     padding: 20px 40px;
 }
-.guiz-awards-star, .guiz-awards-track, .guiz-awards-time,
-.guiz-awards-header-star, .guiz-awards-header-track, .guiz-awards-header-time{
+
+.guiz-awards-star,
+.guiz-awards-track,
+.guiz-awards-time,
+.guiz-awards-header-star,
+.guiz-awards-header-track,
+.guiz-awards-header-time {
     min-width: 54px;
     text-align: center;
     width: 16%;
 }
+
 .guiz-awards-title {
     text-align: left;
     width: 40%;
@@ -59,63 +71,75 @@
     font-weight: normal;
     padding-top: 3px;
 }
+
 .guiz-awards-header-title {
     width: 40%;
     min-width: 160px;
 }
+
 .guiz-awards-subtitle {
-    color: #858585;
+    color: var(--c-text-gray);
     font-size: 14px;
     font-weight: 300;
 }
-.guiz-awards-track, .guiz-awards-time {
+
+.guiz-awards-track,
+.guiz-awards-time {
     width: 22%;
     min-width: 80px;
     font-size: 18px;
-    line-height: 45px
+    line-height: 45px;
 }
-.guiz-awards-header-track, .guiz-awards-header-time {
+
+.guiz-awards-header-track,
+.guiz-awards-header-time {
     width: 22%;
     min-width: 80px;
 }
-.guiz-awards-track .null, .guiz-awards-time .null {
-    color:#bababa;
+
+.guiz-awards-track .null,
+.guiz-awards-time .null {
+    color: var(--c-text-gray);
 }
+
 .star {
-    display:block;
+    display: block;
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    border: 2px solid #bdc2c1;
-    background: #d6d6d6;
+    border: 2px solid var(--c-border-light);
+    background: var(--c-background-light-gray);
 }
+
 .state-nok {
     border-color: #934c59;
     background: #bf141a;
 }
+
 .state-ok {
     border-color: #557e3a;
     background: #66931f;
 }
+
 .state-warning {
     border-color: #998247;
     background: #aa984b;
 }
 
 .guiz-awards-but-back {
-    display:inline-block;
+    display: inline-block;
     background: none;
-    border: 1px solid #61a3e5;
+    border: 1px solid var(--c-accent-primary);
     border-radius: 21px;
     padding: 7px 40px 7px 20px;
-    color: #61a3e5;
+    color: var(--c-accent-primary);
     font-size: 17px;
-    cursor:pointer;
-    transition: all .3s ease;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .guiz-awards-but-back:hover {
-    background: #61a3e5;
+    background: var(--c-accent-primary);
     color: #fff;
 }
 

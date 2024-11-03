@@ -1,11 +1,11 @@
 <?php
 
-namespace unit\Services\Health\Class;
+namespace unit\Infrastructure\Services\Health\Rabbit;
 
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PHPUnit\Framework\TestCase;
-use Tax16\SystemCheckBundle\Services\Health\Checker\Class\RabbitMQSender;
+use Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\Rabbit\RabbitMQSender;
 
 class RabbitMQSenderTest extends TestCase
 {
@@ -26,7 +26,7 @@ class RabbitMQSenderTest extends TestCase
         $sender = new RabbitMQSender($connection, 'test_queue');
         $sender->sendMessage('Test Message');
 
-        $this->assertTrue(true); // If no exception is thrown, the test is successful
+        $this->assertTrue(true);
     }
 
     /**

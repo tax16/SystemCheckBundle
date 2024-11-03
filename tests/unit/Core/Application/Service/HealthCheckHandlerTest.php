@@ -1,10 +1,8 @@
 <?php
 
-namespace unit\Services\Health;
+namespace unit\Core\Application\Service;
 
 use PHPUnit\Framework\TestCase;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Tax16\SystemCheckBundle\Core\Application\DTO\HealthCheckCategory;
 use Tax16\SystemCheckBundle\Core\Application\Service\HealthCheckHandler;
 use Tax16\SystemCheckBundle\Core\Application\Service\HealthCheckProcessor;
@@ -14,34 +12,63 @@ use Tax16\SystemCheckBundle\Core\Domain\Constant\CheckerIcon;
 use Tax16\SystemCheckBundle\Core\Domain\Enum\CriticalityLevel;
 use Tax16\SystemCheckBundle\Core\Domain\Model\CheckInfo;
 use Tax16\SystemCheckBundle\Core\Domain\Model\HealthCheck;
+use Tax16\SystemCheckBundle\Core\Domain\Port\ApplicationLoggerInterface;
+use Tax16\SystemCheckBundle\Core\Domain\Port\ConfigurationProviderInterface;
 use Tax16\SystemCheckBundle\Core\Domain\ValueObject\SystemNetwork;
 
 class HealthCheckHandlerTest extends TestCase
 {
+    /**
+     * @var HealthCheckHandler
+     */
     private $handler;
+
+    /**
+     * @var ApplicationLoggerInterface
+     */
     private $loggerMock;
+
+    /**
+     * @var HealthCheckProcessor
+     */
     private $processorMock;
+
+    /**
+     * @var DashboardTransformer
+     */
     private $dashboardTransformerMock;
+
+    /**
+     * @var NodeTransformer
+     */
     private $nodeTransformerMock;
+
+    /**
+     * @var ConfigurationProviderInterface
+     */
     private $parameterBagMock;
 
     protected function setUp(): void
     {
-        // Create a mock logger
-        $this->loggerMock = $this->createMock(LoggerInterface::class);
+        $this->loggerMock = $this->createMock(ApplicationLoggerInterface::class);
 
-        // Create mock for HealthCheckProcessor
         $this->processorMock = $this->createMock(HealthCheckProcessor::class);
 
-        // Create mock for DashboardTransformer
         $this->dashboardTransformerMock = $this->createMock(DashboardTransformer::class);
 
-        // Create mock for NodeTransformer
         $this->nodeTransformerMock = $this->createMock(NodeTransformer::class);
 
-        $this->parameterBagMock = $this->createMock(ParameterBagInterface::class);
-
-        // Instantiate the HealthCheckHandler with mocked dependencies
+        $this->parameterBagMock = $this->createMock(ConfigurationProviderInterface::class);
+        $this->parameterBagMock->method('get')
+            ->willReturnCallback(function ($key) {
+                if ($key === 'system_check.name') {
+                    return 'some_name';
+                }
+                if ($key === 'system_check.id') {
+                    return 'some_id';
+                }
+                return 'some_value';
+            });
         $this->handler = new HealthCheckHandler(
             $this->loggerMock,
             $this->processorMock,
@@ -53,7 +80,6 @@ class HealthCheckHandlerTest extends TestCase
 
     public function testGetHealthCheckDashboardReturnsCorrectDTO(): void
     {
-        // Mocking the results from the HealthCheckProcessor
         $mockResults = [
             new HealthCheck(
                 new CheckInfo('Check 1', true),
@@ -73,23 +99,19 @@ class HealthCheckHandlerTest extends TestCase
             ),
         ];
 
-        $this->processorMock->method('performChecks')->willReturn($mockResults);
+        $this->processorMock->method('process')->willReturn($mockResults);
 
-        // Mocking the dashboard transformation
         $mockDashboardDTO = new HealthCheckCategory([], [], []);
         $this->dashboardTransformerMock->method('transform')->willReturn($mockDashboardDTO);
 
-        // Call the method
         $result = $this->handler->getHealthCheckDashboard();
 
-        // Assert that the result is of type HealthCheckCategoryDTO
         $this->assertInstanceOf(HealthCheckCategory::class, $result);
-        $this->assertSame($mockDashboardDTO, $result); // Assert that the returned DTO is the same as the mocked one
+        $this->assertSame($mockDashboardDTO, $result);
     }
 
     public function testGetHealthCheckResultReturnsCorrectArray(): void
     {
-        // Mocking the results from the HealthCheckProcessor
         $mockResults = [
             new HealthCheck(
                 new CheckInfo('Check 1', true),
@@ -101,20 +123,18 @@ class HealthCheckHandlerTest extends TestCase
             ),
         ];
 
-        $this->processorMock->method('performChecks')->willReturn($mockResults);
+        $this->processorMock->method('process')->willReturn($mockResults);
 
         // Call the method
         $result = $this->handler->getHealthCheckResult();
 
-        // Assert that the result is an array
         $this->assertIsArray($result);
-        $this->assertCount(1, $result); // Expecting one health check result
-        $this->assertInstanceOf(HealthCheck::class, $result[0]); // Assert type of the first element
+        $this->assertCount(1, $result);
+        $this->assertInstanceOf(HealthCheck::class, $result[0]);
     }
 
     public function testGetNodeSystemReturnsCorrectSystemNetwork(): void
     {
-        // Mocking the results from the HealthCheckProcessor
         $mockResults = [
             new HealthCheck(
                 new CheckInfo('Check 1', true),
@@ -126,17 +146,14 @@ class HealthCheckHandlerTest extends TestCase
             ),
         ];
 
-        $this->processorMock->method('performChecks')->willReturn($mockResults);
+        $this->processorMock->method('process')->willReturn($mockResults);
 
-        // Mock the SystemNetwork return value for node transformation
         $mockSystemNetwork = new SystemNetwork([], []);
         $this->nodeTransformerMock->method('transform')->willReturn($mockSystemNetwork);
 
-        // Call the method
         $result = $this->handler->getNodeSystem();
 
-        // Assert that the result is of type SystemNetwork
         $this->assertInstanceOf(SystemNetwork::class, $result);
-        $this->assertSame($mockSystemNetwork, $result); // Assert that the returned system network is the same as the mocked one
+        $this->assertSame($mockSystemNetwork, $result);
     }
 }
