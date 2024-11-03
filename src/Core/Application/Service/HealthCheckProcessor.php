@@ -14,9 +14,11 @@ use Tax16\SystemCheckBundle\Core\Domain\Service\ServiceCheckInterface;
 class HealthCheckProcessor implements HealthCheckProcessorInterface
 {
     /**
-     * @var array<HealthCheck>|null
+     * @var array<int, array<HealthCheck>>
      */
-    private $cachedResults;
+    private $cachedResults = [
+        0 => [], 1 => [],
+    ];
 
     /**
      * @var iterable<array<string, mixed>>
@@ -44,7 +46,7 @@ class HealthCheckProcessor implements HealthCheckProcessorInterface
 
     public function process(bool $withNetwork = false): array
     {
-        if ($cachedResults = $this->getCachedResults()) {
+        if ($cachedResults = $this->getCachedResults($withNetwork)) {
             return $cachedResults;
         }
 
@@ -56,13 +58,12 @@ class HealthCheckProcessor implements HealthCheckProcessorInterface
             $this->isValidParentService($check);
             $results[] = $this->createHealthCheckDTO($check, $withNetwork);
         }
-
         $this->buildHierarchy($results);
 
-        $this->cachedResults = $results;
+        $this->cachedResults[$withNetwork] = $results;
         $this->logger->info('Health checks processed.', ['results' => $this->cachedResults]);
 
-        return $this->cachedResults;
+        return $this->cachedResults[$withNetwork];
     }
 
     /**
@@ -70,21 +71,23 @@ class HealthCheckProcessor implements HealthCheckProcessorInterface
      */
     public function clearCache(): void
     {
-        $this->cachedResults = null;
+        $this->cachedResults = [
+            0 => [], 1 => [],
+        ];
     }
 
     /**
      * Retrieve cached results if available.
      *
-     * @return array<HealthCheck>|null
+     * @return array<HealthCheck>
      */
-    private function getCachedResults(): ?array
+    private function getCachedResults(bool $withNetwork = false): array
     {
-        if (null !== $this->cachedResults) {
+        if (null !== $this->cachedResults[$withNetwork]) {
             $this->logger->info('Cached health check results loaded.', ['results' => $this->cachedResults]);
         }
 
-        return $this->cachedResults;
+        return $this->cachedResults[$withNetwork];
     }
 
     /**

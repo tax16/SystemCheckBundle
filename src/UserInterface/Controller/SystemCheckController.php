@@ -81,8 +81,8 @@ class SystemCheckController extends AbstractController
         return  new JsonResponse($responseData, Response::HTTP_OK);
     }
 
-    public function healthHtml(): Response
+    public function ping(): Response
     {
-        return new Response('System check html', 200);
+        return new Response('pong', 200);
     }
 }

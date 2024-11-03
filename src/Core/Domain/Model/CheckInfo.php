@@ -130,6 +130,9 @@ class CheckInfo
             'eav' => $this->eav ? array_map(static function ($eavDTO) {
                 return $eavDTO->toArray();
             }, $this->eav) : null,
+            'children' => $this->children ? array_map(static function ($children) {
+                return $children->toArray();
+            }, $this->children) : null,
         ];
     }
 
