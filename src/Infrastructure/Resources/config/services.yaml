@@ -20,11 +20,6 @@ services:
     arguments:
       - '@Psr\Log\LoggerInterface'
 
-  Tax16\SystemCheckBundle\Core\Domain\Port\ConfigurationProviderInterface:
-    class: Tax16\SystemCheckBundle\Infrastructure\Services\ParameterBagAdapter
-    arguments:
-      $parameterBag: '@parameter_bag'
-
   Tax16\SystemCheckBundle\UserInterface\Command\InitSystemCheckCommand:
     tags: [ 'console.command' ]
 

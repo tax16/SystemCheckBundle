@@ -12,17 +12,22 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('system_check');
-        $rootNode = $treeBuilder->getRootNode();
+
+        if (method_exists($treeBuilder, 'getRootNode')) {
+            $rootNode = $treeBuilder->getRootNode();
+        } else {
+            $rootNode = $treeBuilder->root('system_check'); // @phpstan-ignore-line
+        }
 
         $rootNode
             ->addDefaultsIfNotSet()
             ->children()
-                ->scalarNode('id')
-                    ->defaultNull()
-                    ->end()
-                ->scalarNode('name')
-                    ->defaultValue('APPLICATION_NAME')
-                    ->end()
+            ->scalarNode('id')
+            ->defaultNull()
+            ->end()
+            ->scalarNode('name')
+            ->defaultValue('APPLICATION_NAME')
+            ->end()
             ->end();
 
         return $treeBuilder;

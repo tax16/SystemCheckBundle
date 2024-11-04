@@ -6,6 +6,7 @@ namespace Tax16\SystemCheckBundle\UserInterface\Command;
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Command\Command;
+use Tax16\SystemCheckBundle\Core\Domain\Constant\Command as ConstantCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
@@ -17,7 +18,7 @@ class InitSystemCheckCommand extends Command
 
     private const ASSETS_SOURCE = __DIR__.'/../../UserInterface/Resources/public/';
     private const ASSETS_DESTINATION = '/public/bundles/systemcheck';
-    private const CONFIG_SOURCE = __DIR__.'/../../Resources/config/packages/';
+    private const CONFIG_SOURCE = __DIR__.'/../../Infrastructure/Resources/config/packages/';
     private const CONFIG_DESTINATION = '/config/packages/';
     private const CONFIG_FILES = [
         'system_check.yaml',
@@ -44,7 +45,7 @@ class InitSystemCheckCommand extends Command
 
         $this->copyConfigFiles($filesystem, $output, $projectDir);
 
-        return Command::SUCCESS;
+        return ConstantCommand::SUCCESS;
     }
 
     private function copyAssets(Filesystem $filesystem, OutputInterface $output, string $projectDir): void

@@ -7,14 +7,7 @@
 
 ## 🚀 Installation
 
-1. **Add the bundle via Composer**  
-   Run the following command in your terminal:
-
-   ```bash
-   composer require tax16/SystemCheckBundle
-   ```
-
-2. **Configure `composer.json`**  
+1. **Configure `composer.json`**  
    Add this repository to the `repositories` section of your `composer.json` file:
 
    ```json
@@ -25,6 +18,13 @@
        }
    ]
    ```
+2. **Add the bundle via Composer**  
+   Run the following command in your terminal:
+
+   ```bash
+   composer require tax16/SystemCheckBundle
+   ```
+
 
 3. **Initialize the bundle**  
    After installation, run the following command:
@@ -33,7 +33,17 @@
    php bin/console system-check:init
    ```
 
-4. **Access the System Check page**  
+4. **Update twig.yaml**  
+   If you want to use the UI, you need to add this path on the packages/twig.yaml
+
+   ```yaml
+   twig:
+        # other path
+       paths:
+         '%kernel.project_dir%/vendor/tax16/system-check-bundle/src/UserInterface/Resources/views': SystemCheckBundle
+   ```
+
+5. **Access the System Check page**  
    After initialization, you can access the system check page at `/system-check/index`.
 
    ⚠️ *Note*: Make sure to review any security restrictions on your URLs.
@@ -48,8 +58,7 @@
     - Php version
 
 - **Custom Checks**  
-  You can add custom checks tailored to your application requirements by implementing `Tax16\SystemCheckBundle\Core\Domain\Service\ServiceCheckInterface`
-
+  You can add custom checks tailored to your application requirements by implementing `Tax16\SystemCheckBundle\Core\Domain\Service\ServiceCheckInterface`, After add tags, label and priority like on the Usage.
 ## 🔧 Usage
 
 To configure custom checks, define them in `config/packages/system_services.yaml`. Below is an example configuration for a custom HTTP service check:
@@ -136,8 +145,4 @@ app_service_check1:
    make phpunit
    ```
    
-## 📄 License
-
-This bundle is open-source and available under the MIT License.
-
 Happy coding! 🎉

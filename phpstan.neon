@@ -9,3 +9,4 @@ parameters:
     excludePaths:
         - tests/*
         - vendor/*
+    treatPhpDocTypesAsCertain: false
