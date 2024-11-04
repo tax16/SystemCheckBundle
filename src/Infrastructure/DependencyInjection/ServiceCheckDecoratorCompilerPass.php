@@ -6,6 +6,7 @@ namespace Tax16\SystemCheckBundle\Infrastructure\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 use Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\Decorator\ServiceCheckDecorator;
 
 class ServiceCheckDecoratorCompilerPass implements CompilerPassInterface
@@ -19,6 +20,7 @@ class ServiceCheckDecoratorCompilerPass implements CompilerPassInterface
 
             $container->register($decoratedServiceId, ServiceCheckDecorator::class)
                 ->setDecoratedService($id)
+                ->setArgument('$decoratedService', new Reference($decoratedServiceId.'.inner'))
                 ->setAutowired(true)
                 ->setPublic(true);
         }

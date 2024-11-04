@@ -10,6 +10,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Tax16\SystemCheckBundle\Infrastructure\DependencyInjection\HealthCheckCompilerPass;
 use Tax16\SystemCheckBundle\Infrastructure\DependencyInjection\HttpDecoratorCompilerPass;
 use Tax16\SystemCheckBundle\Infrastructure\DependencyInjection\ServiceCheckDecoratorCompilerPass;
+use Tax16\SystemCheckBundle\Infrastructure\DependencyInjection\SetConfigurationProviderPass;
 use Tax16\SystemCheckBundle\Infrastructure\DependencyInjection\SystemCheckExtension;
 
 class SystemCheckBundle extends Bundle
@@ -20,6 +21,7 @@ class SystemCheckBundle extends Bundle
 
         $container->addCompilerPass(new HealthCheckCompilerPass());
         $container->addCompilerPass(new HttpDecoratorCompilerPass());
+        $container->addCompilerPass(new SetConfigurationProviderPass());
         $container->addCompilerPass(new ServiceCheckDecoratorCompilerPass());
     }
 

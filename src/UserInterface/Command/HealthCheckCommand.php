@@ -10,6 +10,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Tax16\SystemCheckBundle\Core\Application\Service\HealthCheckHandler;
 use Tax16\SystemCheckBundle\Core\Domain\Model\HealthCheck;
+use Tax16\SystemCheckBundle\Core\Domain\Constant\Command as ConstantCommand;
 
 class HealthCheckCommand extends Command
 {
@@ -58,11 +59,11 @@ class HealthCheckCommand extends Command
         $this->createTable($output, 'Failed Checks', $failedChecks);
         $this->createTable($output, 'Warning Checks', $warningChecks);
 
-        $result = Command::SUCCESS;
+        $result = ConstantCommand::SUCCESS;
 
         if (count($failedChecks) > 0) {
             $output->writeln('System K.O! 😞');
-            $result = Command::FAILURE;
+            $result = ConstantCommand::FAILURE;
         } else {
             $output->writeln('System O.K! 😊');
         }
