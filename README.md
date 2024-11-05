@@ -62,7 +62,7 @@
 ## 🔧 Usage
 
 To configure custom checks, define them in `config/packages/system_services.yaml`. Below is an example configuration for a custom HTTP service check:
-
+- Example of file: [Download the file](doc/example/system_services.yaml)
 ```yaml
 # config/packages/system_services.yaml
 app_service_check1:
