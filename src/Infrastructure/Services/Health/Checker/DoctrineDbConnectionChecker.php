@@ -7,10 +7,8 @@ namespace Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker;
 use Doctrine\ORM\EntityManagerInterface;
 use Tax16\SystemCheckBundle\Core\Domain\Constant\CheckerIcon;
 use Tax16\SystemCheckBundle\Core\Domain\Model\CheckInfo;
-use Tax16\SystemCheckBundle\Core\Domain\Model\HealthCheck;
-use Tax16\SystemCheckBundle\Core\Domain\Service\ServiceCheckInterface;
 
-class DoctrineDbConnectionChecker implements ServiceCheckInterface
+class DoctrineDbConnectionChecker extends AbstractChecker
 {
     /**
      * @var EntityManagerInterface
@@ -28,6 +26,8 @@ class DoctrineDbConnectionChecker implements ServiceCheckInterface
      */
     public function __construct(EntityManagerInterface $entityManager, string $connectionName = 'default')
     {
+        parent::__construct('Doctrine DB', CheckerIcon::DATABASE);
+
         $this->entityManager = $entityManager;
         $this->connectionName = $connectionName;
     }
@@ -59,31 +59,5 @@ class DoctrineDbConnectionChecker implements ServiceCheckInterface
                 $e->getTraceAsString()
             );
         }
-    }
-
-    /**
-     * Get the name of the health check.
-     */
-    public function getName(): string
-    {
-        return 'Doctrine DB';
-    }
-
-    public function getIcon(): ?string
-    {
-        return CheckerIcon::DATABASE;
-    }
-
-    /**
-     * @param array<HealthCheck> $childrenChecker
-     */
-    public function setChildren(array $childrenChecker): void
-    {
-        throw new \InvalidArgumentException('Not accept child process');
-    }
-
-    public function isAllowedToHaveChildren(): bool
-    {
-        return false;
     }
 }

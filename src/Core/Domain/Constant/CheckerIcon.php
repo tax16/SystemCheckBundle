@@ -12,4 +12,5 @@ class CheckerIcon
     public const RABBIT_MQ = 'rabbitmq.svg';
     public const UNKNOWN = 'unkown-location.png';
     public const WEBSITE = 'website.png';
+    public const ELASTIC = 'elastic.png';
 }

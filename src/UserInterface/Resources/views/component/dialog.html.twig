@@ -2,7 +2,11 @@
     <div class="container">
         <div class="modal-info" id="cookiesPopup">
             <button class="close" data-dialog-close="dialog-{{ check.label }}">✖</button>
-            <img src="{{ asset('bundles/systemcheck/images/icon/' ~ check.icon) }}"  alt="{{ check.icon }}" />
+            {% if asset_exists(check.icon) %}
+                <img src="{{ asset('bundles/systemcheck/images/icon/' ~ check.icon) }}"  alt="{{ check.icon }}" />
+            {% else %}
+                <img src="{{ check.icon }}"  alt="{{ check.icon }}" />
+            {% endif %}
             <h3>{{ check.label }}</h3>
             {% if check.description is not null and check.description|length > 0 %}
                 <p><b>Priority "{{ check.priority }}": </b>{{ check.description }}</p>

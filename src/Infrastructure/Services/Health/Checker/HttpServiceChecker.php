@@ -8,9 +8,8 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use Tax16\SystemCheckBundle\Core\Domain\Constant\CheckerIcon;
 use Tax16\SystemCheckBundle\Core\Domain\Model\CheckInfo;
-use Tax16\SystemCheckBundle\Core\Domain\Service\ServiceCheckInterface;
 
-class HttpServiceChecker implements ServiceCheckInterface, HttpServiceCheckInterface
+class HttpServiceChecker extends AbstractChecker implements HttpServiceCheckInterface
 {
     /**
      * @var string
@@ -44,6 +43,8 @@ class HttpServiceChecker implements ServiceCheckInterface, HttpServiceCheckInter
      */
     public function __construct(string $url, ?int $statusCode = 200, ?HttpClientInterface $httpClient = null)
     {
+        parent::__construct('HTTP Services', CheckerIcon::WEBSITE, true);
+
         $this->url = $url;
         $this->statusCode = $statusCode ?: 200;
         $this->httpClient = $httpClient ?: HttpClient::create();
@@ -94,16 +95,6 @@ class HttpServiceChecker implements ServiceCheckInterface, HttpServiceCheckInter
         }
     }
 
-    public function getName(): string
-    {
-        return 'HTTP Services';
-    }
-
-    public function getIcon(): ?string
-    {
-        return CheckerIcon::WEBSITE;
-    }
-
     public function isToTrace(): bool
     {
         return $this->toTrace;
@@ -131,10 +122,5 @@ class HttpServiceChecker implements ServiceCheckInterface, HttpServiceCheckInter
     public function getResponseData(): ?ResponseInterface
     {
         return $this->response;
-    }
-
-    public function isAllowedToHaveChildren(): bool
-    {
-        return true;
     }
 }

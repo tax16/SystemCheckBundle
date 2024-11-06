@@ -15,6 +15,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Install PHPUnit for testing
 RUN composer global require phpunit/phpunit --prefer-dist --no-progress --no-suggest
+RUN echo "memory_limit = 512M" >> /usr/local/etc/php/conf.d/memory-limit.ini
 
 # Set working directory
 WORKDIR /var/www

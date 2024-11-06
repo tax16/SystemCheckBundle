@@ -41,7 +41,7 @@ class SystemNode
         string $image,
         string $label,
         array $color,
-        string $shape = 'image',
+        string $shape = 'image'
     ) {
         $this->id = $id;
         $this->image = $image;

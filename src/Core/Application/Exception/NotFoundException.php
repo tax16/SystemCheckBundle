@@ -9,7 +9,7 @@ class NotFoundException extends \LogicException
     public function __construct(
         string $message,
         int $code = 404,
-        ?\Throwable $previous = null,
+        ?\Throwable $previous = null
     ) {
         parent::__construct(
             $message,

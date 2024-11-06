@@ -20,4 +20,20 @@ class StringHelper
 
         return $value;
     }
+
+    /**
+     * Safely casts a value to a string or null.
+     *
+     * @param mixed $value the value to cast
+     *
+     * @return string|null the casted value, or null if the value is not set
+     */
+    public static function castToString($value): ?string
+    {
+        if (is_array($value) || is_object($value)) {
+            return null;
+        }
+
+        return null !== $value ? (string) $value : null;
+    }
 }

@@ -41,7 +41,7 @@ class CheckInfo
         ?bool $success,
         ?string $message = null,
         ?string $stack = null,
-        ?array $eav = [],
+        ?array $eav = []
     ) {
         $this->name = $name;
         $this->success = $success;

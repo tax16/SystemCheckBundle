@@ -7,7 +7,13 @@ services:
   Psr\Log\LoggerInterface:
     class: Monolog\Logger
     arguments: ['app']
-      
+
+  Tax16\SystemCheckBundle\Infrastructure\Services\TwigExtension\FileExistsExtension:
+    arguments:
+      $assetPackages: '@assets.packages'
+    tags:
+      - { name: twig.extension }
+
   Tax16\SystemCheckBundle\:
     resource: '../../../*'
     exclude: '../../../{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'

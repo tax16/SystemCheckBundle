@@ -1,4 +1,4 @@
-FPM_CONTAINER=php81
+FPM_CONTAINER=php74
 DC := docker compose
 DC_EXEC := $(DC) exec $(FPM_CONTAINER)
 

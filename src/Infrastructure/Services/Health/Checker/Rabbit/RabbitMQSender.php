@@ -9,7 +9,14 @@ use PhpAmqpLib\Message\AMQPMessage;
 
 class RabbitMQSender
 {
+    /**
+     * @var AMQPStreamConnection
+     */
     private $connection;
+
+    /**
+     * @var string
+     */
     private $queue;
 
     public function __construct(AMQPStreamConnection $connection, string $queue)

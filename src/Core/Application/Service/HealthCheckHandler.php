@@ -47,7 +47,7 @@ class HealthCheckHandler
         HealthCheckProcessorInterface $checkProcessor,
         DashboardTransformer $dashboardTransformer,
         NodeTransformer $nodeTransformer,
-        ConfigurationProviderInterface $parameterBag,
+        ConfigurationProviderInterface $parameterBag
     ) {
         $this->logger = $logger;
         $this->checkProcessor = $checkProcessor;

@@ -10,7 +10,7 @@ use Tax16\SystemCheckBundle\Core\Domain\Port\ConfigurationProviderInterface;
 
 class SetConfigurationProviderPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (version_compare(Kernel::VERSION, '4.0', '>=')) {
             $container->register(
