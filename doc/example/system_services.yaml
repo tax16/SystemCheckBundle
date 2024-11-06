@@ -1,11 +1,18 @@
 services:
+  elastic_search_check:
+    class: Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\ElasticChecker
+    arguments:
+      - '@Elastica\Client' #use the elastic client here
+    tags:
+      - { name: 'system_check.health_check', label: 'elastic_search_check', priority: 1, description: 'Health check for elastic search connection' }
+
   db_mysql_check:
     class: Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\DoctrineDbConnectionChecker
     arguments:
       - '@doctrine.orm.mysql_entity_manager' #if only one connection you can use '@doctrine.orm.entity_manager'
       - 'default'
     tags:
-        - { name: 'system_check.health_check', label: 'db_mysql_check', priority: 1, description: 'Health check for mysql connection' }
+      - { name: 'system_check.health_check', label: 'db_mysql_check', priority: 1, description: 'Health check for mysql connection' }
 
   db_postgres_check:
     class: Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\DoctrineDbConnectionChecker
@@ -13,7 +20,7 @@ services:
       - '@doctrine.orm.postgres_entity_manager' #if only one connection you can use '@doctrine.orm.entity_manager'
       - 'postgress'
     tags:
-        - { name: 'system_check.health_check', label: 'db_postgres_check', priority: 1, description: 'Health check for postgres connection' }
+      - { name: 'system_check.health_check', label: 'db_postgres_check', priority: 1, description: 'Health check for postgres connection' }
 
   redis_check:
     class: Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\CacheChecker
@@ -23,6 +30,12 @@ services:
     tags:
       - { name: 'system_check.health_check', label: 'redis_check', priority: 1, description: 'Health check for redis connection' }
 
+  rabbit_mq_check:
+    class: Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\RabbitMQChecker
+    arguments:
+      - '%env(RABBITMQ_URL)%'
+    tags:
+      - { name: 'system_check.health_check', label: 'rabbit_mq_check', priority: 1, description: 'Health check for rabbit mq connection' }
 
   app_service_check_php_version:
     class: Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\PhpVersionChecker
@@ -67,7 +80,7 @@ services:
       - 'https://mock.httpstatus.io/500'
       - 204
     tags:
-      - { name: 'system_check.health_check', label: 'app_service_check3', priority: 2, description: 'Health check warning mode' }
+      - { name: 'system_check.health_check', label: 'app_service_check3', priority: 3, description: 'Health check warning mode' }
 
   app_service_check4_no_execute:
     class: Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\HttpServiceChecker

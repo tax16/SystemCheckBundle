@@ -28,7 +28,7 @@ class HttpServiceCheckerDecorator implements HttpServiceCheckInterface
     public function __construct(
         HttpServiceCheckInterface $httpServiceCheck,
         ConfigurationProviderInterface $parameterBag,
-        RequestStack $requestStack,
+        RequestStack $requestStack
     ) {
         $request = $requestStack->getCurrentRequest();
 

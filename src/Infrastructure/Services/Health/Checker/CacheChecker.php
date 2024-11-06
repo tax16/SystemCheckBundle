@@ -7,11 +7,10 @@ namespace Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker;
 use Tax16\SystemCheckBundle\Core\Domain\Constant\CheckerIcon;
 use Tax16\SystemCheckBundle\Core\Domain\Enum\CacheType;
 use Tax16\SystemCheckBundle\Core\Domain\Model\CheckInfo;
-use Tax16\SystemCheckBundle\Core\Domain\Service\ServiceCheckInterface;
 use Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\Cache\CacheFactory;
 use Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\Cache\CacheInterface;
 
-class CacheChecker implements ServiceCheckInterface
+class CacheChecker extends AbstractChecker
 {
     /**
      * @var CacheInterface
@@ -34,6 +33,8 @@ class CacheChecker implements ServiceCheckInterface
      */
     public function __construct(string $cacheUrl, string $cacheType = CacheType::REDIS)
     {
+        parent::__construct('Cache Health', CheckerIcon::CACHE);
+
         assert(CacheType::isValid($cacheType));
         $this->cacheType = $cacheType;
         $this->cacheUrl = $cacheUrl;
@@ -51,33 +52,18 @@ class CacheChecker implements ServiceCheckInterface
             $this->cacheClient->ping();
 
             return new CheckInfo(
-                'Cache Health Check',
+                'Cache check',
                 true,
                 sprintf('Connection to %s cache is successful.', $this->cacheType),
                 null
             );
         } catch (\Exception $e) {
             return new CheckInfo(
-                'Cache Health Check',
+                'Cache check',
                 false,
                 sprintf('Failed to connect to %s cache: %s', $this->cacheType, $e->getMessage()),
                 $e->getTraceAsString()
             );
         }
-    }
-
-    public function getName(): string
-    {
-        return 'Cache Health';
-    }
-
-    public function getIcon(): ?string
-    {
-        return CheckerIcon::CACHE;
-    }
-
-    public function isAllowedToHaveChildren(): bool
-    {
-        return false;
     }
 }

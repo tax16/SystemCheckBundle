@@ -6,9 +6,8 @@ namespace Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker;
 
 use Tax16\SystemCheckBundle\Core\Domain\Constant\CheckerIcon;
 use Tax16\SystemCheckBundle\Core\Domain\Model\CheckInfo;
-use Tax16\SystemCheckBundle\Core\Domain\Service\ServiceCheckInterface;
 
-class PhpVersionChecker implements ServiceCheckInterface
+class PhpVersionChecker extends AbstractChecker
 {
     /**
      * @var string
@@ -27,6 +26,8 @@ class PhpVersionChecker implements ServiceCheckInterface
      */
     public function __construct(string $versionToCheck, string $operator = '>=')
     {
+        parent::__construct('PHP Version', CheckerIcon::PHP);
+
         // Validate the operator
         $validOperators = ['=', '>=', '<=', '<', '>'];
         if (!in_array($operator, $validOperators)) {
@@ -66,20 +67,5 @@ class PhpVersionChecker implements ServiceCheckInterface
     protected function getPhpVersion(): string
     {
         return phpversion();
-    }
-
-    public function getName(): string
-    {
-        return 'PHP Version';
-    }
-
-    public function getIcon(): ?string
-    {
-        return CheckerIcon::PHP;
-    }
-
-    public function isAllowedToHaveChildren(): bool
-    {
-        return false;
     }
 }

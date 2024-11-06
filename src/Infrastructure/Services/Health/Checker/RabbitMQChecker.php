@@ -3,15 +3,15 @@
 namespace Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker;
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
+use Tax16\SystemCheckBundle\Core\Application\Helper\StringHelper;
 use Tax16\SystemCheckBundle\Core\Domain\Constant\CheckerIcon;
 use Tax16\SystemCheckBundle\Core\Domain\Enum\RabbitMQMode;
 use Tax16\SystemCheckBundle\Core\Domain\Model\CheckInfo;
-use Tax16\SystemCheckBundle\Core\Domain\Service\ServiceCheckInterface;
 use Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\Rabbit\RabbitMQConsumer;
 use Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\Rabbit\RabbitMQFactory;
 use Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\Rabbit\RabbitMQSender;
 
-class RabbitMQChecker implements ServiceCheckInterface
+class RabbitMQChecker extends AbstractChecker
 {
     /**
      * @var AMQPStreamConnection
@@ -59,25 +59,13 @@ class RabbitMQChecker implements ServiceCheckInterface
     private $cacert;
 
     public function __construct(
-        string $host,
-        int $port,
-        string $username,
-        string $password,
-        string $queue,
-        string $mode,
-        string $vhost = '/',
-        ?string $cacert = null,
+        string $url,
+        string $mode = RabbitMQMode::PING
     ) {
-        assert(RabbitMQMode::isValid($mode));
+        parent::__construct('RabbitMQ Health', CheckerIcon::RABBIT_MQ, true);
 
-        $this->queue = $queue;
-        $this->mode = $mode;
-        $this->host = $host;
-        $this->port = $port;
-        $this->username = $username;
-        $this->password = $password;
-        $this->vhost = $vhost;
-        $this->cacert = $cacert;
+        assert(RabbitMQMode::isValid($mode));
+        $this->parseConnectionUrl($url);
     }
 
     /**
@@ -89,13 +77,38 @@ class RabbitMQChecker implements ServiceCheckInterface
     {
         $this->connection = new AMQPStreamConnection(
             $this->host,
-            $this->port,
+            (string) $this->port,
             $this->username,
             $this->password,
             $this->vhost
         );
 
         return RabbitMQFactory::create($this->connection, $this->queue, $this->mode);
+    }
+
+    private function parseConnectionUrl(string $url): void
+    {
+        $parsedUrl = parse_url($url);
+        if (false === $parsedUrl || !isset($parsedUrl['host'], $parsedUrl['port'], $parsedUrl['user'], $parsedUrl['pass'], $parsedUrl['path'])) {
+            throw new \InvalidArgumentException('Invalid URL format for RabbitMQ connection.');
+        }
+
+        $this->host = $parsedUrl['host'];
+        $this->port = (int) $parsedUrl['port'];
+        $this->username = $parsedUrl['user'];
+        $this->password = $parsedUrl['pass'];
+        $this->vhost = ltrim($parsedUrl['path'], '/');
+        /**
+         * @var string[] $queryParams
+         */
+        $queryParams = [];
+        if (isset($parsedUrl['query'])) {
+            parse_str($parsedUrl['query'], $queryParams);
+        }
+
+        $this->queue = StringHelper::castToString($queryParams['queue']) ?? 'defaultQueue';
+        $this->mode = StringHelper::castToString($queryParams['mode']) ?? RabbitMQMode::PING;
+        $this->cacert = StringHelper::castToString($queryParams['cacert']) ?? null;
     }
 
     private function checkClientConnection(): void
@@ -145,20 +158,5 @@ class RabbitMQChecker implements ServiceCheckInterface
                 $e->getTraceAsString()
             );
         }
-    }
-
-    public function getName(): string
-    {
-        return 'RabbitMQ Health';
-    }
-
-    public function getIcon(): ?string
-    {
-        return CheckerIcon::RABBIT_MQ;
-    }
-
-    public function isAllowedToHaveChildren(): bool
-    {
-        return true;
     }
 }

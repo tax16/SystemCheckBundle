@@ -60,7 +60,7 @@ class NodeTransformer implements TransformerInterface
         HealthCheck $checkDTO,
         string $index,
         string $primaryNodeIndex,
-        int $length = SystemNodeEdge::EDGE_LENGTH_SUB,
+        int $length = SystemNodeEdge::EDGE_LENGTH_SUB
     ): SystemNodeEdge {
         return new SystemNodeEdge(
             $primaryNodeIndex,

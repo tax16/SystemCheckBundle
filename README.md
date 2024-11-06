@@ -56,9 +56,10 @@
     - RabbitMQ connectivity
     - Cache service status
     - Php version
+    - Elastic search
 
 - **Custom Checks**  
-  You can add custom checks tailored to your application requirements by implementing `Tax16\SystemCheckBundle\Core\Domain\Service\ServiceCheckInterface`, After add tags, label and priority like on the Usage.
+  You can add custom checks tailored to your application requirements by implementing `Tax16\SystemCheckBundle\Core\Domain\Service\ServiceCheckInterface`, After add tags: label, name and priority like on the Usage.
 ## 🔧 Usage
 
 To configure custom checks, define them in `config/packages/system_services.yaml`. Below is an example configuration for a custom HTTP service check:
@@ -86,13 +87,13 @@ app_service_check1:
       Use this as the name of your application.
 
     - **`priority`**  
-      Accepts values between 1 and 3. Set to 1 if failure is critical (error), otherwise higher values are warnings.
+      Accepts values between 1 and 3. Set to 1 if failure is critical (error), and 3 for warnings.
 
     - **`execute`**  
-      Set `execute: false` if the health check cannot be executed but should still represent the service in the system network. (default `true`)
+      Set `execute: false` if the health check cannot be executed but should still represent the service in the system network. (default =  `true`)
 
     - **`parent`**  
-      Use this to link the health check as dependent on another service to check, for exemple, you use rabbitMq and after you need to check a application consumer. (default `null`)
+      Use this to link the health check as dependent on another service to check, for exemple, you use rabbitMq and after you need to check a application consumer. (default =  `null`)
 
 - **`system_check.health_check_trace`**  
   Use this tag to trace a request across systems (e.g., if Application 1 calls Application 2, this allows for a global view of the architecture). (just for `http`check)
