@@ -17,7 +17,6 @@ class ServiceCheckDecoratorCompilerPass implements CompilerPassInterface
 
         foreach ($taggedServices as $id => $tags) {
             $decoratedServiceId = $id.'.decorator';
-
             $container->register($decoratedServiceId, ServiceCheckDecorator::class)
                 ->setDecoratedService($id)
                 ->setArgument('$decoratedService', new Reference($decoratedServiceId.'.inner'))

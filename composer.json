@@ -6,7 +6,7 @@
         "php": ">=7.1.3",
         "symfony/framework-bundle": "^3.4 || ^4.4 || ^5.0 || ^6.0 || ^7.0",
         "symfony/http-client": "^4.4 || ^5.0 || ^6.0 || ^7.0",
-        "doctrine/orm": "^2.5",
+        "doctrine/orm": "^2.5 || 3.*",
         "ext-redis": "*",
         "php-amqplib/php-amqplib": "^2.9",
         "symfony/twig-bundle": "^3.4 || ^4.4 || ^5.0 || ^6.0 || ^7.0",

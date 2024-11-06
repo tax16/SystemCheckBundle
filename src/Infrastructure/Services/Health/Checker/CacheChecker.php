@@ -8,11 +8,13 @@ use Tax16\SystemCheckBundle\Core\Domain\Constant\CheckerIcon;
 use Tax16\SystemCheckBundle\Core\Domain\Enum\CacheType;
 use Tax16\SystemCheckBundle\Core\Domain\Model\CheckInfo;
 use Tax16\SystemCheckBundle\Core\Domain\Service\ServiceCheckInterface;
+use Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\Cache\CacheFactory;
+use Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\Cache\CacheInterface;
 
 class CacheChecker implements ServiceCheckInterface
 {
     /**
-     * @var object|mixed
+     * @var CacheInterface
      */
     private $cacheClient;
 
@@ -22,25 +24,31 @@ class CacheChecker implements ServiceCheckInterface
     private $cacheType;
 
     /**
-     * @param mixed  $cacheClient The cache client (Redis, Memcached, etc.)
-     * @param string $cacheType   the type of cache being checked
+     * @var string
      */
-    public function __construct($cacheClient, string $cacheType = CacheType::REDIS)
+    private $cacheUrl;
+
+    /**
+     * @param string $cacheUrl  The Redis connection URL
+     * @param string $cacheType The type of cache being checked
+     */
+    public function __construct(string $cacheUrl, string $cacheType = CacheType::REDIS)
     {
         assert(CacheType::isValid($cacheType));
         $this->cacheType = $cacheType;
-        $this->cacheClient = $cacheClient;
+        $this->cacheUrl = $cacheUrl;
+    }
+
+    public function getCacheFactory(): CacheFactory
+    {
+        return new CacheFactory();
     }
 
     public function check(bool $withNetwork = false): CheckInfo
     {
         try {
-            if (CacheType::REDIS === $this->cacheType) {
-                if (!$this->cacheClient instanceof \Redis) {
-                    throw new \InvalidArgumentException('Invalid Redis client.');
-                }
-                $this->cacheClient->ping();
-            }
+            $this->cacheClient = $this->getCacheFactory()->createClient($this->cacheType, $this->cacheUrl);
+            $this->cacheClient->ping();
 
             return new CheckInfo(
                 'Cache Health Check',

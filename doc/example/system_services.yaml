@@ -1,0 +1,77 @@
+services:
+  db_mysql_check:
+    class: Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\DoctrineDbConnectionChecker
+    arguments:
+      - '@doctrine.orm.mysql_entity_manager' #if only one connection you can use '@doctrine.orm.entity_manager'
+      - 'default'
+    tags:
+        - { name: 'system_check.health_check', label: 'db_mysql_check', priority: 1, description: 'Health check for mysql connection' }
+
+  db_postgres_check:
+    class: Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\DoctrineDbConnectionChecker
+    arguments:
+      - '@doctrine.orm.postgres_entity_manager' #if only one connection you can use '@doctrine.orm.entity_manager'
+      - 'postgress'
+    tags:
+        - { name: 'system_check.health_check', label: 'db_postgres_check', priority: 1, description: 'Health check for postgres connection' }
+
+  redis_check:
+    class: Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\CacheChecker
+    arguments:
+      - '%env(REDIS_URL)%'
+      - 'redis' # you can remove, redis is the default, and the only supported for now
+    tags:
+      - { name: 'system_check.health_check', label: 'redis_check', priority: 1, description: 'Health check for redis connection' }
+
+
+  app_service_check_php_version:
+    class: Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\PhpVersionChecker
+    arguments:
+      - '8.0'
+    tags:
+      - { name: 'system_check.health_check', label: 'php_checker', priority: 1, description: 'Health check for php version' }
+
+  app_service_check1:
+    class: Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\HttpServiceChecker
+    arguments:
+      - 'https://mock.httpstatus.io/200'
+    tags:
+      - { name: 'system_check.health_check', label: 'http_client_1', priority: 1, description: 'Health check for test 1 via HTTP client' }
+
+  app_service_child_depend_on_check1:
+    class: Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\HttpServiceChecker
+    arguments:
+      - 'https://mock.httpstatus.io/200'
+    tags:
+      - { name: 'system_check.health_check', label: 'app_service_child_depend_on_check1', priority: 1, description: 'Health check for child of http 1 via HTTP client', parent: 'app_service_check1' }
+
+  app_service_child2_depend_on_check1:
+    class: Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\HttpServiceChecker
+    arguments:
+      - 'https://mock.httpstatus.io/200'
+    tags:
+      - { name: 'system_check.health_check', label: 'app_service_child2_depend_on_check1', priority: 1, description: 'Health check for child2 of http 1 via HTTP client', parent: 'app_service_check1' }
+
+
+  app_service_check2:
+    class: Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\HttpServiceChecker
+    arguments:
+      - 'https://mock.httpstatus.io/400'
+      - 204
+    tags:
+      - { name: 'system_check.health_check', label: 'app_service_check2', priority: 1, description: 'Health check failed mode' }
+
+  app_service_check3:
+    class: Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\HttpServiceChecker
+    arguments:
+      - 'https://mock.httpstatus.io/500'
+      - 204
+    tags:
+      - { name: 'system_check.health_check', label: 'app_service_check3', priority: 2, description: 'Health check warning mode' }
+
+  app_service_check4_no_execute:
+    class: Tax16\SystemCheckBundle\Infrastructure\Services\Health\Checker\HttpServiceChecker
+    arguments:
+      - 'https://fake_url_not_able_to_check' # used for the network schema only
+    tags:
+      - { name: 'system_check.health_check', label: 'app_service_check4_no_execute', priority: 1, description: 'Health check for http not execute', execute: false }
