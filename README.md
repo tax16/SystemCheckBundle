@@ -1,7 +1,7 @@
 
 # SystemCheckBundle 📊
 
-> A Symfony bundle compatible with PHP 7.2+ and Symfony 3.4+ that provides default checks for your services and connections (database, HTTP client, RabbitMQ, cache...) along with custom checks.
+> A Symfony bundle compatible with PHP 7.2+ | 8.* and Symfony 3.4 | 4.* | 5.* | 6.* | 7.* that provides default checks for your services and connections (database, HTTP client, RabbitMQ, cache...) along with custom checks.
 
 ![Interface preview](doc/img/interface.png)
 
@@ -75,6 +75,7 @@ app_service_check1:
     - { name: 'system_check.health_check_trace' }
 ```
 
+```
 ### Tag Descriptions
 
 - **`arguments`**  
@@ -97,7 +98,7 @@ app_service_check1:
 
 - **`system_check.health_check_trace`**  
   Use this tag to trace a request across systems (e.g., if Application 1 calls Application 2, this allows for a global view of the architecture). (just for `http`check)
-
+```
 ![Network design](doc/img/network.png)
 
 - **`Example of config file`**  
