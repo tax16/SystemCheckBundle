@@ -2,6 +2,13 @@
     "name": "tax16/system-check-bundle",
     "description": "Check availability of system",
     "type": "symfony-bundle",
+    "keywords": [
+        "System check bundle",
+        "Health check",
+        "Health check symfony",
+        "Health check bundle",
+        "Check bunble"
+    ],
     "require": {
         "php": ">=7.1.3",
         "symfony/framework-bundle": "^3.4 || ^4.4 || ^5.0 || ^6.0 || ^7.0",
