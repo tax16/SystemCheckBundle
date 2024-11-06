@@ -106,9 +106,9 @@ class RabbitMQChecker extends AbstractChecker
             parse_str($parsedUrl['query'], $queryParams);
         }
 
-        $this->queue = StringHelper::castToString($queryParams['queue']) ?? 'defaultQueue';
-        $this->mode = StringHelper::castToString($queryParams['mode']) ?? RabbitMQMode::PING;
-        $this->cacert = StringHelper::castToString($queryParams['cacert']) ?? null;
+        $this->queue = StringHelper::castToString($queryParams['queue'] ?? 'defaultQueue');
+        $this->mode = StringHelper::castToString($queryParams['mode'] ?? RabbitMQMode::PING);
+        $this->cacert = StringHelper::castToString($queryParams['cacert'] ?? null);
     }
 
     private function checkClientConnection(): void

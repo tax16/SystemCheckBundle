@@ -23,6 +23,3 @@ services:
 
 networks:
   test-network:
-
-volumes:
-  mysql-data:
