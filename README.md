@@ -42,7 +42,7 @@
        paths:
          '%kernel.project_dir%/vendor/tax16/system-check-bundle/src/UserInterface/Resources/views': SystemCheckBundle
    ```
-5**Update routes.yaml**  
+5.**Update routes.yaml**  
    If you want to use the UI, you need to add this path on the packages/twig.yaml
 
    ```yaml
@@ -50,7 +50,7 @@
       resource: '@SystemCheckBundle/Infrastructure/Resources/config/routes.yaml'
    ```
 
-5. **Access the System Check page**  
+6. **Access the System Check page**  
    After initialization, you can access the system check page at `/system-check/index`.
 
    ⚠️ *Note*: Make sure to review any security restrictions on your URLs.
