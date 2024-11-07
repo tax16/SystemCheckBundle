@@ -22,7 +22,7 @@
    Run the following command in your terminal:
 
    ```bash
-   composer require tax16/SystemCheckBundle
+   composer require tax16/system-check-bundle
    ```
 
 
@@ -41,6 +41,13 @@
         # other path
        paths:
          '%kernel.project_dir%/vendor/tax16/system-check-bundle/src/UserInterface/Resources/views': SystemCheckBundle
+   ```
+5**Update routes.yaml**  
+   If you want to use the UI, you need to add this path on the packages/twig.yaml
+
+   ```yaml
+    system_check_bundle:
+      resource: '@SystemCheckBundle/Infrastructure/Resources/config/routes.yaml'
    ```
 
 5. **Access the System Check page**  
@@ -107,9 +114,11 @@ app_service_check1:
 ### Accessibility
 - **`symfony cmd`**
  You can launch the system check by executing the following command:
+
 ```bash
     php bin/console system-check:health:check
 ```
+![Network design](doc/img/cmd.png)
 - **`symfony rest api`**
 ```bash
     (GET) /system-check/health.json
