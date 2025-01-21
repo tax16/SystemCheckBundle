@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tax16\SystemCheckBundle\UserInterface\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,6 +13,7 @@ use Tax16\SystemCheckBundle\Core\Application\Service\HealthCheckHandler;
 use Tax16\SystemCheckBundle\Core\Domain\Model\HealthCheck;
 use Tax16\SystemCheckBundle\Core\Domain\Constant\Command as ConstantCommand;
 
+#[AsCommand(name: 'system-check:health:check')]
 class HealthCheckCommand extends Command
 {
     protected static $defaultName = 'system-check:health:check';
