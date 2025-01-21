@@ -1,7 +1,7 @@
 
 # SystemCheckBundle 📊
 
-> A Symfony bundle compatible with PHP 7.2+ | 8.* and Symfony 3.4 (⚠️ some error will be fix) | 4.* | 5.* | 6.* | 7.* that provides default checks for your services and connections (database, HTTP client, RabbitMQ, cache...) along with custom checks.
+> A Symfony bundle compatible with PHP 7.2+ | 8.* and Symfony 3.4 | 4.* | 5.* | 6.* | 7.* that provides default checks for your services and connections (database, HTTP client, RabbitMQ, cache...) along with custom checks.
 
 ![Interface preview](doc/img/interface.png)
 
