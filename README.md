@@ -22,9 +22,12 @@
    Run the following command in your terminal:
 
    ```bash
-   composer require tax16/system-check-bundle
+   // for symfony 3.4 to 5.4 use the tag ^1.*
+   composer require tax16/system-check-bundle:^1.0
+   
+   // for symfony 6 to 7 use the tag ^2.*
+   composer require tax16/system-check-bundle:^2.0
    ```
-
 
 3. **Initialize the bundle**  
    After installation, run the following command:
